@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */; };
+		5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */; };
+		5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564C2CC5A42100DD1C5F /* SignInView.swift */; };
+		5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56512CC5A46D00DD1C5F /* FavouriteView.swift */; };
+		5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56532CC5A49E00DD1C5F /* AccountView.swift */; };
+		5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56552CC5A4EB00DD1C5F /* CreateListView.swift */; };
+		5A8A56582CC5A53C00DD1C5F /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56572CC5A53C00DD1C5F /* ListView.swift */; };
+		5A8A566A2CC6E07300DD1C5F /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A8A56692CC6E07300DD1C5F /* SDWebImageSwiftUI */; };
+		5A8A566C2CC6E48C00DD1C5F /* on1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A8A566B2CC6E48C00DD1C5F /* on1.gif */; };
+		5A8A566E2CC6E49200DD1C5F /* on2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A8A566D2CC6E49200DD1C5F /* on2.gif */; };
+		5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A566F2CC6F17E00DD1C5F /* ListsView.swift */; };
+		5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */; };
+		5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56732CC7015500DD1C5F /* CardView.swift */; };
+		5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA31AE82CC877190092869F /* CustomTextField.swift */; };
 		A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */; };
 		A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC82CC104A100F3F9C0 /* ContentView.swift */; };
 		A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */; };
@@ -14,6 +28,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		5A8A564C2CC5A42100DD1C5F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		5A8A56512CC5A46D00DD1C5F /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
+		5A8A56532CC5A49E00DD1C5F /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		5A8A56552CC5A4EB00DD1C5F /* CreateListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListView.swift; sourceTree = "<group>"; };
+		5A8A56572CC5A53C00DD1C5F /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		5A8A566B2CC6E48C00DD1C5F /* on1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = on1.gif; sourceTree = "<group>"; };
+		5A8A566D2CC6E49200DD1C5F /* on2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = on2.gif; sourceTree = "<group>"; };
+		5A8A566F2CC6F17E00DD1C5F /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
+		5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		5A8A56732CC7015500DD1C5F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		5AA31AE82CC877190092869F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		A55C1BC32CC104A100F3F9C0 /* TurboList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TurboList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboListApp.swift; sourceTree = "<group>"; };
 		A55C1BC82CC104A100F3F9C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,12 +53,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A8A566A2CC6E07300DD1C5F /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A8A56472CC59FDC00DD1C5F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */,
+				5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */,
+				5A8A564C2CC5A42100DD1C5F /* SignInView.swift */,
+				5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */,
+				5A8A566F2CC6F17E00DD1C5F /* ListsView.swift */,
+				5A8A56512CC5A46D00DD1C5F /* FavouriteView.swift */,
+				5A8A56532CC5A49E00DD1C5F /* AccountView.swift */,
+				5A8A56552CC5A4EB00DD1C5F /* CreateListView.swift */,
+				5A8A56572CC5A53C00DD1C5F /* ListView.swift */,
+				5A8A56732CC7015500DD1C5F /* CardView.swift */,
+				5AA31AE82CC877190092869F /* CustomTextField.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A55C1BBA2CC104A100F3F9C0 = {
 			isa = PBXGroup;
 			children = (
@@ -53,7 +99,10 @@
 			children = (
 				A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */,
 				A55C1BC82CC104A100F3F9C0 /* ContentView.swift */,
+				5A8A56472CC59FDC00DD1C5F /* Views */,
 				A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */,
+				5A8A566B2CC6E48C00DD1C5F /* on1.gif */,
+				5A8A566D2CC6E49200DD1C5F /* on2.gif */,
 				A55C1BCC2CC104A200F3F9C0 /* Preview Content */,
 			);
 			path = TurboList;
@@ -83,6 +132,9 @@
 			dependencies = (
 			);
 			name = TurboList;
+			packageProductDependencies = (
+				5A8A56692CC6E07300DD1C5F /* SDWebImageSwiftUI */,
+			);
 			productName = TurboList;
 			productReference = A55C1BC32CC104A100F3F9C0 /* TurboList.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +163,9 @@
 				Base,
 			);
 			mainGroup = A55C1BBA2CC104A100F3F9C0;
+			packageReferences = (
+				5A8A56682CC6E07300DD1C5F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = A55C1BC42CC104A100F3F9C0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,7 +180,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A8A566C2CC6E48C00DD1C5F /* on1.gif in Resources */,
 				A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */,
+				5A8A566E2CC6E49200DD1C5F /* on2.gif in Resources */,
 				A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +194,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */,
+				5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */,
 				A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */,
+				5A8A56582CC5A53C00DD1C5F /* ListView.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
+				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
+				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
+				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
+				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
+				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
+				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
+				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
+				5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,10 +337,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TurboList/Preview Content\"";
-				DEVELOPMENT_TEAM = D3DCM24F3F;
+				DEVELOPMENT_TEAM = 25ANLCX5P6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -280,16 +349,18 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Apple-Acadmy.TurboList";
+				PRODUCT_BUNDLE_IDENTIFIER = TurboList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -298,10 +369,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TurboList/Preview Content\"";
-				DEVELOPMENT_TEAM = D3DCM24F3F;
+				DEVELOPMENT_TEAM = 25ANLCX5P6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -309,16 +381,18 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Apple-Acadmy.TurboList";
+				PRODUCT_BUNDLE_IDENTIFIER = TurboList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -344,6 +418,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A8A56682CC6E07300DD1C5F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A8A56692CC6E07300DD1C5F /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A8A56682CC6E07300DD1C5F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A55C1BBB2CC104A100F3F9C0 /* Project object */;
 }
