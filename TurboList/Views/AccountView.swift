@@ -38,7 +38,6 @@ struct AccountView: View {
                             .padding(.leading, 25)
                         
                         Button(action: {
-                            // Action to edit username
                         }) {
                             Image(systemName: "pencil")
                                 .foregroundColor(Color("MainColor"))
@@ -55,13 +54,11 @@ struct AccountView: View {
                 
                 VStack(spacing: 0) {
                     SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        // Action for Language
                         print("Language tapped")
                     }
                     Divider()
                     
                     SettingRow(icon: "bell", title: "Notification", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        // Action for Notification
                         print("Notification tapped")
                     }
                     Divider()

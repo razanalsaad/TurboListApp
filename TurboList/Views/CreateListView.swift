@@ -6,7 +6,6 @@ struct CreateListView: View {
     @State private var listName: String = ""
     @State private var userInput: String = ""
     
-    // لإدارة الإغلاق والعودة إلى الشاشة السابقة
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -21,7 +20,7 @@ struct CreateListView: View {
                 
                 HStack {
                     Button(action: {
-                        dismiss() // هذه الدالة تغلق الشاشة الحالية وتعيد المستخدم إلى الشاشة السابقة
+                        dismiss()
                     }) {
                         ZStack {
                             Circle()

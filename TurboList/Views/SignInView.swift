@@ -3,10 +3,10 @@ import AuthenticationServices
 
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var isGuest: Bool = false // للتحكم في الانتقال
+    @State private var isGuest: Bool = false
     
     var body: some View {
-        NavigationStack { // استخدام NavigationStack بدلاً من NavigationView
+        NavigationStack {
             ZStack {
                 Color("backgroundAppColor")
                     .ignoresSafeArea()
@@ -42,10 +42,9 @@ struct SignInView: View {
                         .foregroundColor(Color("GreenDark"))
                         .offset(y: -370)
                     
-                    // تعديل الزر ليكون NavigationLink مع NavigationStack
                     NavigationLink(destination: MainTabView(), isActive: $isGuest) {
                         Button(action: {
-                            isGuest = true // لتفعيل الانتقال عند النقر على الزر
+                            isGuest = true
                         }) {
                             Text("Continue as Guest")
                                 .font(.system(size: 13, weight: .bold))
