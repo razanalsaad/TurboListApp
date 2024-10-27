@@ -1,4 +1,4 @@
-
+![Data Base schema ](https://github.com/user-attachments/assets/758f3487-35de-4246-8cd4-dd060231a040)
 
 # TurboList – AI-Powered Smart Grocery Shopping List Application
 
@@ -20,6 +20,12 @@ TurboList is an iOS application that enhances the grocery shopping experience fo
 - AI Integration: Uses Core ML to classify items from shopping lists into store categories, handling errors and unexpected formats.
 - Real-Time Updates: CloudKit integration enables instant syncing, allowing users to see changes as they happen and avoid duplicate purchases.
 - Notifications and Reminders: PushKit provides timely reminders and notifications for shopping activities.
+
+# Technolgy Used 
+-AI (Core ML) for smart item classification using real data, systematic
+optimization, and error handling.
+-CloudKit for real-time updates and list syncing.
+-PushKit for notifications and time reminders.
   
 # Getting Started
 # Prerequisites
@@ -58,27 +64,17 @@ This project follows an Agile methodology, with dedicated branches for each feat
 | Faizah Moferah Almalki       | iOS Developer         | SwiftUI components, navigation, and AI model integration          |
 | Rahaf Ibrahim Alghuraibi     | iOS Developer         | front-end functionality , back-end structure, PushKit notifications|
 
-# Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a feature branch:
-   ```bash
-   git checkout -b feature/yourFeature
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add your message"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature/yourFeature
-   ```
-5. Open a Pull Request.
+
+# User Flow 
+![User Flow ](https://github.com/user-attachments/assets/f2f642db-7a0f-4567-a97f-901ee38bde41)
+
+
+# Data Base Schema 
+![Data Base schema ](https://github.com/user-attachments/assets/535f5c19-e083-4c06-914d-924d39a9f569)
+
+
 
 # License
 This project is licensed under the MIT License. See `LICENSE.md` for details.
-
-# Acknowledgments
-Special thanks to all team members for their hard work and dedication. Thanks also to Apple for its advanced tools and resources that enabled the realization of this project.
 
 --- 
