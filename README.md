@@ -1,4 +1,3 @@
-![Data Base schema ](https://github.com/user-attachments/assets/758f3487-35de-4246-8cd4-dd060231a040)
 
 # TurboList – AI-Powered Smart Grocery Shopping List Application
 
