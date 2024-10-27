@@ -12,9 +12,8 @@ TurboList is an iOS application that enhances the grocery shopping experience fo
 - [Installation]
 - [Usage]
 - [Branches and Team Activities]
-- [Contributing]
 - [License]
-- [Acknowledgments]
+
 
 # Features List 
 - AI Integration: Uses Core ML to classify items from shopping lists into store categories, handling errors and unexpected formats.
