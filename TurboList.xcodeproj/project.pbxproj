@@ -25,6 +25,7 @@
 		A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC82CC104A100F3F9C0 /* ContentView.swift */; };
 		A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */; };
 		A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */; };
+		EE2992D92CD29A8700BBC843 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2992D82CD29A8700BBC843 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,8 @@
 		A55C1BC82CC104A100F3F9C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EE2992D62CD288A400BBC843 /* TurboList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurboList.entitlements; sourceTree = "<group>"; };
+		EE2992D82CD29A8700BBC843 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,8 @@
 		A55C1BC52CC104A100F3F9C0 /* TurboList */ = {
 			isa = PBXGroup;
 			children = (
+				EE2992D72CD29A6900BBC843 /* Cloudkit */,
+				EE2992D62CD288A400BBC843 /* TurboList.entitlements */,
 				A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */,
 				A55C1BC82CC104A100F3F9C0 /* ContentView.swift */,
 				5A8A56472CC59FDC00DD1C5F /* Views */,
@@ -114,6 +119,14 @@
 				A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EE2992D72CD29A6900BBC843 /* Cloudkit */ = {
+			isa = PBXGroup;
+			children = (
+				EE2992D82CD29A8700BBC843 /* User.swift */,
+			);
+			path = Cloudkit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +213,7 @@
 				5A8A56582CC5A53C00DD1C5F /* ListView.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
 				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
+				EE2992D92CD29A8700BBC843 /* User.swift in Sources */,
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
 				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
@@ -337,11 +351,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TurboList/TurboList.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TurboList/Preview Content\"";
-				DEVELOPMENT_TEAM = 25ANLCX5P6;
+				DEVELOPMENT_TEAM = J359H9BY44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -369,11 +384,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TurboList/TurboList.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TurboList/Preview Content\"";
-				DEVELOPMENT_TEAM = 25ANLCX5P6;
+				DEVELOPMENT_TEAM = J359H9BY44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

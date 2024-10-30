@@ -4,7 +4,8 @@ struct AccountView: View {
     @State private var username: String = "Ahad"
     @State private var isEditing: Bool = false
     @Environment(\.colorScheme) var colorScheme
-    @State private var isDarkMode: Bool = false  
+    @State private var isDarkMode: Bool = false
+
     var body: some View {
         ZStack {
             Color("backgroundAppColor")
@@ -15,7 +16,6 @@ struct AccountView: View {
                 .ignoresSafeArea()
             
             VStack {
-
                 VStack(spacing: 8) {
                     ZStack {
                         Circle()
@@ -29,7 +29,6 @@ struct AccountView: View {
                             .foregroundColor(Color("GreenDark"))
                     }
                     
-
                     HStack {
                         Text(username)
                             .font(.largeTitle)
@@ -53,8 +52,9 @@ struct AccountView: View {
                 Spacer().frame(height: 40)
                 
                 VStack(spacing: 0) {
+                    // Language setting row - Opens iPhone settings for the app
                     SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        print("Language tapped")
+                        openAppSettings()
                     }
                     Divider()
                     
@@ -71,14 +71,35 @@ struct AccountView: View {
                     }
                     Divider()
                     
+                    // Logout functionality
                     SettingRow(icon: "rectangle.portrait.and.arrow.right", title: "Log out", iconColor:Color("red"), textColor: Color("red")) {
-                        // Action for Log out
-                        print("Log out tapped")
+                        logoutUser()
                     }
                 }
                 .padding(.horizontal, 20)
                 
                 Spacer()
+            }
+        }
+    }
+    
+    // Logout function to handle user logout and redirect to login view
+    func logoutUser() {
+        // Perform logout logic
+        print("Logging out...")
+
+        // Redirect to login screen
+        if let window = UIApplication.shared.windows.first {
+            window.rootViewController = UIHostingController(rootView: LoginView()) // Replace with your LoginView
+            window.makeKeyAndVisible()
+        }
+    }
+
+    // Function to open the app settings in the iPhone settings app
+    func openAppSettings() {
+        if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+            if UIApplication.shared.canOpenURL(appSettings) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
             }
         }
     }
@@ -111,6 +132,14 @@ struct SettingRow: View {
     }
 }
 
+struct LoginView: View {
+    var body: some View {
+        SignInView()
+    }
+}
+
 #Preview {
     AccountView()
 }
+
+

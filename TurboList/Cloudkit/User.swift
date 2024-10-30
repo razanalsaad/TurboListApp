@@ -6,13 +6,26 @@
 //
 
 import SwiftUI
-
-struct User: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+import CloudKit
+class CloudkitUserViewModel : ObservableObject{
+    init (){
+        getiCloudStatus()
+    }
+    // for check about icloud signing status
+    private func getiCloudStatus(){
+        CKContainer.default().accountStatus{ returnedStatus, returnError in DispatchQueue.main.async{
+            
+        }
+        }
     }
 }
-
-#Preview {
-    User()
-}
+//
+//struct User: View {
+//    var body: some View {
+//        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+//    }
+//}
+//
+//#Preview {
+//    User()
+//}
