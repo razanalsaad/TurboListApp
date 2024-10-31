@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @State private var selectedTab: Int = 0 
+    @State private var selectedTab: Int = 0
     
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor.tabbar
@@ -16,6 +16,9 @@ struct MainTabView: View {
                     Text("Lists")
                 }
                 .tag(0)
+                .accessibilityLabel("Lists Tab")
+                .accessibilityHint("Double tap to view your lists")
+                .accessibilityAddTraits(selectedTab == 0 ? .isSelected : [])  // Adds "selected" trait when active
 
             FavouriteView()
                 .tabItem {
@@ -23,6 +26,9 @@ struct MainTabView: View {
                     Text("Favourite")
                 }
                 .tag(1)
+                .accessibilityLabel("Favourite Tab")
+                .accessibilityHint("Double tap to view your favourite items")
+                .accessibilityAddTraits(selectedTab == 1 ? .isSelected : [])
 
             AccountView()
                 .tabItem {
@@ -30,13 +36,17 @@ struct MainTabView: View {
                     Text("Account")
                 }
                 .tag(2)
+                .accessibilityLabel("Account Tab")
+                .accessibilityHint("Double tap to view your account details")
+                .accessibilityAddTraits(selectedTab == 2 ? .isSelected : [])
         }
         .accentColor(Color("MainColor"))
-        .navigationBarBackButtonHidden(true) 
+        .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
     MainTabView()
 }
+
 //

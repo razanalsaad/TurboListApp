@@ -4,9 +4,20 @@
 //
 //  Created by razan on 17/10/2024.
 //
-
 import SwiftUI
 
+struct DynamicTypeModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .dynamicTypeSize(.xSmall ... .accessibility5) // Apply dynamic type scaling
+    }
+}
+
+extension View {
+    func applyDynamicType() -> some View {
+        self.modifier(DynamicTypeModifier()) // Use the custom modifier
+    }
+}
 @main
 struct TurboListApp: App {
     @State private var isSplashScreenActive = true
@@ -16,16 +27,19 @@ struct TurboListApp: App {
             if isSplashScreenActive {
                 SplashScreenView()
                     .onAppear {
-                        // وقت عرض شاشة البداية (مثلاً 3 ثوانٍ)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             withAnimation {
                                 isSplashScreenActive = false
                             }
                         }
                     }
+                    .applyDynamicType() // Apply globally
             } else {
-                SignInView() // هذه هي الشاشة الرئيسية التي سيتم عرضها بعد انتهاء الشاشة الأولية
+                SignInView()
+                    .applyDynamicType() // Apply globally
             }
         }
     }
 }
+
+

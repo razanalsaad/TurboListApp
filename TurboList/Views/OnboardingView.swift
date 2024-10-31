@@ -21,6 +21,7 @@ struct OnboardingView: View {
                 Image("OnboardingBackground")
                     .ignoresSafeArea()
                     .offset(y: -140)
+                    .accessibilityHidden(true) // Mark as decorative for VoiceOver
 
                 VStack {
                     HStack {
@@ -33,6 +34,8 @@ struct OnboardingView: View {
                                 .foregroundColor(Color("buttonColor"))
                                 .padding()
                         }
+                        .accessibilityLabel("Skip Onboarding")
+                        .accessibilityHint("Skips to the main app")
                     }
                     Spacer()
 
@@ -45,25 +48,30 @@ struct OnboardingView: View {
                                     .frame(width: 400, height: 480)
                                     .offset(y: index == 0 ? 0 : 90)
                                     .scaleEffect(1.5)
+                                    .accessibilityLabel(onboardingData[index].title)
+                                    .accessibilityHint(onboardingData[index].description)
 
                                 VStack(spacing: 0) {
                                     Text(onboardingData[index].title)
                                         .font(.system(size: 28, weight: .bold, design: .default))
                                         .foregroundColor(Color("buttonColor"))
+                                        .accessibilityAddTraits(.isHeader) // Treat title as a header
                                     
                                     Text(onboardingData[index].description)
                                         .font(.system(size: 13, weight: .bold, design: .default))
                                         .foregroundColor(Color("buttonColor"))
                                         .multilineTextAlignment(.center)
                                         .frame(width: 300, height: 80)
+                                        .accessibilityLabel(onboardingData[index].description) // Provide detailed description
                                 }
                                 .offset(y: -170)
 
                                 HStack(spacing: 4) {
-                                    ForEach(0..<onboardingData.count) { index in
+                                    ForEach(0..<onboardingData.count) { dotIndex in
                                         Circle()
                                             .frame(width: 8, height: 8)
-                                            .foregroundColor(currentPage == index ? Color("MainColor") : Color("gray1"))
+                                            .foregroundColor(currentPage == dotIndex ? Color("MainColor") : Color("gray1"))
+                                            .accessibilityHidden(true) // Hide pagination dots from VoiceOver
                                     }
                                 }.offset(y: -160)
                             }
@@ -93,10 +101,13 @@ struct OnboardingView: View {
                             .foregroundColor(.white)
                             .cornerRadius(18.5)
                     }
+                    .accessibilityLabel(currentPage == onboardingData.count - 1 ? "Get Started" : "Next Step")
+                    .accessibilityHint(currentPage == onboardingData.count - 1 ? "Finish onboarding and go to main app" : "Move to the next onboarding screen")
                 }
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250)
             }
         }
+        .accessibilityElement(children: .combine) // Combine all elements into a single logical group
     }
 }
 

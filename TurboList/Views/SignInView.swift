@@ -15,15 +15,19 @@ struct SignInView: View {
                 Image("OnboardingBackground")
                     .ignoresSafeArea()
                     .offset(y: -140)
-                
+                    .accessibilityHidden(true) // Decorative image
+
                 VStack {
                     Text("Sort Fast, Shop Faster.")
                         .font(.system(size: 28, weight: .bold, design: .default))
                         .foregroundColor(Color("buttonColor"))
                         .padding(.bottom, 20)
-                    
+                        .accessibilityLabel("Sort Fast, Shop Faster.")
+                        .accessibilityHint("Welcome message")
+
                     Spacer()
                     
+                    // Sign in with Apple button
                     SignInWithAppleButton(
                         onRequest: { request in
                             request.requestedScopes = [.fullName, .email]
@@ -41,14 +45,19 @@ struct SignInView: View {
                     .cornerRadius(50)
                     .padding(.horizontal, 80)
                     .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
-                    
+                    .accessibilityLabel("Sign in with Apple")
+                    .accessibilityHint("Use your Apple ID to sign in")
+
                     Spacer().frame(height: 390)
                     
                     Text("or")
                         .font(.system(size: 16, weight: .bold, design: .default))
                         .foregroundColor(Color("GreenDark"))
                         .offset(y: -370)
-                    
+                        .accessibilityLabel("or")
+                        .accessibilityHint("Alternative sign-in method")
+
+                    // Continue as guest button
                     NavigationLink(destination: MainTabView(), isActive: $isGuest) {
                         Button(action: {
                             isGuest = true
@@ -57,6 +66,8 @@ struct SignInView: View {
                                 .font(.system(size: 13, weight: .bold))
                                 .foregroundColor(Color("buttonColor"))
                         }
+                        .accessibilityLabel("Continue as Guest")
+                        .accessibilityHint("Access the app without signing in")
                     }
                     .padding(.top, -370)
                 }
@@ -66,6 +77,7 @@ struct SignInView: View {
                 // Navigation to MainTabView after successful sign-in
                 NavigationLink(destination: MainTabView(), isActive: $isSignedIn) {
                     EmptyView()
+                        .accessibilityHidden(true) // Hidden from accessibility
                 }
             }
         }
@@ -96,4 +108,5 @@ struct SignInView: View {
 #Preview {
     SignInView()
 }
+
 
