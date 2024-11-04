@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FavouriteView: View {
     @State private var isBellTapped = false
-
+    @StateObject private var vm = CloudKitUserBootcampViewModel()
     var body: some View {
 
         ZStack {
@@ -21,11 +21,20 @@ struct FavouriteView: View {
                             .stroke(Color("buttonColor"), lineWidth: 2)
                             .frame(width: 50, height: 50)
 
-                        Image(systemName: "person")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 25, height: 25)
-                            .foregroundColor(Color("GreenDark"))
+                        // Display the user's profile image or a placeholder icon if not available
+                        if let profileImage = vm.profileImage {
+                            Image(uiImage: profileImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                        } else {
+                            Image(systemName: "person.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color("GreenDark"))
+                        }
                     }
                     .padding(.leading)
 
@@ -33,7 +42,8 @@ struct FavouriteView: View {
                         Text("Welcome")
                             .font(.subheadline)
                             .foregroundColor(Color("buttonColor"))
-                        Text("Ahad!")
+                        
+                        Text("\(vm.userName)")
                             .font(.title2)
                             .foregroundColor(Color("GreenDark"))
                             .fontWeight(.bold)
