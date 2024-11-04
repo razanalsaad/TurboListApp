@@ -41,6 +41,7 @@
       }
     },
     "Ahad!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -474,6 +475,9 @@
           }
         }
       }
+    },
+    "Username" : {
+
     },
     "Welcome" : {
       "localizations" : {

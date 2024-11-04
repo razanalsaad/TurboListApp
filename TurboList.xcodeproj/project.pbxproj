@@ -28,18 +28,18 @@
 		5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56732CC7015500DD1C5F /* CardView.swift */; };
 		5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA31AE82CC877190092869F /* CustomTextField.swift */; };
 		5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE021DC2CD84539005EE49F /* NotificationView.swift */; };
+		5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */; };
+		5AE597E22CD95A6500EF059B /* CloudKitUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */; };
+		5AE597E42CD95A8F00EF059B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E32CD95A8F00EF059B /* Item.swift */; };
+		5AE597E62CD95AB000EF059B /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E52CD95AB000EF059B /* List.swift */; };
+		5AE597E82CD95AD300EF059B /* SharedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E72CD95AD300EF059B /* SharedList.swift */; };
+		5AE597EA2CD95AF700EF059B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E92CD95AF700EF059B /* User.swift */; };
 		A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */; };
 		A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC82CC104A100F3F9C0 /* ContentView.swift */; };
 		A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */; };
 		A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */; };
-		EE23B3AE2CD82B01003C870E /* CloudKitUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3AD2CD82B01003C870E /* CloudKitUtility.swift */; };
-		EE23B3B02CD82E13003C870E /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3AF2CD82E13003C870E /* List.swift */; };
-		EE23B3B22CD82E3C003C870E /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3B12CD82E3C003C870E /* Item.swift */; };
-		EE23B3B42CD82E69003C870E /* SharedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3B32CD82E69003C870E /* SharedList.swift */; };
-		EE23B3B62CD82EAD003C870E /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3B52CD82EAD003C870E /* CloudKitManager.swift */; };
-		EE23B3B82CD82F45003C870E /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE23B3B72CD82F45003C870E /* ListViewModel.swift */; };
 		EE23B3BA2CD86E7D003C870E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */; };
-		EE2992D92CD29A8700BBC843 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2992D82CD29A8700BBC843 /* User.swift */; };
+		EE2992D92CD29A8700BBC843 /* (null) in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,17 +63,17 @@
 		5A8A56732CC7015500DD1C5F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		5AA31AE82CC877190092869F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		5AE021DC2CD84539005EE49F /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUtility.swift; sourceTree = "<group>"; };
+		5AE597E32CD95A8F00EF059B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		5AE597E52CD95AB000EF059B /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		5AE597E72CD95AD300EF059B /* SharedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedList.swift; sourceTree = "<group>"; };
+		5AE597E92CD95AF700EF059B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A55C1BC32CC104A100F3F9C0 /* TurboList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TurboList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboListApp.swift; sourceTree = "<group>"; };
 		A55C1BC82CC104A100F3F9C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		EE23B3AD2CD82B01003C870E /* CloudKitUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUtility.swift; sourceTree = "<group>"; };
-		EE23B3AF2CD82E13003C870E /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		EE23B3B12CD82E3C003C870E /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		EE23B3B32CD82E69003C870E /* SharedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedList.swift; sourceTree = "<group>"; };
-		EE23B3B52CD82EAD003C870E /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
-		EE23B3B72CD82F45003C870E /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EE2992D62CD288A400BBC843 /* TurboList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurboList.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,12 +139,25 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5AE597DE2CD959EF00EF059B /* Cloudkit */ = {
+			isa = PBXGroup;
+			children = (
+				5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */,
+				5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */,
+				5AE597E32CD95A8F00EF059B /* Item.swift */,
+				5AE597E52CD95AB000EF059B /* List.swift */,
+				5AE597E72CD95AD300EF059B /* SharedList.swift */,
+				5AE597E92CD95AF700EF059B /* User.swift */,
+			);
+			path = Cloudkit;
+			sourceTree = "<group>";
+		};
 		A55C1BBA2CC104A100F3F9C0 = {
 			isa = PBXGroup;
 			children = (
 				EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */,
 				5A06E2072CD8B65B0061D8C2 /* MyFA10.mlmodel */,
-				EE2992D72CD29A6900BBC843 /* Cloudkit */,
+				5AE597DE2CD959EF00EF059B /* Cloudkit */,
 				5A06E1F12CD8B0A20061D8C2 /* Models */,
 				5A06E1F22CD8B0C60061D8C2 /* ViewModels */,
 				5A8A56472CC59FDC00DD1C5F /* Views */,
@@ -179,20 +192,6 @@
 				A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		EE2992D72CD29A6900BBC843 /* Cloudkit */ = {
-			isa = PBXGroup;
-			children = (
-				EE2992D82CD29A8700BBC843 /* User.swift */,
-				EE23B3AD2CD82B01003C870E /* CloudKitUtility.swift */,
-				EE23B3AF2CD82E13003C870E /* List.swift */,
-				EE23B3B12CD82E3C003C870E /* Item.swift */,
-				EE23B3B32CD82E69003C870E /* SharedList.swift */,
-				EE23B3B52CD82EAD003C870E /* CloudKitManager.swift */,
-				EE23B3B72CD82F45003C870E /* ListViewModel.swift */,
-			);
-			path = Cloudkit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,28 +278,28 @@
 			files = (
 				5A06E2002CD8B4C10061D8C2 /* CreateListViewModel.swift in Sources */,
 				5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */,
-				EE23B3B02CD82E13003C870E /* List.swift in Sources */,
-				EE23B3B22CD82E3C003C870E /* Item.swift in Sources */,
 				5A06E1FD2CD8B47B0061D8C2 /* GroceryModels.swift in Sources */,
+				5AE597EA2CD95AF700EF059B /* User.swift in Sources */,
 				5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */,
-				EE23B3B42CD82E69003C870E /* SharedList.swift in Sources */,
 				A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */,
 				5A8A56582CC5A53C00DD1C5F /* ListView.swift in Sources */,
+				5AE597E42CD95A8F00EF059B /* Item.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
-				EE23B3B62CD82EAD003C870E /* CloudKitManager.swift in Sources */,
 				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
-				EE23B3B82CD82F45003C870E /* ListViewModel.swift in Sources */,
-				EE2992D92CD29A8700BBC843 /* User.swift in Sources */,
-				EE23B3AE2CD82B01003C870E /* CloudKitUtility.swift in Sources */,
+				EE2992D92CD29A8700BBC843 /* (null) in Sources */,
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
 				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
 				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
+				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
 				5A06E2082CD8B65B0061D8C2 /* MyFA10.mlmodel in Sources */,
 				5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */,
 				5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */,
+				5AE597E22CD95A6500EF059B /* CloudKitUtility.swift in Sources */,
+				5AE597E62CD95AB000EF059B /* List.swift in Sources */,
+				5AE597E82CD95AD300EF059B /* SharedList.swift in Sources */,
 				5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

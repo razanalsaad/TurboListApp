@@ -41,7 +41,7 @@ struct User {
 //        @Published var error: String = ""
 //        @Published var userName: String = ""
 //    var cancellables = Set<AnyCancellable>()
-//
+//       
 //    init (){
 //        getiCloudStatus()
 //        requestPermission()
@@ -67,7 +67,7 @@ struct User {
 //          CloudKitUtility.requestApplicationPermission()
 //              .receive(on: DispatchQueue.main)
 //              .sink { _ in
-//
+//                  
 //              } receiveValue: { [weak self] success in
 //                  self?.permissionStatus = success
 //              }
@@ -77,13 +77,13 @@ struct User {
 //        CloudKitUtility.discoverUserIdentity()
 //            .receive(on: DispatchQueue.main)
 //            .sink { _ in
-//
+//                
 //            } receiveValue: { [weak self] returnedName in
 //                self?.userName = returnedName
 //            }
 //            .store(in: &cancellables)
 //    }
-//
+//    
 //}
 
 //
