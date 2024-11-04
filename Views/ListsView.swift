@@ -21,7 +21,6 @@ struct ListsView: View {
                                 .stroke(Color("buttonColor"), lineWidth: 2)
                                 .frame(width: 50, height: 50)
 
-                            // Display the user's profile image or a placeholder icon if not available
                             if let profileImage = vm.profileImage {
                                 Image(uiImage: profileImage)
                                     .resizable()
@@ -114,11 +113,9 @@ struct ListsView: View {
                         .frame(height: -90)
                 }
             }
-        }            .navigationBarBackButtonHidden(true) // إخفاء زر الرجوع
-
+        }            .navigationBarBackButtonHidden(true)
     }
 
-    // Empty state view when there are no lists
     var emptyStateView: some View {
         VStack {
             Image("arrow")
@@ -137,7 +134,6 @@ struct ListsView: View {
         }
     }
 
-    // List view when there are lists
     var listView: some View {
         ScrollView {
             VStack {

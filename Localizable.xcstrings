@@ -91,6 +91,26 @@
         }
       }
     },
+    "Create new account now" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنشئ حسابًا جديدًا الآن"
+          }
+        }
+      }
+    },
+    "Dark Mode" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الوضع الليلي"
+          }
+        }
+      }
+    },
     "Dark mood" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -280,6 +300,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "اللغة"
+          }
+        }
+      }
+    },
+    "Light Mode" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الوضع الفاتح"
           }
         }
       }
@@ -515,6 +545,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "مرحبًا بك في TurboList. التطبيق قيد التحميل"
+          }
+        }
+      }
+    },
+    "You do not have an account yet" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ليس لديك حساب بعد"
           }
         }
       }

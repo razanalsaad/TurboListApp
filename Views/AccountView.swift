@@ -2,6 +2,7 @@ import SwiftUI
 import CloudKit
 import Combine
 import PhotosUI
+import AuthenticationServices
 
 class CloudKitUserBootcampViewModel: ObservableObject {
     
@@ -88,7 +89,7 @@ class CloudKitUserBootcampViewModel: ObservableObject {
         print("Logging out...")
         userName = ""
         profileImage = nil
-        isLoggedIn = false // Update login status
+        isLoggedIn = false
     }
 }
 
@@ -114,7 +115,7 @@ struct AccountView: View {
                         VStack(spacing: 8) {
                             ZStack {
                                 Circle()
-                                    .stroke(Color("GreenLight"), lineWidth: 4)
+                                    .stroke(Color("GreenLight"), lineWidth: 8)
                                     .frame(width: 120, height: 120)
                                     .onTapGesture {
                                         isPickerPresented = true
@@ -127,24 +128,23 @@ struct AccountView: View {
                                         .frame(width: 100, height: 100)
                                         .clipShape(Circle())
                                 } else {
-                                    Image(systemName: "person.circle")
+                                    Image(systemName: "person")
                                         .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 100, height: 100)
-                                        .clipShape(Circle())
-                                        .foregroundColor(Color("GreenDark"))
+                                        .scaledToFit()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(Color("buttonColor"))
                                 }
                             }
                             .sheet(isPresented: $isPickerPresented) {
                                 ImagePicker(selectedImage: $selectedImage)
                             }
-                            
+        
                             TextField("Username", text: $vm.userName)
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color("GreenDark"))
-                                .padding(.leading, 25)
-                            
+                                .multilineTextAlignment(.center)
+                              
                             Text("@\(vm.userName)")
                                 .foregroundColor(Color.gray)
                                 .font(.subheadline)
@@ -154,29 +154,29 @@ struct AccountView: View {
                         Spacer().frame(height: 40)
                         
                         VStack(spacing: 0) {
-                            SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                openAppSettings()
-                            }
-                            Divider()
-                            
-                            SettingRow(icon: "bell", title: "Notification", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                print("Notification tapped")
-                            }
-                            Divider()
-                            
-                            SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
-                                       title: colorScheme == .dark ? "Light Mode" : "Dark Mode",
-                                       iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                isDarkMode.toggle()
-                                UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
-                            }
-                            Divider()
-        
-                            SettingRow(icon: "rectangle.portrait.and.arrow.right", title: "Log out", iconColor: Color("red22"), textColor: Color("red22")) {
-                                vm.logoutUser() // Use the logout function in the ViewModel
-                            }
-                        }
-                        .padding(.horizontal, 20)
+                                                 SettingRow(icon: "globe", title: NSLocalizedString("Language", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                                     openAppSettings()
+                                                 }
+                                                 Divider()
+                                                 
+                                                 SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                                     print("Notification tapped")
+                                                 }
+                                                 Divider()
+                                                 
+                                                 SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
+                                                            title: colorScheme == .dark ? NSLocalizedString("Light Mode", comment: "") : NSLocalizedString("Dark Mode", comment: ""),
+                                                            iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                                     isDarkMode.toggle()
+                                                     UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+                                                 }
+                                                 Divider()
+                             
+                                                 SettingRow(icon: "rectangle.portrait.and.arrow.right", title: NSLocalizedString("Log out", comment: ""), iconColor: Color("red22"), textColor: Color("red22")) {
+                                                     vm.logoutUser()
+                                                     
+                                                 }
+                                             }
                         
                         Spacer()
                     }
@@ -185,11 +185,89 @@ struct AccountView: View {
                     vm.fetchUserProfileImage()
                 }
             } else {
-                LoginView() // Navigate to LoginView when logged out
+                loggedOutView
             }
         }
     }
+    var loggedOutView: some View {
+        
+        ZStack {
+            Color("backgroundAppColor")
+                .ignoresSafeArea()
+            
+            Image("Background")
+                .resizable()
+                .ignoresSafeArea()
+            
+            VStack(spacing: 8) {
+                
+                
+                ZStack {
+                    Circle()
+                        .stroke(Color("GreenLight"), lineWidth: 4)
+                        .frame(width: 120, height: 120)
+                    
+                    Image(systemName: "person.fill.questionmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70, height: 70)
+                        .foregroundColor(Color("buttonColor"))
+                }
+                .padding(.top, 40)
+                
+                Text("You do not have an account yet")
+                    .font(.system(size: 18))
+                    .fontWeight(.bold)
+                    .foregroundColor(Color("GreenDark"))
+                    .padding(.top, 20)
+                
+                Text("Create new account now")
+                    .foregroundColor(Color("buttonColor"))
+                    .fontWeight(.bold)
+                    .font(.subheadline)
+                    .padding(.top, 20)
+                
+                SignInWithAppleButton(
+                    onRequest: { request in
+                        request.requestedScopes = [.fullName, .email]
+                    },
+                    onCompletion: { result in
+                        switch result {
+                        case .success(let authorization):
+                            handleAuthorization(authorization)
+                        case .failure(let error):
+                            print("Sign in with Apple failed: \(error.localizedDescription)")
+                        }
+                    }
+                )
+                .frame(width: 342, height: 54)
+                .cornerRadius(14)
+                .padding(.top, 20)
+                .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
+                .accessibilityLabel("Sign in with Apple")
+                .accessibilityHint("Use your Apple ID to sign in")
+            }.padding(.bottom,250)
+        }}
     
+    
+    func handleAuthorization(_ authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            
+            print("User ID: \(userIdentifier)")
+            if let name = fullName {
+                print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
+            }
+            if let email = email {
+                print("User Email: \(email)")
+            }
+            
+            vm.isLoggedIn = true
+        }
+    }
+
     func openAppSettings() {
         if let appSettings = URL(string: UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(appSettings) {
@@ -260,13 +338,6 @@ struct ImagePicker: UIViewControllerRepresentable {
                 }
             }
         }
-    }
-}
-
-struct LoginView: View {
-    var body: some View {
-       SignInView()
-        // Implement your login UI here
     }
 }
 #Preview {
