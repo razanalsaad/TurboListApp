@@ -17,7 +17,7 @@ TurboList is an iOS application that enhances the grocery shopping experience fo
 - [User Flow]
 - [Data Base Schema]
 - [User Interface Mockup]
-- [License]
+
 
 
 # Features List 
@@ -83,7 +83,5 @@ This project follows an Agile methodology, with dedicated branches for each feat
 ![Untitled design](https://github.com/user-attachments/assets/5b75743b-dc5f-4efd-9e62-f2b04f31b078)
 
 
-# License
-This project is licensed under the MIT License. See `LICENSE.md` for details.
 
 --- 
