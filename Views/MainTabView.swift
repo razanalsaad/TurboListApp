@@ -4,7 +4,7 @@ struct MainTabView: View {
     @State private var selectedTab: Int = 0
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 if selectedTab == 0 {
                     ListsView()
@@ -35,7 +35,6 @@ struct MainTabView: View {
                         .accessibilityHint("Double tap to view your lists")
                         .accessibilityAddTraits(selectedTab == 0 ? .isSelected : [])
                         
-                        // التبويب الثاني مع ميزات إمكانية الوصول
                         Button(action: {
                             selectedTab = 1
                         }) {
@@ -52,7 +51,6 @@ struct MainTabView: View {
                         .accessibilityHint("Double tap to view your favourite items")
                         .accessibilityAddTraits(selectedTab == 1 ? .isSelected : [])
                         
-                        // التبويب الثالث مع ميزات إمكانية الوصول
                         Button(action: {
                             selectedTab = 2
                         }) {
@@ -86,7 +84,6 @@ struct MainTabView: View {
     MainTabView()
 }
 
-// إضافة ملحق View لتحديد الزوايا الدائرية
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))

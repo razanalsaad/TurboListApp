@@ -114,7 +114,8 @@ struct ListsView: View {
                         .frame(height: -90)
                 }
             }
-        }
+        }            .navigationBarBackButtonHidden(true) // إخفاء زر الرجوع
+
     }
 
     // Empty state view when there are no lists
