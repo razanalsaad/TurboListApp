@@ -21,6 +21,9 @@
 		5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */; };
 		5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56732CC7015500DD1C5F /* CardView.swift */; };
 		5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA31AE82CC877190092869F /* CustomTextField.swift */; };
+		5AE021D92CD8196B005EE49F /* on2_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5AE021D82CD8196B005EE49F /* on2_dark.gif */; };
+		5AE021DB2CD8197A005EE49F /* on1_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5AE021DA2CD8197A005EE49F /* on1_dark.gif */; };
+		5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE021DC2CD84539005EE49F /* NotificationView.swift */; };
 		A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */; };
 		A55C1BC92CC104A100F3F9C0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55C1BC82CC104A100F3F9C0 /* ContentView.swift */; };
 		A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */; };
@@ -42,6 +45,9 @@
 		5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		5A8A56732CC7015500DD1C5F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		5AA31AE82CC877190092869F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		5AE021D82CD8196B005EE49F /* on2_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on2_dark.gif; path = ../../../Downloads/on2_dark.gif; sourceTree = "<group>"; };
+		5AE021DA2CD8197A005EE49F /* on1_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on1_dark.gif; path = ../../../Downloads/on1_dark.gif; sourceTree = "<group>"; };
+		5AE021DC2CD84539005EE49F /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		A55C1BC32CC104A100F3F9C0 /* TurboList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TurboList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboListApp.swift; sourceTree = "<group>"; };
 		A55C1BC82CC104A100F3F9C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,6 +79,7 @@
 				5A8A566F2CC6F17E00DD1C5F /* ListsView.swift */,
 				5A8A56512CC5A46D00DD1C5F /* FavouriteView.swift */,
 				5A8A56532CC5A49E00DD1C5F /* AccountView.swift */,
+				5AE021DC2CD84539005EE49F /* NotificationView.swift */,
 				5A8A56552CC5A4EB00DD1C5F /* CreateListView.swift */,
 				5A8A56572CC5A53C00DD1C5F /* ListView.swift */,
 				5A8A56732CC7015500DD1C5F /* CardView.swift */,
@@ -108,6 +115,8 @@
 				A55C1BCA2CC104A200F3F9C0 /* Assets.xcassets */,
 				5A8A566B2CC6E48C00DD1C5F /* on1.gif */,
 				5A8A566D2CC6E49200DD1C5F /* on2.gif */,
+				5AE021D82CD8196B005EE49F /* on2_dark.gif */,
+				5AE021DA2CD8197A005EE49F /* on1_dark.gif */,
 				A55C1BCC2CC104A200F3F9C0 /* Preview Content */,
 			);
 			path = TurboList;
@@ -196,7 +205,9 @@
 				5A8A566C2CC6E48C00DD1C5F /* on1.gif in Resources */,
 				A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */,
 				5A8A566E2CC6E49200DD1C5F /* on2.gif in Resources */,
+				5AE021DB2CD8197A005EE49F /* on1_dark.gif in Resources */,
 				A55C1BCB2CC104A200F3F9C0 /* Assets.xcassets in Resources */,
+				5AE021D92CD8196B005EE49F /* on2_dark.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +232,7 @@
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
 				5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */,
+				5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

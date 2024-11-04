@@ -4,7 +4,7 @@ import AuthenticationServices
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isGuest: Bool = false
-    @State private var isSignedIn: Bool = false  // State to handle navigation after sign-in
+    @State private var isSignedIn: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -15,7 +15,7 @@ struct SignInView: View {
                 Image("OnboardingBackground")
                     .ignoresSafeArea()
                     .offset(y: -140)
-                    .accessibilityHidden(true) // Decorative image
+                    .accessibilityHidden(true)
 
                 VStack {
                     Text("Sort Fast, Shop Faster.")
@@ -27,7 +27,6 @@ struct SignInView: View {
 
                     Spacer()
                     
-                    // Sign in with Apple button
                     SignInWithAppleButton(
                         onRequest: { request in
                             request.requestedScopes = [.fullName, .email]
@@ -41,8 +40,8 @@ struct SignInView: View {
                             }
                         }
                     )
-                    .frame(width: 282, height: 51)
-                    .cornerRadius(50)
+                    .frame(width: 342, height: 54)
+                    .cornerRadius(14)
                     .padding(.horizontal, 80)
                     .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
                     .accessibilityLabel("Sign in with Apple")
@@ -57,8 +56,8 @@ struct SignInView: View {
                         .accessibilityLabel("or")
                         .accessibilityHint("Alternative sign-in method")
 
-                    // Continue as guest button
-                    NavigationLink(destination: MainTabView(), isActive: $isGuest) {
+                    // "Continue as Guest" Navigation Link
+                    NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isGuest) {
                         Button(action: {
                             isGuest = true
                         }) {
@@ -75,22 +74,20 @@ struct SignInView: View {
                 .padding(.top, 270)
                 
                 // Navigation to MainTabView after successful sign-in
-                NavigationLink(destination: MainTabView(), isActive: $isSignedIn) {
+                NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isSignedIn) {
                     EmptyView()
-                        .accessibilityHidden(true) // Hidden from accessibility
+                        .accessibilityHidden(true)
                 }
             }
         }
     }
     
-    // Function to handle successful Apple ID authorization
     func handleAuthorization(_ authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let fullName = appleIDCredential.fullName
             let email = appleIDCredential.email
             
-            // Example: Saving user data or authenticating in your app
             print("User ID: \(userIdentifier)")
             if let name = fullName {
                 print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
@@ -99,7 +96,6 @@ struct SignInView: View {
                 print("User Email: \(email)")
             }
             
-            // Set the isSignedIn flag to true to trigger navigation to MainTabView
             isSignedIn = true
         }
     }
@@ -108,5 +104,3 @@ struct SignInView: View {
 #Preview {
     SignInView()
 }
-
-

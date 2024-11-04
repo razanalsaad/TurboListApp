@@ -4,10 +4,11 @@ import SDWebImageSwiftUI
 struct OnboardingView: View {
     @State private var currentPage = 0
     @State private var isOnboardingComplete = false
+    @Environment(\.colorScheme) var colorScheme 
     
     let onboardingData = [
-        OnboardingData(gifName: "on2", title: "Sort", description: "Organize your grocery items using AI-powered categorization sorting them by category."),
-        OnboardingData(gifName: "on1", title: "Collaborative", description: "Multiple users to collaborate with instant updates to shared grocery lists.")
+        OnboardingData(gifName: "on2", darkGifName: "on2_dark", title: "Sort", description: "Organize your grocery items using AI-powered categorization sorting them by category."),
+        OnboardingData(gifName: "on1", darkGifName: "on1_dark", title: "Collaborative", description: "Multiple users to collaborate with instant updates to shared grocery lists.")
     ]
     
     var body: some View {
@@ -42,7 +43,7 @@ struct OnboardingView: View {
                     TabView(selection: $currentPage) {
                         ForEach(0..<onboardingData.count) { index in
                             VStack(spacing: 5) {
-                                AnimatedImage(name: onboardingData[index].gifName + ".gif")
+                                AnimatedImage(name: (colorScheme == .dark ? onboardingData[index].darkGifName : onboardingData[index].gifName) + ".gif")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 400, height: 480)
@@ -113,6 +114,7 @@ struct OnboardingView: View {
 
 struct OnboardingData {
     let gifName: String
+    let darkGifName: String // GIF مخصص للوضع الداكن
     let title: String
     let description: String
 }
