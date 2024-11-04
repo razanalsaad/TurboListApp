@@ -13,7 +13,7 @@ struct List {
     var recordID: CKRecord.ID?
     var listId: UUID
     var listName: String
-    var isShared: Bool
+    var isShared = false
     var ownedId: CKRecord.Reference // Reference to the user who owns the list
     var createdAt: Date
     var updatedAt: Date
@@ -23,7 +23,7 @@ struct List {
         let record = CKRecord(recordType: "List")
         record["list_id"] = listId.uuidString as CKRecordValue
         record["list_name"] = listName as CKRecordValue
-        record["isShared"] = isShared as CKRecordValue
+//        record[MY_INT64_FIELD] = isShared;
         record["owned_id"] = ownedId
         record["created_at"] = createdAt as CKRecordValue
         record["updated_at"] = updatedAt as CKRecordValue

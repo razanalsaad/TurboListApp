@@ -5,7 +5,7 @@ struct CreateListView: View {
     @State private var isBellTapped: Bool = false
     @State private var listName: String = ""
     @State private var userInput: String = ""
-    
+    @State private var notificationFrequency: String = "Select Frequency"
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -102,7 +102,7 @@ struct CreateListView: View {
     }
     
     private func saveList() {
-        print("Saving the list: \(listName)")
+        print("Saving the list: \(listName) with frequency: \(notificationFrequency)")
     }
 }
 

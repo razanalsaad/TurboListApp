@@ -42,10 +42,10 @@ struct SignInView: View {
                     )
                     .frame(width: 342, height: 54)
                     .cornerRadius(14)
-                    .padding(.horizontal, 80)
+                    .padding(.top, 20)
                     .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
                     .accessibilityLabel("Sign in with Apple")
-                    .accessibilityHint("Use your Apple ID to sign in")
+                    .accessibilityHint("Use your Apple ID to sign in securely")
 
                     Spacer().frame(height: 390)
                     

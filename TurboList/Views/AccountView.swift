@@ -1,19 +1,18 @@
 import SwiftUI
-import AuthenticationServices
 import CloudKit
 import Combine
 import PhotosUI
+
 class CloudKitUserBootcampViewModel: ObservableObject {
     
     @Published var permissionStatus: Bool = false
     @Published var isSignedInToiCloud: Bool = false
     @Published var error: String = ""
     @Published var userName: String = ""
-    @Published var profileImage: UIImage? = nil // Store the profile image
+    @Published var profileImage: UIImage? = nil
+    @Published var isLoggedIn: Bool = true // Managing login state here
+    
     let container = CKContainer.default()
-
-
-
     var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -41,9 +40,7 @@ class CloudKitUserBootcampViewModel: ObservableObject {
     func requestPermission() {
         CloudKitUtility.requestApplicationPermission()
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                
-            } receiveValue: { [weak self] success in
+            .sink { _ in } receiveValue: { [weak self] success in
                 self?.permissionStatus = success
             }
             .store(in: &cancellables)
@@ -52,300 +49,14 @@ class CloudKitUserBootcampViewModel: ObservableObject {
     func getCurrentUserName() {
         CloudKitUtility.discoverUserIdentity()
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                
-            } receiveValue: { [weak self] returnedName in
+            .sink { _ in } receiveValue: { [weak self] returnedName in
                 self?.userName = returnedName
             }
             .store(in: &cancellables)
     }
+    
     func fetchUserProfileImage() {
-            container.fetchUserRecordID { [weak self] recordID, error in
-                guard let recordID = recordID, error == nil else {
-                    print("Error fetching user record ID: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-                
-                let predicate = NSPredicate(format: "user_id == %@", recordID)
-                let query = CKQuery(recordType: "User", predicate: predicate)
-                
-                let queryOperation = CKQueryOperation(query: query)
-                queryOperation.recordFetchedBlock = { record in
-                    DispatchQueue.main.async {
-                        if let imageAsset = record["profileImage"] as? CKAsset,
-                           let fileURL = imageAsset.fileURL {
-                            if let data = try? Data(contentsOf: fileURL),
-                               let image = UIImage(data: data) {
-                                self?.profileImage = image
-                            } else {
-                                print("Failed to load image data")
-                            }
-                        } else {
-                            print("No profile image found")
-                        }
-                    }
-                }
-                
-                self?.container.publicCloudDatabase.add(queryOperation)
-            }
-        }
-    
-}
-struct AccountView: View {
-    @State private var username: String = "user name" // Username from CloudKit
-    @State private var isEditing: Bool = false
-    @Environment(\.colorScheme) var colorScheme
-    @State private var isDarkMode: Bool = false
-
-    let container = CKContainer.default()
-    @StateObject private var vm = CloudKitUserBootcampViewModel()
-    @State private var selectedImage: UIImage?
-    @State private var isPickerPresented = false
-
-    @State private var isLoggedIn: Bool = true
-    @State private var navigateToNotification: Bool = false
-
-    
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("backgroundAppColor")
-                    .ignoresSafeArea()
-
-                Image("Background")
-                    .resizable()
-                    .ignoresSafeArea()
-                
-                VStack {
-                    Spacer().frame(height: 85)
-
-                    ZStack {
-                        Circle()
-
-                                                    .stroke(Color("GreenLight"), lineWidth: 4)
-                                                    .frame(width: 120, height: 120)
-                                                    .onTapGesture {
-                                                        isPickerPresented = true // Show image picker when the circle is tapped
-                                                    }
-                                                
-                                                // Display the profile image or a placeholder
-                                                if let selectedImage = selectedImage {
-                                                    Image(uiImage: selectedImage)
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .frame(width: 100, height: 100)
-                                                        .clipShape(Circle())
-                                                } else {
-                                                    Image(systemName: "person.circle")
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .frame(width: 100, height: 100)
-                                                        .clipShape(Circle())
-                                                        .foregroundColor(Color("GreenDark"))
-                                                }
-                                            }
-                                            .sheet(isPresented: $isPickerPresented) {
-                                                ImagePicker(selectedImage: $selectedImage)
-                                            }
-                    
-                    
-                    HStack {
-                        TextField("\(username)", text: $username)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color("GreenDark"))
-                            .padding(.leading, 25)
-                        
-                        Button(action: {
-                            // Edit action (optional)
-                        }) {
-                            Image(systemName: "pencil")
-                                .foregroundColor(Color("MainColor"))
-                        }
-                    }
-                    
-                    Text("@\(username)")
-                        .foregroundColor(Color.gray)
-                        .font(.subheadline)
-
-                            .stroke(Color("GreenLight"), lineWidth: 4)
-                            .frame(width: 120, height: 120)
-                        
-                        if isLoggedIn {
-                            Image(systemName: "person.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                                .foregroundColor(Color("buttonColor"))
-                        } else {
-                            Image(systemName: "person.fill.questionmark")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 70, height: 70)
-                                .foregroundColor(Color("buttonColor"))
-                        }
-                    }
-                    
-                    if isLoggedIn {
-                        loggedInView
-                    } else {
-                        loggedOutView
-                    }
-                    
-                    Spacer()
-
-                }
-            }
-            .navigationDestination(isPresented: $navigateToNotification) {
-                NotificationView()  
-            }
-        }
-    }
-    
-    var loggedInView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Text(username)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color("GreenDark"))
-                    .padding(.leading, 25)
-                
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Image(systemName: "pencil")
-                        .foregroundColor(Color("MainColor"))
-                }
-            }
-            
-            Text("@RealAhad")
-                .foregroundColor(Color.gray)
-                .font(.subheadline)
-            
-            Spacer().frame(height: 40)
-            
-            VStack(spacing: 0) {
-                SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                    openAppSettings()
-                }
-                Divider()
-                
-
-                VStack(spacing: 0) {
-                    SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        openAppSettings()
-                    }
-                    Divider()
-                    
-                    SettingRow(icon: "bell", title: "Notification", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        print("Notification tapped")
-                    }
-                    Divider()
-                    
-                    SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
-                               title: colorScheme == .dark ? "Light Mode" : "Dark Mode",
-                               iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                        isDarkMode.toggle()
-                        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
-                    }
-                    Divider()
-                    
-                    SettingRow(icon: "rectangle.portrait.and.arrow.right", title: "Log out", iconColor: Color("red"), textColor: Color("red")) {
-                        logoutUser()
-                    }
-
-                SettingRow(icon: "bell", title: "Notification", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                    navigateToNotification = true // تنشيط التنقل إلى NotificationView
-
-                }
-                Divider()
-                
-                SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
-                           title: colorScheme == .dark ? "Light Mode" : "Dark Mode",
-                           iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                    isDarkMode.toggle()
-                    UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
-                }
-                Divider()
-                
-                SettingRow(icon: "rectangle.portrait.and.arrow.right", title: "Log out", iconColor: Color("red22"), textColor: Color("red22")) {
-                    logoutUser()
-                }
-            }
-            .padding(.horizontal, 20)
-        }
-    }
-    
-    var loggedOutView: some View {
-        VStack(spacing: 8) {
-            Text("You do not have an account yet")
-                .font(.system(size: 18))
-                .fontWeight(.bold)
-                .foregroundColor(Color("GreenDark"))
-                .padding(.top, 40)
-            
-            Text("Create new account now")
-                .foregroundColor(Color("buttonColor"))
-                .fontWeight(.bold)
-                .font(.subheadline)
-                .padding(.top, 20)
-            
-            SignInWithAppleButton(
-                onRequest: { request in
-                    request.requestedScopes = [.fullName, .email]
-                },
-                onCompletion: { result in
-                    switch result {
-                    case .success(let authorization):
-                        handleAuthorization(authorization)
-                    case .failure(let error):
-                        print("Sign in with Apple failed: \(error.localizedDescription)")
-                    }
-                }
-            )
-            .frame(width: 342, height: 54)
-            .cornerRadius(14)
-            .padding(.top, 20)
-            .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
-            .accessibilityLabel("Sign in with Apple")
-            .accessibilityHint("Use your Apple ID to sign in")
-        }
-    }
-    
-    func handleAuthorization(_ authorization: ASAuthorization) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-            
-            print("User ID: \(userIdentifier)")
-            if let name = fullName {
-                print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
-            }
-            if let email = email {
-                print("User Email: \(email)")
-            }
-            
-            isLoggedIn = true
-            UserDefaults.standard.set(true, forKey: "isLoggedIn")
-        }
-        .onAppear {
-            fetchUserNameFromCloudKit()
-            vm.fetchUserProfileImage()
-        }
-    }
-
-    // Logout function to handle user logout
-    func logoutUser() {
-        print("Logging out...")
-        // Handle logout and navigate to login screen
-        // Better to use state management (like @EnvironmentObject or @State) to manage user session
-    }
-
-    // Function to fetch the user's username from CloudKit
-    func fetchUserNameFromCloudKit() {
-        container.fetchUserRecordID { recordID, error in
+        container.fetchUserRecordID { [weak self] recordID, error in
             guard let recordID = recordID, error == nil else {
                 print("Error fetching user record ID: \(error?.localizedDescription ?? "Unknown error")")
                 return
@@ -353,33 +64,132 @@ struct AccountView: View {
             
             let predicate = NSPredicate(format: "user_id == %@", recordID)
             let query = CKQuery(recordType: "User", predicate: predicate)
-            
             let queryOperation = CKQueryOperation(query: query)
+            
             queryOperation.recordFetchedBlock = { record in
                 DispatchQueue.main.async {
-                    if let fetchedUsername = record["username"] as? String {
-                        self.username = fetchedUsername
+                    if let imageAsset = record["profileImage"] as? CKAsset, let fileURL = imageAsset.fileURL {
+                        if let data = try? Data(contentsOf: fileURL), let image = UIImage(data: data) {
+                            self?.profileImage = image
+                        } else {
+                            print("Failed to load image data")
+                        }
                     } else {
-                        self.username = "Unknown"
+                        print("No profile image found")
                     }
                 }
             }
-            queryOperation.queryCompletionBlock = { cursor, error in
-                if let error = error {
-                    print("Error fetching user record: \(error.localizedDescription)")
-                }
-            }
             
-            self.container.publicCloudDatabase.add(queryOperation)
+            self?.container.publicCloudDatabase.add(queryOperation)
         }
-
+    }
+    
     func logoutUser() {
         print("Logging out...")
-        isLoggedIn = false
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-
+        userName = ""
+        profileImage = nil
+        isLoggedIn = false // Update login status
     }
+}
 
+struct AccountView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @State private var isDarkMode: Bool = false
+    @StateObject private var vm = CloudKitUserBootcampViewModel()
+    @State private var selectedImage: UIImage?
+    @State private var isPickerPresented = false
+    
+    var body: some View {
+        Group {
+            if vm.isLoggedIn {
+                ZStack {
+                    Color("backgroundAppColor")
+                        .ignoresSafeArea()
+
+                    Image("Background")
+                        .resizable()
+                        .ignoresSafeArea()
+                    
+                    VStack {
+                        VStack(spacing: 8) {
+                            ZStack {
+                                Circle()
+                                    .stroke(Color("GreenLight"), lineWidth: 4)
+                                    .frame(width: 120, height: 120)
+                                    .onTapGesture {
+                                        isPickerPresented = true
+                                    }
+                                
+                                if let selectedImage = selectedImage {
+                                    Image(uiImage: selectedImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else {
+                                    Image(systemName: "person.circle")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                        .foregroundColor(Color("GreenDark"))
+                                }
+                            }
+                            .sheet(isPresented: $isPickerPresented) {
+                                ImagePicker(selectedImage: $selectedImage)
+                            }
+                            
+                            TextField("Username", text: $vm.userName)
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color("GreenDark"))
+                                .padding(.leading, 25)
+                            
+                            Text("@\(vm.userName)")
+                                .foregroundColor(Color.gray)
+                                .font(.subheadline)
+                        }
+                        .padding(.top, 40)
+                        
+                        Spacer().frame(height: 40)
+                        
+                        VStack(spacing: 0) {
+                            SettingRow(icon: "globe", title: "Language", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                openAppSettings()
+                            }
+                            Divider()
+                            
+                            SettingRow(icon: "bell", title: "Notification", iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                print("Notification tapped")
+                            }
+                            Divider()
+                            
+                            SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
+                                       title: colorScheme == .dark ? "Light Mode" : "Dark Mode",
+                                       iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                isDarkMode.toggle()
+                                UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+                            }
+                            Divider()
+        
+                            SettingRow(icon: "rectangle.portrait.and.arrow.right", title: "Log out", iconColor: Color("red22"), textColor: Color("red22")) {
+                                vm.logoutUser() // Use the logout function in the ViewModel
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        
+                        Spacer()
+                    }
+                }
+                .onAppear {
+                    vm.fetchUserProfileImage()
+                }
+            } else {
+                LoginView() // Navigate to LoginView when logged out
+            }
+        }
+    }
+    
     func openAppSettings() {
         if let appSettings = URL(string: UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(appSettings) {
@@ -453,14 +263,12 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-
 struct LoginView: View {
     var body: some View {
-        SignInView() // Replace with your login view
+       SignInView()
+        // Implement your login UI here
     }
 }
-
-
 #Preview {
     AccountView()
 }

@@ -17,8 +17,7 @@ struct MainTabView: View {
                 VStack {
                     Spacer()
                     HStack(spacing: 100) {
-                        
-                        // التبويب الأول مع ميزات إمكانية الوصول
+                        // Tab 1 with accessibility
                         Button(action: {
                             selectedTab = 0
                         }) {
@@ -34,8 +33,8 @@ struct MainTabView: View {
                         .accessibilityLabel("Lists Tab")
                         .accessibilityHint("Double tap to view your lists")
                         .accessibilityAddTraits(selectedTab == 0 ? .isSelected : [])
-                        
-                        // التبويب الثاني مع ميزات إمكانية الوصول
+
+                        // Tab 2 with accessibility
                         Button(action: {
                             selectedTab = 1
                         }) {
@@ -51,8 +50,8 @@ struct MainTabView: View {
                         .accessibilityLabel("Favourite Tab")
                         .accessibilityHint("Double tap to view your favourite items")
                         .accessibilityAddTraits(selectedTab == 1 ? .isSelected : [])
-                        
-                        // التبويب الثالث مع ميزات إمكانية الوصول
+
+                        // Tab 3 with accessibility
                         Button(action: {
                             selectedTab = 2
                         }) {
@@ -77,33 +76,11 @@ struct MainTabView: View {
                 }
                 .edgesIgnoringSafeArea(.bottom)
             }
-            .navigationBarBackButtonHidden(true) // إخفاء زر الرجوع
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
 
 #Preview {
     MainTabView()
-}
-
-// إضافة ملحق View لتحديد الزوايا الدائرية
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners))
-    }
-}
-
-// شكل مخصص لتحديد الزوايا الدائرية
-struct RoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
 }

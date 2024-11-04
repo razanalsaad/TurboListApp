@@ -11,7 +11,7 @@ import Combine
 // MARK: - User Model
 struct User {
     var recordID: CKRecord.ID?
-    var userId: UUID
+//    var userId: UUID
     var username: String
     var ownerList: [CKRecord.Reference] // Reference to lists owned by the user
     var sharedLists: [CKRecord.Reference] // Reference to shared lists
@@ -19,7 +19,7 @@ struct User {
     // Convert to CKRecord
     func toRecord() -> CKRecord {
         let record = CKRecord(recordType: "User")
-        record["user_id"] = userId.uuidString as CKRecordValue
+       // record["user_id"] = userId.uuidString as CKRecordValue
         record["username"] = username as CKRecordValue
         record["owner_id"] = ownerList as CKRecordValue
         record["shared_list"] = sharedLists as CKRecordValue
@@ -29,7 +29,7 @@ struct User {
     // Create from CKRecord
     init(record: CKRecord) {
         self.recordID = record.recordID
-        self.userId = UUID(uuidString: record["user_id"] as! String) ?? UUID()
+     //   self.userId = UUID(uuidString: record["user_id"] as! String) ?? UUID()
         self.username = record["username"] as! String
         self.ownerList = record["owner_id"] as? [CKRecord.Reference] ?? []
         self.sharedLists = record["shared_list"] as? [CKRecord.Reference] ?? []

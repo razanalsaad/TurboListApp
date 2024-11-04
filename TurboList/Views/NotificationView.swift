@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct NotificationView: View {
     @State private var isBellTapped = false
@@ -13,7 +14,7 @@ struct NotificationView: View {
                 Image("Background")
                     .resizable()
                     .ignoresSafeArea()
-                
+
                 VStack {
                     HStack {
                         Button(action: {
@@ -29,7 +30,7 @@ struct NotificationView: View {
                                     .foregroundColor(Color("MainColor"))
                             }
                         }
-                        
+
                         Text("Notification")
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(Color("GreenDark"))
@@ -40,7 +41,7 @@ struct NotificationView: View {
                     .padding(.top, 10)
 
                     Spacer()
-                    
+
                     Rectangle()
                         .fill(Color("bakgroundTap"))
                         .cornerRadius(11, corners: [.topLeft, .topRight])
@@ -56,11 +57,14 @@ struct NotificationView: View {
                                 VStack(spacing: 15) {
                                     let notifications = [
                                         "Remember to buy the weekly grocery!",
-                                        "Remember to buy the weekly grocery!"
+                                        "Remember to buy groceries every two weeks!",
+                                        "Remember to buy groceries every three weeks!",
+                                        "Remember to buy groceries monthly!",
+                                        "Your friend shared a collaborative list."
                                     ]
                                     
                                     ForEach(notifications.indices, id: \.self) { index in
-                                        NavigationLink(destination: AccountView()) { // التنقل إلى AccountView
+                                        NavigationLink(destination: AccountView()) {
                                             NotificationItemView(icon: "bell.badge.circle", message: notifications[index])
                                         }
                                         .buttonStyle(PlainButtonStyle())
@@ -69,7 +73,7 @@ struct NotificationView: View {
                                             Divider()
                                                 .frame(maxWidth: .infinity)
                                                 .background(Color("strokeColor"))
-                                                .padding(.horizontal, 20) 
+                                                .padding(.horizontal, 20)
                                         }
                                     }
                                 }
@@ -78,7 +82,43 @@ struct NotificationView: View {
                         )
                 }
             }
-        }.navigationBarBackButtonHidden(true)
+        }
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            requestNotificationPermission()
+            scheduleNotification()
+        }
+    }
+
+    private func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if granted {
+                print("Notification permission granted.")
+            } else {
+                print("Notification permission denied.")
+            }
+        }
+    }
+
+    private func scheduleNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Grocery Reminder"
+        content.body = "It's time to buy groceries!"
+        content.sound = .default
+
+        // Schedule the notification for 5 minutes from now
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 300, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        let center = UNUserNotificationCenter.current()
+        center.add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            } else {
+                print("Notification scheduled for 5 minutes from now.")
+            }
+        }
     }
 }
 
@@ -93,7 +133,7 @@ struct NotificationItemView: View {
                 .frame(width: 32, height: 32)
                 .foregroundColor(Color("GreenDark"))
             Text(message)
-                .font(.system(size: 14).bold())
+                .font(.system(size: 12, weight: .regular)) // Adjusted font size here
                 .foregroundColor(Color("buttonColor"))
         }
         .padding(.vertical, 10)
@@ -103,3 +143,4 @@ struct NotificationItemView: View {
 #Preview {
     NotificationView()
 }
+

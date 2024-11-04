@@ -41,6 +41,7 @@
       }
     },
     "Ahad!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -89,6 +90,9 @@
           }
         }
       }
+    },
+    "Create new account now" : {
+
     },
     "Dark mood" : {
       "extractionState" : "manual",
@@ -475,6 +479,12 @@
         }
       }
     },
+    "Use your Apple ID to sign in securely" : {
+
+    },
+    "Username" : {
+
+    },
     "Welcome" : {
       "localizations" : {
         "ar" : {
@@ -514,6 +524,9 @@
           }
         }
       }
+    },
+    "You do not have an account yet" : {
+
     }
   },
   "version" : "1.0"
