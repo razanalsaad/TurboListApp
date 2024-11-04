@@ -105,7 +105,8 @@ struct ListsView: View {
                         .frame(height: -90)
                 }
             }
-        }
+        }            .navigationBarBackButtonHidden(true) // إخفاء زر الرجوع
+
     }
 
     //العرض في حالة مافيه قوائم

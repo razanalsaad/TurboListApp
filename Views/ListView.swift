@@ -1,33 +1,12 @@
 import SwiftUI
 
-struct GroceryItem: Identifiable {
-    let id = UUID()
-    let name: String
-    var quantity: Int
-}
-
-struct GroceryCategory: Identifiable {
-    let id = UUID()
-    let name: String
-    var items: [GroceryItem]
-}
-
 struct ListView: View {
     
-    @State private var categories: [GroceryCategory] = [
-        GroceryCategory(name: "Fruit 🍎", items: [
-            GroceryItem(name: "Apple", quantity: 4),
-            GroceryItem(name: "Banana", quantity: 2)
-        ]),
-        GroceryCategory(name: "Vegetables 🥬 ", items: [
-            GroceryItem(name: "Carrot", quantity: 5),
-            GroceryItem(name: "Potato", quantity: 3)
-        ]),
-        GroceryCategory(name: " Drinks 🥤  ", items: [
-            GroceryItem(name: "Orange juice", quantity: 3)
-        ])
-        
-    ]
+    @ObservedObject private var viewModel: ListViewModel
+    
+    init(categories: [GroceryCategory]) {
+        self.viewModel = ListViewModel(categories: categories)
+    }
     
     var body: some View {
         ZStack {
@@ -39,8 +18,6 @@ struct ListView: View {
                 .ignoresSafeArea()
             
             VStack {
-                
-                
                 HStack {
                     Button(action: {
                     }) {
@@ -64,26 +41,10 @@ struct ListView: View {
                     Spacer()
 
                     Menu {
-                        Button(action: {
-                        }) {
-                            Label("Edit", systemImage: "pencil")
-                        }
-                        
-                        Button(action: {
-                        }) {
-                            Label("Share", systemImage: "square.and.arrow.up")
-                        }
-                        
-                        Button(action: {
-                        }) {
-                            Label("Favorite", systemImage: "heart")
-                        }
-                        
-                        Button(action: {
-                        }) {
-                            Label("Delete", systemImage: "trash")
-                                
-                        }
+                        Button(action: {}) { Label("Edit", systemImage: "pencil") }
+                        Button(action: {}) { Label("Share", systemImage: "square.and.arrow.up") }
+                        Button(action: {}) { Label("Favorite", systemImage: "heart") }
+                        Button(action: {}) { Label("Delete", systemImage: "trash") }
                     } label: {
                         ZStack {
                             Circle()
@@ -109,10 +70,11 @@ struct ListView: View {
                 }
 
                 ScrollView {
-                    ForEach(categories) { category in
+                    ForEach(viewModel.categories.indices, id: \.self) { categoryIndex in
+                        let category = viewModel.categories[categoryIndex]
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
-                                Text(category.name)
+                                Text(viewModel.formattedCategoryName(category.name))
                                     .font(.system(size: 22, weight: .bold))
                                     .foregroundColor(Color("GreenDark"))
                                 Spacer()
@@ -120,14 +82,16 @@ struct ListView: View {
                             .padding(.leading)
                             
                             VStack(spacing: 0) {
-                                ForEach(category.items.indices, id: \.self) { index in
+                                ForEach(category.items.indices, id: \.self) { itemIndex in
+                                    let item = category.items[itemIndex]
+                                    
                                     HStack {
                                         Circle()
                                             .stroke(Color("MainColor"), lineWidth: 2)
                                             .frame(width: 30, height: 30)
                                             .background(Circle().fill(Color("LightGreen")))
 
-                                        Text(category.items[index].name)
+                                        Text(item.name)
                                             .font(.system(size: 18))
                                             .fontWeight(.medium)
 
@@ -135,23 +99,19 @@ struct ListView: View {
 
                                         HStack(spacing: 0) {
                                             Button(action: {
-                                                if category.items[index].quantity > 0 {
-                                                    categories[categories.firstIndex(where: { $0.id == category.id })!]
-                                                        .items[index].quantity -= 1
-                                                }
+                                                viewModel.decreaseQuantity(for: categoryIndex, itemIndex: itemIndex)
                                             }) {
                                                 Image(systemName: "minus.circle.fill")
                                                     .foregroundColor(Color("gray1"))
                                                     .font(.system(size: 30))
                                             }
                                             
-                                            Text("\(category.items[index].quantity)")
+                                            Text("\(category.items[itemIndex].quantity)")
                                                 .font(.title3)
                                                 .frame(width: 30)
                                             
                                             Button(action: {
-                                                categories[categories.firstIndex(where: { $0.id == category.id })!]
-                                                    .items[index].quantity += 1
+                                                viewModel.increaseQuantity(for: categoryIndex, itemIndex: itemIndex)
                                             }) {
                                                 Image(systemName: "plus.circle.fill")
                                                     .foregroundColor(Color("MainColor"))
@@ -159,15 +119,13 @@ struct ListView: View {
                                             }
                                         }
                                         
-                                        
-                                        
                                     }
-                                    .frame(width: 320, height: 70)
+                                    .frame(width: 350, height: 70)
                                     .padding(.vertical, 10)
                                     .padding(.horizontal)
                                     .background(Color("bakgroundTap"))
                                     
-                                    if index != category.items.count - 1 {
+                                    if itemIndex != category.items.count - 1 {
                                         Divider()
                                             .padding(.horizontal)
                                     }
@@ -181,13 +139,24 @@ struct ListView: View {
                         .padding(.top)
                     }
                 }
-
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
-#Preview {
-    ListView()
+struct ListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ListView(categories: [
+            GroceryCategory(name: "bakery", items: [
+                GroceryItem(name: "Bread", quantity: 2),
+                GroceryItem(name: "Croissant", quantity: 5)
+            ]),
+            GroceryCategory(name: "fruits & vegetables", items: [
+                GroceryItem(name: "Apple", quantity: 4),
+                GroceryItem(name: "Banana", quantity: 3)
+            ])
+        ])
+    }
 }
