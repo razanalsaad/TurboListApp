@@ -1,10 +1,9 @@
 import SwiftUI
-
 struct ListsView: View {
     @State private var isBellTapped = false
     @State private var searchText = ""
     @State private var lists: [String] = []
-    
+    @StateObject private var vm = CloudKitUserBootcampViewModel()
     var body: some View {
         NavigationStack {
             ZStack {
@@ -22,11 +21,20 @@ struct ListsView: View {
                                 .stroke(Color("buttonColor"), lineWidth: 2)
                                 .frame(width: 50, height: 50)
 
-                            Image(systemName: "person")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(Color("GreenDark"))
+                            // Display the user's profile image or a placeholder icon if not available
+                            if let profileImage = vm.profileImage {
+                                Image(uiImage: profileImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                            } else {
+                                Image(systemName: "person.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(Color("GreenDark"))
+                            }
                         }
                         .padding(.leading)
                         
@@ -34,7 +42,8 @@ struct ListsView: View {
                             Text("Welcome")
                                 .font(.subheadline)
                                 .foregroundColor(Color("buttonColor"))
-                            Text("Ahad!")
+                            
+                            Text("\(vm.userName)")
                                 .font(.title2)
                                 .foregroundColor(Color("GreenDark"))
                                 .fontWeight(.bold)
@@ -42,7 +51,7 @@ struct ListsView: View {
                         
                         Spacer()
 
-                        // زر الجرس
+                        // Bell button for notifications
                         Button(action: {
                             isBellTapped.toggle()
                         }) {
@@ -109,7 +118,7 @@ struct ListsView: View {
 
     }
 
-    //العرض في حالة مافيه قوائم
+    // Empty state view when there are no lists
     var emptyStateView: some View {
         VStack {
             Image("arrow")
@@ -128,14 +137,13 @@ struct ListsView: View {
         }
     }
 
-    // عرض في حالة يوجد قوائم
+    // List view when there are lists
     var listView: some View {
         ScrollView {
             VStack {
                 ForEach(lists, id: \.self) { list in
                     GroceryListView()
                         .padding(.bottom, 10)
-
                 }
             }
             .padding(.leading)
