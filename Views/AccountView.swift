@@ -128,7 +128,7 @@ struct AccountView: View {
                                         .frame(width: 100, height: 100)
                                         .clipShape(Circle())
                                 } else {
-                                    Image(systemName: "person")
+                                    Image(systemName: "person.fill")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 60, height: 60)

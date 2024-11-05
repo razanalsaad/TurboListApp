@@ -3,6 +3,7 @@ import SwiftUI
 struct CreateListView: View {
     @StateObject private var viewModel = CreateListViewModel()
     @Environment(\.dismiss) var dismiss
+    @Environment(\.layoutDirection) var layoutDirection 
 
     var body: some View {
         NavigationView {
@@ -20,7 +21,7 @@ struct CreateListView: View {
                                 Circle()
                                     .fill(viewModel.isBellTapped ? Color("MainColor") : Color("GreenLight"))
                                     .frame(width: 40, height: 40)
-                                Image(systemName: "chevron.left")
+                                Image(systemName: layoutDirection == .rightToLeft ? "chevron.right" : "chevron.left")
                                     .resizable()
                                     .frame(width: 7, height: 12)
                                     .foregroundColor(viewModel.isBellTapped ? .white : Color("MainColor"))
@@ -54,7 +55,7 @@ struct CreateListView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.bottom)
+                    .padding(.top,30)
 
                     HStack {
                         Text("Items 🛒")
@@ -76,39 +77,44 @@ struct CreateListView: View {
                                     .frame(width: 40, height: 40)
                                 Image(systemName: "calendar.badge.clock")
                                     .resizable()
-                                    .frame(width: 25, height: 25)
+                                    .frame(width: 30, height: 25)
                                     .foregroundColor(viewModel.isBellTapped ? .white : Color("MainColor"))
+                                    .padding(.trailing , -5)
+
                             }
                         }
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
 
-                    ScrollView {  // وضع TextEditor داخل ScrollView
-                        CustomTextField(text: $viewModel.userInput, placeholder: "write down your list")
-                            .frame(width: 350, height: 590)
+                    ScrollView {
+                        CustomTextField(text: $viewModel.userInput, placeholder: NSLocalizedString("write_down_your_list", comment: "Prompt for the user to write their list"))
+                            .frame(width: 350, height: 650)
+                        
                             .cornerRadius(11.5)
-//                            .shadow(radius: 1)
+                        
                     }
-                    .ignoresSafeArea(.keyboard) // لمنع تحرك TextEditor عند ظهور لوحة المفاتيح
+                    
+                    .ignoresSafeArea(.keyboard)
                     
                     Spacer()
                 }
             }
-            .navigationBarBackButtonHidden(true)
             .toolbar {
                           ToolbarItem(placement: .navigationBarLeading) {
-                              EmptyView() // إخفاء زر الرجوع الافتراضي
+                              EmptyView()
                           }
         }
-    }
+    }            .navigationBarBackButtonHidden(true)
+
+}
+ 
+
 }
 struct CreateListView_Previews: PreviewProvider {
     static var previews: some View {
         CreateListView()
             .environmentObject(CreateListViewModel())
-            .previewLayout(.sizeThatFits)
-            .preferredColorScheme(.light)
-    }
+         
     }
 }

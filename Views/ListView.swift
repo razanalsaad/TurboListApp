@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct ListView: View {
-    
+    @Environment(\.layoutDirection) var layoutDirection // للحصول على اتجاه الواجهة
     @ObservedObject private var viewModel: ListViewModel
+    
     
     init(categories: [GroceryCategory]) {
         self.viewModel = ListViewModel(categories: categories)
@@ -20,12 +21,13 @@ struct ListView: View {
             VStack {
                 HStack {
                     Button(action: {
+                        
                     }) {
                         ZStack {
                             Circle()
                                 .fill(Color("GreenLight"))
                                 .frame(width: 40, height: 40)
-                            Image(systemName: "chevron.left")
+                            Image(systemName: layoutDirection == .rightToLeft ? "chevron.right" : "chevron.left")
                                 .resizable()
                                 .frame(width: 7, height: 12)
                                 .foregroundColor(Color.green)
@@ -58,7 +60,7 @@ struct ListView: View {
                     }
                 }
                 .padding(.horizontal)
-                .padding(.top, 10)
+                .padding(.top, 20)
                 
                 HStack {
                     Text("Items 🛒")
@@ -68,6 +70,7 @@ struct ListView: View {
                         .padding(.leading)
                     Spacer()
                 }
+                .padding(.top , 15)
 
                 ScrollView {
                     ForEach(viewModel.categories.indices, id: \.self) { categoryIndex in
@@ -77,10 +80,11 @@ struct ListView: View {
                                 Text(viewModel.formattedCategoryName(category.name))
                                     .font(.system(size: 22, weight: .bold))
                                     .foregroundColor(Color("GreenDark"))
+                                    .padding(.horizontal, 16)
+
                                 Spacer()
                             }
-                            .padding(.leading)
-                            
+                            .padding(layoutDirection == .leftToRight ? .leading : .trailing)
                             VStack(spacing: 0) {
                                 ForEach(category.items.indices, id: \.self) { itemIndex in
                                     let item = category.items[itemIndex]
@@ -97,7 +101,7 @@ struct ListView: View {
 
                                         Spacer()
 
-                                        HStack(spacing: 0) {
+                                        HStack(spacing: 1) {
                                             Button(action: {
                                                 viewModel.decreaseQuantity(for: categoryIndex, itemIndex: itemIndex)
                                             }) {
@@ -118,12 +122,13 @@ struct ListView: View {
                                                     .font(.system(size: 30))
                                             }
                                         }
-                                        
                                     }
-                                    .frame(width: 350, height: 70)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal)
+                                    .padding()
                                     .background(Color("bakgroundTap"))
+                                    .cornerRadius(8)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 75)
+                                    .padding(.horizontal)
                                     
                                     if itemIndex != category.items.count - 1 {
                                         Divider()
@@ -136,9 +141,8 @@ struct ListView: View {
                             .shadow(radius: 1)
                             .padding(.horizontal)
                         }
-                        .padding(.top)
-                    }
-                }
+                        .padding(.top, 20)
+                    }                }
                 Spacer()
             }
         }
@@ -158,5 +162,6 @@ struct ListView_Previews: PreviewProvider {
                 GroceryItem(name: "Banana", quantity: 3)
             ])
         ])
+        .environment(\.layoutDirection, .rightToLeft) // عرض RTL في المعاينة
     }
 }

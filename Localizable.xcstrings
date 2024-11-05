@@ -549,6 +549,40 @@
         }
       }
     },
+    "write down your list" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اكتب قائمتك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "write down your list"
+          }
+        }
+      }
+    },
+    "write_down_your_list" : {
+      "comment" : "Prompt for the user to write their list",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "اكتب قائمتك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "write down your list"
+          }
+        }
+      }
+    },
     "You do not have an account yet" : {
       "localizations" : {
         "ar" : {

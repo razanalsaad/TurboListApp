@@ -25,7 +25,6 @@ class CloudKitManager {
         }
     }
 
-    // Fetch all records of a specific type
     func fetchRecords(recordType: String, completion: @escaping (Result<[CKRecord], Error>) -> Void) {
         let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
         publicDB.perform(query, inZoneWith: nil) { results, error in

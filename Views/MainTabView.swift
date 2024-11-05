@@ -16,9 +16,8 @@ struct MainTabView: View {
                 
                 VStack {
                     Spacer()
-                    HStack(spacing: 100) {
+                    HStack(spacing: 108) {
                         
-                        // التبويب الأول مع ميزات إمكانية الوصول
                         Button(action: {
                             selectedTab = 0
                         }) {

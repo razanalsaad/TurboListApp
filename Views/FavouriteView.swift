@@ -29,11 +29,17 @@ struct FavouriteView: View {
                                 .frame(width: 50, height: 50)
                                 .clipShape(Circle())
                         } else {
-                            Image(systemName: "person.circle")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50, height: 50)
-                                .foregroundColor(Color("GreenDark"))
+                            ZStack {
+                                Circle()
+                                    .stroke(Color("GreenLight"), lineWidth: 4)
+                                    .frame(width: 50, height: 50)
+                                
+                                Image(systemName: "person.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(Color("buttonColor"))
+                            }
                         }
                     }
                     .padding(.leading)

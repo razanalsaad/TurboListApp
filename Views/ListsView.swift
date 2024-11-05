@@ -1,9 +1,12 @@
 import SwiftUI
+
 struct ListsView: View {
     @State private var isBellTapped = false
     @State private var searchText = ""
     @State private var lists: [String] = []
     @StateObject private var vm = CloudKitUserBootcampViewModel()
+    @Environment(\.layoutDirection) var layoutDirection // Get the current layout direction
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -18,7 +21,7 @@ struct ListsView: View {
                     HStack {
                         ZStack {
                             Circle()
-                                .stroke(Color("buttonColor"), lineWidth: 2)
+                                .stroke(Color("GreenLight"), lineWidth: 2)
                                 .frame(width: 50, height: 50)
 
                             if let profileImage = vm.profileImage {
@@ -28,11 +31,17 @@ struct ListsView: View {
                                     .frame(width: 50, height: 50)
                                     .clipShape(Circle())
                             } else {
-                                Image(systemName: "person.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(Color("GreenDark"))
+                                ZStack {
+                                    Circle()
+                                        .stroke(Color("GreenLight"), lineWidth: 4)
+                                        .frame(width: 50, height: 50)
+                                    
+                                    Image(systemName: "person.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(Color("buttonColor"))
+                                }
                             }
                         }
                         .padding(.leading)
@@ -113,18 +122,21 @@ struct ListsView: View {
                         .frame(height: -90)
                 }
             }
-        }            .navigationBarBackButtonHidden(true)
+        }
+        .navigationBarBackButtonHidden(true)
     }
 
     var emptyStateView: some View {
         VStack {
             Image("arrow")
                 .resizable()
-                .frame(width: 190, height: 140)
+                .frame(width: 250, height: 170)
                 .foregroundColor(.green)
-                .rotationEffect(.degrees(7))
-                .padding(.leading , -10)
-                .offset(y: -20)
+                .rotationEffect(layoutDirection == .rightToLeft ? .degrees(-7) : .degrees(7))
+                .scaleEffect(x: layoutDirection == .rightToLeft ? -1 : 1, y: 1)
+                .padding(layoutDirection == .rightToLeft ? .trailing : .leading, -10)
+                .offset(x: layoutDirection == .rightToLeft ? 10 : -10, y: -20)
+
 
             Text("Create first list")
                 .foregroundColor(Color("buttonColor"))
