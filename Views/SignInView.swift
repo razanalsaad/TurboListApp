@@ -1,11 +1,15 @@
 import SwiftUI
 import AuthenticationServices
+import Combine
 
+class UserSession: ObservableObject {
+    @Published var userID: String? // Store user ID here
+}
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isGuest: Bool = false
     @State private var isSignedIn: Bool = false
-    
+    @EnvironmentObject var userSession: UserSession
     var body: some View {
         NavigationStack {
             ZStack {
@@ -73,11 +77,11 @@ struct SignInView: View {
                 .frame(maxHeight: .infinity, alignment: .top)
                 .padding(.top, 270)
                 
-                // Navigation to MainTabView after successful sign-in
-                NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isSignedIn) {
+                NavigationLink(destination: MainTabView().environmentObject(userSession).navigationBarBackButtonHidden(true), isActive: $isSignedIn) {
                     EmptyView()
                         .accessibilityHidden(true)
                 }
+
             }
         }
     }
@@ -91,6 +95,9 @@ struct SignInView: View {
             print("User ID: \(userIdentifier)")
             if let name = fullName {
                 print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
+                // Save the user ID to the shared session
+                           userSession.userID = userIdentifier
+                           
             }
             if let email = email {
                 print("User Email: \(email)")

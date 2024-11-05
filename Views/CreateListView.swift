@@ -1,9 +1,18 @@
 import SwiftUI
+import Combine
 
 struct CreateListView: View {
-    @StateObject private var viewModel = CreateListViewModel()
     @Environment(\.dismiss) var dismiss
-    @Environment(\.layoutDirection) var layoutDirection 
+    @Environment(\.layoutDirection) var layoutDirection
+    @StateObject private var viewModel: CreateListViewModel
+    
+    @State private var newListName: String = ""
+    @State private var isCreatingNewList = false
+
+    // Initializer that accepts a UserSession
+    init(userSession: UserSession) {
+        _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
+    }
 
     var body: some View {
         NavigationView {
@@ -15,6 +24,7 @@ struct CreateListView: View {
                     .ignoresSafeArea()
                 
                 VStack {
+                    // Your existing UI code...
                     HStack {
                         Button(action: { dismiss() }) {
                             ZStack {
@@ -39,8 +49,11 @@ struct CreateListView: View {
 
                         NavigationLink(destination: ListView(categories: viewModel.categorizedProducts), isActive: $viewModel.showResults) {
                             Button(action: {
+                                viewModel.saveListToCloudKit(userSession: viewModel.userSession)  // Save the list to CloudKit
                                 viewModel.classifyProducts()
                                 viewModel.showResults = true
+                            
+                                //dismiss()  // Optionally dismiss the view after saving
                             }) {
                                 ZStack {
                                     Circle()
@@ -55,7 +68,7 @@ struct CreateListView: View {
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.top,30)
+                    .padding(.top, 30)
 
                     HStack {
                         Text("Items 🛒")
@@ -79,8 +92,7 @@ struct CreateListView: View {
                                     .resizable()
                                     .frame(width: 30, height: 25)
                                     .foregroundColor(viewModel.isBellTapped ? .white : Color("MainColor"))
-                                    .padding(.trailing , -5)
-
+                                    .padding(.trailing, -5)
                             }
                         }
                     }
@@ -90,31 +102,39 @@ struct CreateListView: View {
                     ScrollView {
                         CustomTextField(text: $viewModel.userInput, placeholder: NSLocalizedString("write_down_your_list", comment: "Prompt for the user to write their list"))
                             .frame(width: 350, height: 650)
-                        
                             .cornerRadius(11.5)
-                        
                     }
-                    
                     .ignoresSafeArea(.keyboard)
                     
                     Spacer()
                 }
             }
-            .toolbar {
-                          ToolbarItem(placement: .navigationBarLeading) {
-                              EmptyView()
-                          }
         }
-    }            .navigationBarBackButtonHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .onReceive(NotificationCenter.default.publisher(for: .navigateToCreateListView)) { notification in
+            if let items = notification.object as? [GroceryItem], let listName = notification.userInfo?["listName"] as? String {
+                // Update the view model with previous data
+                viewModel.listName = listName
+                viewModel.userInput = items.map { "\($0.quantity) x \($0.name)" }.joined(separator: ", ")
+                
+                // Trigger navigation to show the view with the updated data
+                viewModel.showResults = false // Ensure it goes back to CreateListView if needed
+            }
+        }
 
-}
- 
 
+    }
+    
 }
+extension Notification.Name {
+    static let navigateToCreateListView = Notification.Name("navigateToCreateListView")
+}
+
+
 struct CreateListView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateListView()
-            .environmentObject(CreateListViewModel())
-         
+        let userSession = UserSession() // Use your mock session
+        CreateListView(userSession: userSession)
     }
 }
+

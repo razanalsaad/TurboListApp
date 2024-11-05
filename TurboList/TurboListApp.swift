@@ -23,7 +23,7 @@ extension View {
 struct TurboListApp: App {
     @AppStorage("isOnboardingComplete") private var isOnboardingComplete = false // تخزين حالة الأونبوردنق
     @State private var isSplashScreenActive = true // حالة التحكم بظهور شاشة السبلاش
-
+    @StateObject var userSession = UserSession() // Create UserSession as a StateObject
     var body: some Scene {
         WindowGroup {
             if isSplashScreenActive {
@@ -40,6 +40,7 @@ struct TurboListApp: App {
                 if isOnboardingComplete {
                     SignInView() // الانتقال إلى شاشة تسجيل الدخول إذا كان الأونبوردنق مكتملًا
                         .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة تسجيل الدخول
+                        .environmentObject(userSession) // Inject userSession into the environment
                 } else {
                     OnboardingView(isOnboardingComplete: $isOnboardingComplete) // عرض شاشة الأونبوردنق
                         .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة الأونبوردنق

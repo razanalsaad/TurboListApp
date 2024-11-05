@@ -3,6 +3,7 @@ import SwiftUI
 struct FavouriteView: View {
     @State private var isBellTapped = false
     @StateObject private var vm = CloudKitUserBootcampViewModel()
+    @EnvironmentObject var userSession: UserSession
     var body: some View {
 
         ZStack {

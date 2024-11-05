@@ -11,7 +11,6 @@
 		5A06E1FD2CD8B47B0061D8C2 /* GroceryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E1FC2CD8B47B0061D8C2 /* GroceryModels.swift */; };
 		5A06E2002CD8B4C10061D8C2 /* CreateListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */; };
 		5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */; };
-		5A06E2082CD8B65B0061D8C2 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E2072CD8B65B0061D8C2 /* MyFA10.mlmodel */; };
 		5A06E20A2CD8B94C0061D8C2 /* on2_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */; };
 		5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */; };
 		5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */; };
@@ -40,6 +39,7 @@
 		A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */; };
 		EE23B3BA2CD86E7D003C870E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */; };
 		EE2992D92CD29A8700BBC843 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		EEB404252CD9F2CE00F61876 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,6 @@
 		5A06E1FC2CD8B47B0061D8C2 /* GroceryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryModels.swift; sourceTree = "<group>"; };
 		5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewModel.swift; sourceTree = "<group>"; };
 		5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
-		5A06E2072CD8B65B0061D8C2 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MyFA10.mlmodel; path = ../../Desktop/MyFA10.mlmodel; sourceTree = "<group>"; };
 		5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on2_dark.gif; path = ../../../Downloads/on2_dark.gif; sourceTree = "<group>"; };
 		5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EE2992D62CD288A400BBC843 /* TurboList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurboList.entitlements; sourceTree = "<group>"; };
+		EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MyFA10.mlmodel; path = ../../Downloads/ViewModels2/MyFA10.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,8 +155,8 @@
 		A55C1BBA2CC104A100F3F9C0 = {
 			isa = PBXGroup;
 			children = (
+				EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */,
 				EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */,
-				5A06E2072CD8B65B0061D8C2 /* MyFA10.mlmodel */,
 				5AE597DE2CD959EF00EF059B /* Cloudkit */,
 				5A06E1F12CD8B0A20061D8C2 /* Models */,
 				5A06E1F22CD8B0C60061D8C2 /* ViewModels */,
@@ -286,6 +286,7 @@
 				5AE597E42CD95A8F00EF059B /* Item.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
 				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
+				EEB404252CD9F2CE00F61876 /* MyFA10.mlmodel in Sources */,
 				EE2992D92CD29A8700BBC843 /* (null) in Sources */,
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
@@ -294,7 +295,6 @@
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
 				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
-				5A06E2082CD8B65B0061D8C2 /* MyFA10.mlmodel in Sources */,
 				5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */,
 				5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */,
 				5AE597E22CD95A6500EF059B /* CloudKitUtility.swift in Sources */,

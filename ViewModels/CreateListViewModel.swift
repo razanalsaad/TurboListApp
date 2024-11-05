@@ -10,14 +10,25 @@ import Foundation
 import SwiftUI
 import CoreML
 
+import CloudKit
+import AuthenticationServices
 class CreateListViewModel: ObservableObject {
-    
+
     @Published var isBellTapped: Bool = false
     @Published var listName: String = ""
     @Published var userInput: String = ""
     @Published var categorizedProducts: [GroceryCategory] = []
     @Published var showResults = false
-    
+    private var database = CKContainer.default().publicCloudDatabase
+      @Published var items: [Item] = []
+      @Published var sharedLists: [SharedList] = []
+
+    var userSession: UserSession // Store the user session
+    // Initializer that accepts a UserSession
+       init(userSession: UserSession) {
+           self.userSession = userSession
+           // Any additional setup
+       }
     private var model: MyFA10? = {
         do {
             return try MyFA10(configuration: MLModelConfiguration())
@@ -26,7 +37,86 @@ class CreateListViewModel: ObservableObject {
             return nil
         }
     }()
+    // MARK: - Fetch Items for a Specific List
+     func fetchItems(for listId: CKRecord.Reference) {
+         let query = CKQuery(recordType: "Item", predicate: NSPredicate(format: "list_id == %@", listId))
+         
+         database.perform(query, inZoneWith: nil) { [weak self] records, error in
+             if let error = error {
+                 print("Error fetching items: \(error.localizedDescription)")
+                 return
+             }
+             guard let records = records else { return }
+             DispatchQueue.main.async {
+                 self?.items = records.map { Item(record: $0) }
+             }
+         }
+     }
+    // MARK: - Save a New Item
+    func saveItem(name: String, quantity: Int64, listId: CKRecord.Reference, categories: [String]) {
+        let newItem = Item(itemId: UUID(), nameItem: name, numberOfItem: quantity, listId: listId, categories: categories)
+        
+        // Create a new CKRecord using the `toRecord` method
+        let record = newItem.toRecord()
+
+        // Save the record to CloudKit
+        database.save(record) { [weak self] savedRecord, error in
+            if let error = error {
+                print("Error saving item: \(error.localizedDescription)")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if let savedRecord = savedRecord {
+                    self?.items.append(Item(record: savedRecord))
+                }
+            }
+        }
+    }
+
+
     
+    // MARK: - Fetch Shared Lists
+    func fetchSharedLists(for userId: CKRecord.Reference) {
+        let query = CKQuery(recordType: "SharedList", predicate: NSPredicate(format: "owner_id == %@", userId))
+        
+        database.perform(query, inZoneWith: nil) { [weak self] records, error in
+            if let error = error {
+                print("Error fetching shared lists: \(error.localizedDescription)")
+                return
+            }
+            guard let records = records else { return }
+            DispatchQueue.main.async {
+                self?.sharedLists = records.map { SharedList(record: $0) }
+            }
+        }
+    }
+    // MARK: - Share a List
+    func shareList(ownerId: CKRecord.Reference, listId: CKRecord.Reference) {
+        // Initialize a new SharedList
+        let sharedList = SharedList(ownerId: ownerId, listId: listId)
+        
+        // Convert the SharedList to a CKRecord
+        let record = sharedList.toRecord()
+
+        // Save the CKRecord to CloudKit
+        database.save(record) { [weak self] savedRecord, error in
+            if let error = error {
+                print("Error sharing list: \(error.localizedDescription)")
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let savedRecord = savedRecord {
+                    // Initialize a new SharedList from the saved CKRecord and append it to sharedLists
+                    self?.sharedLists.append(SharedList(record: savedRecord))
+                }
+            }
+        }
+    }
+
+  
+
     func classifyProducts() {
         guard let model = model else {
             categorizedProducts = [GroceryCategory(name: "Model not available", items: [])]
@@ -119,3 +209,32 @@ class CreateListViewModel: ObservableObject {
         return newText
     }
 }
+
+extension CreateListViewModel {
+    
+    func saveListToCloudKit(userSession: UserSession) {
+        let newList = CKRecord(recordType: "List")
+        newList["list_name"] = listName as CKRecordValue
+        newList["isShared"] = false as CKRecordValue // or true, depending on the logic
+        newList["created_at"] = Date() as CKRecordValue
+        newList["updated_at"] = Date() as CKRecordValue
+        newList["list_total_item"] = 0 as CKRecordValue // assuming new list has no items yet
+        
+        // Use the user ID from UserSession
+        if let userID = userSession.userID {
+            let userReference = CKRecord.Reference(recordID: CKRecord.ID(recordName: userID), action: .deleteSelf)
+            newList["owned_id"] = userReference
+        }
+        
+        CKContainer.default().publicCloudDatabase.save(newList) { record, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error saving list: \(error.localizedDescription)")
+                } else {
+                    print("List saved successfully")
+                }
+            }
+        }
+    }
+}
+

@@ -9,25 +9,33 @@
 import SwiftUI
 import CloudKit
 import Combine
-// MARK: - SharedList Model
-struct SharedList {
-    var recordID: CKRecord.ID?
-    var sharedListId: UUID
-    var ownerId: CKRecord.Reference // Reference to the user who shared the list
-    var listId: CKRecord.Reference  // Reference to the list being shared
+import CloudKit
 
+struct SharedList {
+    var sharedListId: UUID
+    var ownerId: CKRecord.Reference
+    var listId: CKRecord.Reference
+
+    // Convert SharedList to CKRecord for saving to CloudKit
     func toRecord() -> CKRecord {
         let record = CKRecord(recordType: "SharedList")
-        record["id"] = sharedListId.uuidString as CKRecordValue
+        record["shared_list_id"] = sharedListId.uuidString as CKRecordValue
         record["owner_id"] = ownerId
         record["list_id"] = listId
         return record
     }
 
+    // Initialize SharedList from a CKRecord
     init(record: CKRecord) {
-        self.recordID = record.recordID
-        self.sharedListId = UUID(uuidString: record["id"] as! String) ?? UUID()
+        self.sharedListId = UUID(uuidString: record["shared_list_id"] as! String) ?? UUID()
         self.ownerId = record["owner_id"] as! CKRecord.Reference
         self.listId = record["list_id"] as! CKRecord.Reference
+    }
+
+    // Convenience initializer for new SharedList (no CKRecord yet)
+    init(sharedListId: UUID = UUID(), ownerId: CKRecord.Reference, listId: CKRecord.Reference) {
+        self.sharedListId = sharedListId
+        self.ownerId = ownerId
+        self.listId = listId
     }
 }

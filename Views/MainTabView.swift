@@ -2,16 +2,19 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selectedTab: Int = 0
-    
+    @StateObject var userSession = UserSession() // Create UserSession as a StateObject
     var body: some View {
         NavigationStack {
             ZStack {
                 if selectedTab == 0 {
                     ListsView()
+                        .environmentObject(userSession) // Pass UserSession to ListsView
                 } else if selectedTab == 1 {
                     FavouriteView()
+                        .environmentObject(userSession) // Pass UserSession to FavouriteView
                 } else {
                     AccountView()
+                        .environmentObject(userSession) // Pass UserSession to AccountView
                 }
                 
                 VStack {
@@ -75,6 +78,7 @@ struct MainTabView: View {
                 .edgesIgnoringSafeArea(.bottom)
             }
             .navigationBarBackButtonHidden(true) // إخفاء زر الرجوع
+            
         }
     }
 }

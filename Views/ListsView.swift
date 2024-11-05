@@ -2,11 +2,20 @@ import SwiftUI
 
 struct ListsView: View {
     @State private var isBellTapped = false
-    @State private var searchText = ""
-    @State private var lists: [String] = []
-    @StateObject private var vm = CloudKitUserBootcampViewModel()
-    @Environment(\.layoutDirection) var layoutDirection // Get the current layout direction
-    
+     @State private var searchText = ""
+     @State private var lists: [String] = []
+     
+     @StateObject private var vm = CloudKitUserBootcampViewModel() // Keep this for CloudKit-related actions
+     @StateObject private var viewModel: CreateListViewModel // For handling list creation
+     
+     @Environment(\.layoutDirection) var layoutDirection
+     @EnvironmentObject var userSession: UserSession // Injected via environment
+
+     init() {
+         // Initialize viewModel here
+         let userSession = UserSession() // Placeholder, should be injected via Environment
+         _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
+     }
     var body: some View {
         NavigationStack {
             ZStack {
@@ -96,7 +105,7 @@ struct ListsView: View {
                     .padding(.vertical)
 
                     HStack {
-                        NavigationLink(destination: CreateListView()) {
+                        NavigationLink(destination: CreateListView(userSession: viewModel.userSession)) {
                             Image(systemName: "plus.circle.fill")
                                 .resizable()
                                 .frame(width: 36, height: 36)
@@ -160,6 +169,10 @@ struct ListsView: View {
     }
 }
 
-#Preview {
-    ListsView()
+struct ListsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let userSession = UserSession()
+        ListsView()
+            .environmentObject(userSession) // Inject userSession here for preview
+    }
 }

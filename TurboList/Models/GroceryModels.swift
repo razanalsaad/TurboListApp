@@ -6,14 +6,18 @@
 
 import Foundation
 
+
 struct GroceryItem: Identifiable {
-    let id = UUID()
-    let name: String
+    let id = UUID()  // unique identifier
+    var name: String
     var quantity: Int
+    var isSelected: Bool = false
 }
 
 struct GroceryCategory: Identifiable {
     let id = UUID()
-    let name: String
+    var name: String
     var items: [GroceryItem]
 }
+
+

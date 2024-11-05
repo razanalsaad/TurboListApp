@@ -1,28 +1,27 @@
 import SwiftUI
+import CloudKit
 
 struct ListView: View {
-    @Environment(\.layoutDirection) var layoutDirection // للحصول على اتجاه الواجهة
+    @Environment(\.layoutDirection) var layoutDirection
+   
     @ObservedObject private var viewModel: ListViewModel
-    
-    
-    init(categories: [GroceryCategory]) {
-        self.viewModel = ListViewModel(categories: categories)
-    }
+       @State private var updatedItems: [GroceryCategory]
+       
+       init(categories: [GroceryCategory]) {
+           self.viewModel = ListViewModel(categories: categories)
+           self._updatedItems = State(initialValue: categories)
+       }
+       
+
     
     var body: some View {
         ZStack {
-            Color("backgroundAppColor")
-                .ignoresSafeArea()
-
-            Image("Background")
-                .resizable()
-                .ignoresSafeArea()
+            Color("backgroundAppColor").ignoresSafeArea()
+            Image("Background").resizable().ignoresSafeArea()
             
             VStack {
                 HStack {
-                    Button(action: {
-                        
-                    }) {
+                    Button(action: {}) {
                         ZStack {
                             Circle()
                                 .fill(Color("GreenLight"))
@@ -33,20 +32,37 @@ struct ListView: View {
                                 .foregroundColor(Color.green)
                         }
                     }
-                    
                     Spacer()
-
                     Text("My grocery list")
                         .font(.system(size: 22, weight: .bold))
                         .multilineTextAlignment(.center)
-                    
                     Spacer()
-
                     Menu {
-                        Button(action: {}) { Label("Edit", systemImage: "pencil") }
-                        Button(action: {}) { Label("Share", systemImage: "square.and.arrow.up") }
-                        Button(action: {}) { Label("Favorite", systemImage: "heart") }
-                        Button(action: {}) { Label("Delete", systemImage: "trash") }
+                        Button(action: {
+                            // Get all items as a flat list
+                                    let allItems = updatedItems.flatMap { $0.items }
+                                    
+                                    // Post a notification to navigate back to CreateListView
+                            // Post the notification
+                                NotificationCenter.default.post(
+                                    name: .navigateToCreateListView,
+                                    object: allItems, // Pass items back for editing
+                                    userInfo: ["listName": "Your List Name"] // Replace with the actual list name as needed
+                                )
+                        })
+                        {
+                        Label("Edit", systemImage: "pencil")
+                        }
+                        Button(action: {
+                            viewModel.shareList() }) {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                        Button(action: { viewModel.saveToFavorites() }) {
+                            Label("Favorite", systemImage: "heart")
+                        }
+                        Button(action: { viewModel.deleteListAndMoveToMain() }) {
+                            Label("Delete", systemImage: "trash")
+                        }
                     } label: {
                         ZStack {
                             Circle()
@@ -75,29 +91,45 @@ struct ListView: View {
                 ScrollView {
                     ForEach(viewModel.categories.indices, id: \.self) { categoryIndex in
                         let category = viewModel.categories[categoryIndex]
+                        
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
                                 Text(viewModel.formattedCategoryName(category.name))
                                     .font(.system(size: 22, weight: .bold))
                                     .foregroundColor(Color("GreenDark"))
                                     .padding(.horizontal, 16)
-
                                 Spacer()
                             }
                             .padding(layoutDirection == .leftToRight ? .leading : .trailing)
+
+                            // Now loop over the items inside this category
                             VStack(spacing: 0) {
                                 ForEach(category.items.indices, id: \.self) { itemIndex in
                                     let item = category.items[itemIndex]
                                     
                                     HStack {
-                                        Circle()
-                                            .stroke(Color("MainColor"), lineWidth: 2)
-                                            .frame(width: 30, height: 30)
-                                            .background(Circle().fill(Color("LightGreen")))
-
+                                        Button(action: {
+                                            viewModel.toggleItemSelection(for: categoryIndex, itemIndex: itemIndex)
+                                        }) {
+                                            ZStack {
+                                                Circle()
+                                                    .fill(item.isSelected ? Color("MainColor") : Color.clear)
+                                                    .frame(width: 30, height: 30)
+                                                    .overlay(
+                                                        Circle().stroke(Color("MainColor"), lineWidth: 2)
+                                                    )
+                                                if item.isSelected {
+                                                    Image(systemName: "checkmark")
+                                                        .foregroundColor(.white)
+                                                }
+                                            }
+                                        }
+                                        
                                         Text(item.name)
                                             .font(.system(size: 18))
                                             .fontWeight(.medium)
+                                            .strikethrough(item.isSelected, color: Color("nameColor"))
+                                            .foregroundColor(Color("nameColor"))
 
                                         Spacer()
 
@@ -129,7 +161,7 @@ struct ListView: View {
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 75)
                                     .padding(.horizontal)
-                                    
+
                                     if itemIndex != category.items.count - 1 {
                                         Divider()
                                             .padding(.horizontal)
@@ -142,7 +174,9 @@ struct ListView: View {
                             .padding(.horizontal)
                         }
                         .padding(.top, 20)
-                    }                }
+                    }
+                }
+
                 Spacer()
             }
         }
@@ -152,16 +186,24 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView(categories: [
-            GroceryCategory(name: "bakery", items: [
+        // Create mock data for testing
+        let groceryItems: [GroceryCategory] = [
+            GroceryCategory(name: "Bakery", items: [
                 GroceryItem(name: "Bread", quantity: 2),
                 GroceryItem(name: "Croissant", quantity: 5)
             ]),
-            GroceryCategory(name: "fruits & vegetables", items: [
+            GroceryCategory(name: "Fruits & Vegetables", items: [
                 GroceryItem(name: "Apple", quantity: 4),
                 GroceryItem(name: "Banana", quantity: 3)
             ])
-        ])
-        .environment(\.layoutDirection, .rightToLeft) // عرض RTL في المعاينة
+        ]
+        
+        // Pass the categories into ListView
+        ListView(categories: groceryItems)
+            .environment(\.layoutDirection, .rightToLeft) // Optional RTL layout
+            .previewLayout(.sizeThatFits)
     }
 }
+
+
+

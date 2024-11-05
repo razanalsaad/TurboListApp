@@ -5,7 +5,7 @@ import PhotosUI
 import AuthenticationServices
 
 class CloudKitUserBootcampViewModel: ObservableObject {
-    
+    @EnvironmentObject var userSession: UserSession
     @Published var permissionStatus: Bool = false
     @Published var isSignedInToiCloud: Bool = false
     @Published var error: String = ""
