@@ -2,19 +2,19 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct OnboardingView: View {
-    @State private var currentPage = 0
-    @State private var isOnboardingComplete = false
-    @Environment(\.colorScheme) var colorScheme 
+    @State private var currentPage = 0 // الصفحة الحالية من الأونبوردنق
+    @Binding var isOnboardingComplete: Bool // يربط هذه الحالة بمتغير في TurboListApp
+    @Environment(\.colorScheme) var colorScheme
     
     let onboardingData = [
-        OnboardingData(gifName: "on2", darkGifName: "on2_dark", title: "Sort", description: "Organize your grocery items using AI-powered categorization sorting them by category."),
-        OnboardingData(gifName: "on1", darkGifName: "on1_dark", title: "Collaborative", description: "Multiple users to collaborate with instant updates to shared grocery lists.")
+        OnboardingData(gifName: "on2", darkGifName: "on2_dark", title: NSLocalizedString("Sort", comment: ""), description: NSLocalizedString("Organize your grocery items using AI-powered categorization sorting them by category.", comment: "")),
+        OnboardingData(gifName: "on1", darkGifName: "on1_dark", title: NSLocalizedString("Collaborative", comment: ""), description: NSLocalizedString("Multiple users to collaborate with instant updates to shared grocery lists.", comment: ""))
     ]
     
     var body: some View {
         ZStack {
             if isOnboardingComplete {
-                MainTabView() // Navigate to homepage
+                MainTabView()
             } else {
                 Color("backgroundAppColor")
                     .ignoresSafeArea()
@@ -22,14 +22,14 @@ struct OnboardingView: View {
                 Image("OnboardingBackground")
                     .ignoresSafeArea()
                     .offset(y: -140)
-                    .accessibilityHidden(true) // Mark as decorative for VoiceOver
+                    .accessibilityHidden(true) // تجاهل الخلفية في أوضاع إمكانية الوصول
 
                 VStack {
                     HStack {
                         Spacer()
                         Button(action: {
                             print("Skipped Onboarding")
-                            isOnboardingComplete = true // Skip to homepage
+                            isOnboardingComplete = true // تجاوز الأونبوردنق
                         }) {
                             Text("Skip")
                                 .foregroundColor(Color("buttonColor"))
@@ -56,14 +56,14 @@ struct OnboardingView: View {
                                     Text(onboardingData[index].title)
                                         .font(.system(size: 28, weight: .bold, design: .default))
                                         .foregroundColor(Color("buttonColor"))
-                                        .accessibilityAddTraits(.isHeader) // Treat title as a header
+                                        .accessibilityAddTraits(.isHeader)
                                     
                                     Text(onboardingData[index].description)
                                         .font(.system(size: 13, weight: .bold, design: .default))
                                         .foregroundColor(Color("buttonColor"))
                                         .multilineTextAlignment(.center)
                                         .frame(width: 300, height: 80)
-                                        .accessibilityLabel(onboardingData[index].description) // Provide detailed description
+                                        .accessibilityLabel(onboardingData[index].description)
                                 }
                                 .offset(y: -170)
 
@@ -72,7 +72,7 @@ struct OnboardingView: View {
                                         Circle()
                                             .frame(width: 8, height: 8)
                                             .foregroundColor(currentPage == dotIndex ? Color("MainColor") : Color("gray1"))
-                                            .accessibilityHidden(true) // Hide pagination dots from VoiceOver
+                                            .accessibilityHidden(true)
                                     }
                                 }.offset(y: -160)
                             }
@@ -89,7 +89,7 @@ struct OnboardingView: View {
                     Button(action: {
                         if currentPage == onboardingData.count - 1 {
                             print("Onboarding Completed")
-                            isOnboardingComplete = true // Navigate to homepage
+                            isOnboardingComplete = true // إنهاء الأونبوردنق
                         } else {
                             withAnimation {
                                 currentPage += 1
@@ -108,19 +108,21 @@ struct OnboardingView: View {
                 .position(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 250)
             }
         }
-        .accessibilityElement(children: .combine) // Combine all elements into a single logical group
+        .accessibilityElement(children: .combine)
     }
 }
 
 struct OnboardingData {
     let gifName: String
-    let darkGifName: String // GIF مخصص للوضع الداكن
+    let darkGifName: String
     let title: String
     let description: String
 }
 
 struct OnboardingView_Previews: PreviewProvider {
+    @State static var isOnboardingComplete = false // إنشاء متغير State للمعاينة
+    
     static var previews: some View {
-        OnboardingView()
+        OnboardingView(isOnboardingComplete: $isOnboardingComplete) // تمرير المتغير كـ Binding
     }
 }

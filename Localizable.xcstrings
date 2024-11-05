@@ -61,6 +61,16 @@
         }
       }
     },
+    "Collaborative" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مشاركة"
+          }
+        }
+      }
+    },
     "Collaborative list" : {
       "localizations" : {
         "ar" : {
@@ -355,6 +365,16 @@
         }
       }
     },
+    "Multiple users to collaborate with instant updates to shared grocery lists." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إمكانية مشاركة عدة مستخدمين مع تحديثات فورية لقوائم البقالة المشتركة."
+          }
+        }
+      }
+    },
     "My grocery list" : {
       "localizations" : {
         "ar" : {
@@ -416,6 +436,16 @@
         }
       }
     },
+    "Organize your grocery items using AI-powered categorization sorting them by category." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نظم عناصر المقاضي الخاصه بك  باستخدام التصنيف المدعوم بالذكاء الاصطناعي وفرزها حسب الفئة"
+          }
+        }
+      }
+    },
     "Search lists" : {
       "localizations" : {
         "ar" : {
@@ -472,6 +502,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "الانتقال مباشرة إلى التطبيق الرئيسي"
+          }
+        }
+      }
+    },
+    "Sort" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تصنيف"
           }
         }
       }

@@ -18,10 +18,12 @@ extension View {
         self.modifier(DynamicTypeModifier()) // Use the custom modifier
     }
 }
+
 @main
 struct TurboListApp: App {
-    @State private var isSplashScreenActive = true
-    
+    @AppStorage("isOnboardingComplete") private var isOnboardingComplete = false // تخزين حالة الأونبوردنق
+    @State private var isSplashScreenActive = true // حالة التحكم بظهور شاشة السبلاش
+
     var body: some Scene {
         WindowGroup {
             if isSplashScreenActive {
@@ -29,17 +31,23 @@ struct TurboListApp: App {
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             withAnimation {
-                                isSplashScreenActive = false
+                                isSplashScreenActive = false // إنهاء عرض شاشة السبلاش بعد 3 ثوانٍ
                             }
                         }
                     }
-                    .applyDynamicType() // Apply globally
+                    .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة السبلاش
             } else {
-                SignInView()
-                    .applyDynamicType() // Apply globally
+                if isOnboardingComplete {
+                    SignInView() // الانتقال إلى شاشة تسجيل الدخول إذا كان الأونبوردنق مكتملًا
+                        .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة تسجيل الدخول
+                } else {
+                    OnboardingView(isOnboardingComplete: $isOnboardingComplete) // عرض شاشة الأونبوردنق
+                        .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة الأونبوردنق
+                }
             }
         }
     }
 }
+
 
 
