@@ -60,16 +60,16 @@ struct NotificationView: View {
                                     ]
                                     
                                     ForEach(notifications.indices, id: \.self) { index in
-                                        NavigationLink(destination: AccountView()) { // التنقل إلى AccountView
+                                        // Replace NavigationLink with HStack
+                                        HStack {
                                             NotificationItemView(icon: "bell.badge.circle", message: notifications[index])
                                         }
-                                        .buttonStyle(PlainButtonStyle())
                                         
                                         if index < notifications.count - 1 {
                                             Divider()
                                                 .frame(maxWidth: .infinity)
                                                 .background(Color("strokeColor"))
-                                                .padding(.horizontal, 20) 
+                                                .padding(.horizontal, 20)
                                         }
                                     }
                                 }

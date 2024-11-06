@@ -71,6 +71,10 @@ struct ListsView: View {
                         // Bell button for notifications
                         Button(action: {
                             isBellTapped.toggle()
+                            if isBellTapped {
+                                requestNotificationPermission()
+                            }
+                            
                         }) {
                             ZStack {
                                 Circle()
@@ -133,6 +137,20 @@ struct ListsView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+    }
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permission: \(error)")
+                return
+            }
+
+            if granted {
+                print("Notification permission granted.")
+            } else {
+                print("Notification permission denied.")
+            }
+        }
     }
 
     var emptyStateView: some View {

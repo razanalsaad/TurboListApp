@@ -3,7 +3,8 @@ import CloudKit
 
 struct ListView: View {
     @Environment(\.layoutDirection) var layoutDirection
-   
+    @State private var navigateToMainTab = false
+
     @ObservedObject private var viewModel: ListViewModel
        @State private var updatedItems: [GroceryCategory]
        
@@ -21,7 +22,8 @@ struct ListView: View {
             
             VStack {
                 HStack {
-                    Button(action: {}) {
+                    Button(action: {                        navigateToMainTab = true // Trigger navigation
+}) {
                         ZStack {
                             Circle()
                                 .fill(Color("GreenLight"))
@@ -181,6 +183,13 @@ struct ListView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .background(
+                  NavigationLink(destination: MainTabView(), isActive: $navigateToMainTab) {
+                      MainTabView()
+
+
+                  }
+              )
     }
 }
 

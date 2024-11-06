@@ -101,96 +101,98 @@ struct AccountView: View {
     @State private var isPickerPresented = false
     
     var body: some View {
-        Group {
-            if vm.isLoggedIn {
-                ZStack {
-                    Color("backgroundAppColor")
-                        .ignoresSafeArea()
+        NavigationStack {
+            Group {
+                if vm.isLoggedIn {
+                    ZStack {
+                        Color("backgroundAppColor")
+                            .ignoresSafeArea()
 
-                    Image("Background")
-                        .resizable()
-                        .ignoresSafeArea()
-                    
-                    VStack {
-                        VStack(spacing: 8) {
-                            ZStack {
-                                Circle()
-                                    .stroke(Color("GreenLight"), lineWidth: 8)
-                                    .frame(width: 120, height: 120)
-                                    .onTapGesture {
-                                        isPickerPresented = true
+                        Image("Background")
+                            .resizable()
+                            .ignoresSafeArea()
+                        
+                        VStack {
+                            VStack(spacing: 8) {
+                                ZStack {
+                                    Circle()
+                                        .stroke(Color("GreenLight"), lineWidth: 8)
+                                        .frame(width: 120, height: 120)
+                                        .onTapGesture {
+                                            isPickerPresented = true
+                                        }
+                                    
+                                    if let selectedImage = selectedImage {
+                                        Image(uiImage: selectedImage)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                    } else {
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 60, height: 60)
+                                            .foregroundColor(Color("buttonColor"))
                                     }
+                                }
+                                .sheet(isPresented: $isPickerPresented) {
+                                    ImagePicker(selectedImage: $selectedImage)
+                                }
+        
+                                TextField("Username", text: $vm.userName)
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color("GreenDark"))
+                                    .multilineTextAlignment(.center)
                                 
-                                if let selectedImage = selectedImage {
-                                    Image(uiImage: selectedImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 100, height: 100)
-                                        .clipShape(Circle())
-                                } else {
-                                    Image(systemName: "person.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 60, height: 60)
-                                        .foregroundColor(Color("buttonColor"))
+                                Text("@\(vm.userName)")
+                                    .foregroundColor(Color.gray)
+                                    .font(.subheadline)
+                            }
+                            .padding(.top, 40)
+                            
+                            Spacer().frame(height: 40)
+                            
+                            VStack(spacing: 0) {
+                                SettingRow(icon: "globe", title: NSLocalizedString("Language", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                    openAppSettings()
+                                }
+                                Divider()
+                                
+                                // Add NavigationLink inside SettingRow for NotificationView
+                                NavigationLink(destination: NotificationView()) {
+                                    SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {}
+                                }
+                                Divider()
+                                
+                                SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
+                                           title: colorScheme == .dark ? NSLocalizedString("Light Mode", comment: "") : NSLocalizedString("Dark Mode", comment: ""),
+                                           iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+                                    isDarkMode.toggle()
+                                    UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+                                }
+                                Divider()
+                                
+                                SettingRow(icon: "rectangle.portrait.and.arrow.right", title: NSLocalizedString("Log out", comment: ""), iconColor: Color("red22"), textColor: Color("red22")) {
+                                    vm.logoutUser()
                                 }
                             }
-                            .sheet(isPresented: $isPickerPresented) {
-                                ImagePicker(selectedImage: $selectedImage)
-                            }
-        
-                            TextField("Username", text: $vm.userName)
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color("GreenDark"))
-                                .multilineTextAlignment(.center)
-                              
-                            Text("@\(vm.userName)")
-                                .foregroundColor(Color.gray)
-                                .font(.subheadline)
+                            
+                            Spacer()
                         }
-                        .padding(.top, 40)
-                        
-                        Spacer().frame(height: 40)
-                        
-                        VStack(spacing: 0) {
-                                                 SettingRow(icon: "globe", title: NSLocalizedString("Language", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                                     openAppSettings()
-                                                 }
-                                                 Divider()
-                                                 
-                                                 SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                                     print("Notification tapped")
-                                                 }
-                                                 Divider()
-                                                 
-                                                 SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
-                                                            title: colorScheme == .dark ? NSLocalizedString("Light Mode", comment: "") : NSLocalizedString("Dark Mode", comment: ""),
-                                                            iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-                                                     isDarkMode.toggle()
-                                                     UIApplication.shared.windows.first?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
-                                                 }
-                                                 Divider()
-                             
-                                                 SettingRow(icon: "rectangle.portrait.and.arrow.right", title: NSLocalizedString("Log out", comment: ""), iconColor: Color("red22"), textColor: Color("red22")) {
-                                                     vm.logoutUser()
-                                                     
-                                                 }
-                                             }
-                        
-                        Spacer()
                     }
+                    .onAppear {
+                        vm.fetchUserProfileImage()
+                    }
+                } else {
+                    loggedOutView
                 }
-                .onAppear {
-                    vm.fetchUserProfileImage()
-                }
-            } else {
-                loggedOutView
             }
         }
     }
+    
     var loggedOutView: some View {
-        
         ZStack {
             Color("backgroundAppColor")
                 .ignoresSafeArea()
@@ -200,8 +202,6 @@ struct AccountView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 8) {
-                
-                
                 ZStack {
                     Circle()
                         .stroke(Color("GreenLight"), lineWidth: 4)
@@ -246,9 +246,10 @@ struct AccountView: View {
                 .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
                 .accessibilityLabel("Sign in with Apple")
                 .accessibilityHint("Use your Apple ID to sign in")
-            }.padding(.bottom,250)
-        }}
-    
+            }
+            .padding(.bottom,250)
+        }
+    }
     
     func handleAuthorization(_ authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {

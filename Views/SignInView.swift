@@ -14,12 +14,17 @@ struct SignInView: View {
         NavigationStack {
             ZStack {
                 Color("backgroundAppColor")
-                    .ignoresSafeArea()
+                          .ignoresSafeArea()
 
-                Image("OnboardingBackground")
-                    .ignoresSafeArea()
-                    .offset(y: -140)
-                    .accessibilityHidden(true)
+                      Image("Background")
+                          .resizable()
+                          .ignoresSafeArea()
+                      
+                      
+                      Image("Back1")
+                          .ignoresSafeArea()
+                          .offset(y: -140)
+                
 
                 VStack {
                     Text("Sort Fast, Shop Faster.")

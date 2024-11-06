@@ -17,12 +17,16 @@ struct OnboardingView: View {
                 MainTabView()
             } else {
                 Color("backgroundAppColor")
-                    .ignoresSafeArea()
+                          .ignoresSafeArea()
 
-                Image("OnboardingBackground")
-                    .ignoresSafeArea()
-                    .offset(y: -140)
-                    .accessibilityHidden(true) // تجاهل الخلفية في أوضاع إمكانية الوصول
+                      Image("Background")
+                          .resizable()
+                          .ignoresSafeArea()
+                      
+                      
+                      Image("Back1")
+                          .ignoresSafeArea()
+                          .offset(y: -140)
 
                 VStack {
                     HStack {

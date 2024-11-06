@@ -12,6 +12,7 @@
 		5A06E2002CD8B4C10061D8C2 /* CreateListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */; };
 		5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */; };
 		5A06E20A2CD8B94C0061D8C2 /* on2_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */; };
+		5A479FFD2CDAEEFB00E4F2A1 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */; };
 		5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */; };
 		5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */; };
 		5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564C2CC5A42100DD1C5F /* SignInView.swift */; };
@@ -39,7 +40,6 @@
 		A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */; };
 		EE23B3BA2CD86E7D003C870E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */; };
 		EE2992D92CD29A8700BBC843 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		EEB404252CD9F2CE00F61876 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +48,8 @@
 		5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewModel.swift; sourceTree = "<group>"; };
 		5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on2_dark.gif; path = ../../../Downloads/on2_dark.gif; sourceTree = "<group>"; };
+		5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA10.mlmodel; sourceTree = "<group>"; };
+		5A479FFE2CDAF92000E4F2A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		5A8A564C2CC5A42100DD1C5F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -75,7 +77,6 @@
 		A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EE2992D62CD288A400BBC843 /* TurboList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurboList.entitlements; sourceTree = "<group>"; };
-		EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MyFA10.mlmodel; path = ../../Downloads/ViewModels2/MyFA10.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,7 +156,7 @@
 		A55C1BBA2CC104A100F3F9C0 = {
 			isa = PBXGroup;
 			children = (
-				EEB404242CD9F2CE00F61876 /* MyFA10.mlmodel */,
+				5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */,
 				EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */,
 				5AE597DE2CD959EF00EF059B /* Cloudkit */,
 				5A06E1F12CD8B0A20061D8C2 /* Models */,
@@ -178,6 +179,7 @@
 		A55C1BC52CC104A100F3F9C0 /* TurboList */ = {
 			isa = PBXGroup;
 			children = (
+				5A479FFE2CDAF92000E4F2A1 /* Info.plist */,
 				EE2992D62CD288A400BBC843 /* TurboList.entitlements */,
 				A55C1BC62CC104A100F3F9C0 /* TurboListApp.swift */,
 				A55C1BC82CC104A100F3F9C0 /* ContentView.swift */,
@@ -286,7 +288,7 @@
 				5AE597E42CD95A8F00EF059B /* Item.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
 				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
-				EEB404252CD9F2CE00F61876 /* MyFA10.mlmodel in Sources */,
+				5A479FFD2CDAEEFB00E4F2A1 /* MyFA10.mlmodel in Sources */,
 				EE2992D92CD29A8700BBC843 /* (null) in Sources */,
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
@@ -439,6 +441,8 @@
 				DEVELOPMENT_TEAM = J359H9BY44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TurboList/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to your photo library to select and upload images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -472,6 +476,8 @@
 				DEVELOPMENT_TEAM = J359H9BY44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TurboList/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to your photo library to select and upload images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
