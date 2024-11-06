@@ -11,6 +11,7 @@
 
     },
     "Access the app without signing in" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -52,6 +53,7 @@
       }
     },
     "Alternative sign-in method" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -82,6 +84,7 @@
       }
     },
     "Continue as Guest" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -632,6 +635,18 @@
           }
         }
       }
+    },
+    "استخدم معرف Apple لتسجيل الدخول" : {
+
+    },
+    "الاستمرار كضيف" : {
+
+    },
+    "الوصول إلى التطبيق بدون تسجيل الدخول" : {
+
+    },
+    "طريقة تسجيل دخول بديلة" : {
+
     }
   },
   "version" : "1.0"

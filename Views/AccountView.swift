@@ -159,12 +159,12 @@ struct AccountView: View {
                                     openAppSettings()
                                 }
                                 Divider()
-                                
-                                // Add NavigationLink inside SettingRow for NotificationView
-                                NavigationLink(destination: NotificationView()) {
-                                    SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {}
-                                }
-                                Divider()
+//                                
+//                                SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
+//                                    openAppSettings()
+//                                }
+//
+//                                Divider()
                                 
                                 SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
                                            title: colorScheme == .dark ? NSLocalizedString("Light Mode", comment: "") : NSLocalizedString("Dark Mode", comment: ""),

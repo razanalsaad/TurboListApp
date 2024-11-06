@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import UserNotifications
 
 struct CreateListView: View {
     @Environment(\.dismiss) var dismiss
@@ -24,7 +25,6 @@ struct CreateListView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    // Your existing UI code...
                     HStack {
                         Button(action: { dismiss() }) {
                             ZStack {
@@ -95,6 +95,10 @@ struct CreateListView: View {
                                     .padding(.trailing, -5)
                             }
                         }
+                        .onTapGesture {
+                            requestNotificationPermission()
+                            
+                        }
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -121,15 +125,26 @@ struct CreateListView: View {
                 viewModel.showResults = false // Ensure it goes back to CreateListView if needed
             }
         }
-
-
+    }
+    
+    // Function to request notification permission
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permission: \(error.localizedDescription)")
+            } else if granted {
+                print("Notification permission granted.")
+            } else {
+                print("Notification permission denied.")
+            }
+        }
     }
     
 }
+
 extension Notification.Name {
     static let navigateToCreateListView = Notification.Name("navigateToCreateListView")
 }
-
 
 struct CreateListView_Previews: PreviewProvider {
     static var previews: some View {
@@ -137,4 +152,3 @@ struct CreateListView_Previews: PreviewProvider {
         CreateListView(userSession: userSession)
     }
 }
-

@@ -2,20 +2,21 @@ import SwiftUI
 
 struct ListsView: View {
     @State private var isBellTapped = false
-     @State private var searchText = ""
-     @State private var lists: [String] = []
-     
-     @StateObject private var vm = CloudKitUserBootcampViewModel() // Keep this for CloudKit-related actions
-     @StateObject private var viewModel: CreateListViewModel // For handling list creation
-     
-     @Environment(\.layoutDirection) var layoutDirection
-     @EnvironmentObject var userSession: UserSession // Injected via environment
-
-     init() {
-         // Initialize viewModel here
-         let userSession = UserSession() // Placeholder, should be injected via Environment
-         _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
-     }
+    @State private var searchText = ""
+    @State private var lists: [String] = []
+    
+    @StateObject private var vm = CloudKitUserBootcampViewModel()
+    @StateObject private var viewModel: CreateListViewModel
+    
+    @Environment(\.layoutDirection) var layoutDirection
+    @EnvironmentObject var userSession: UserSession
+    @State private var showNotificationView = false
+    
+    init() {
+        let userSession = UserSession() // Placeholder, should be injected via Environment
+        _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -68,14 +69,7 @@ struct ListsView: View {
                         
                         Spacer()
 
-                        // Bell button for notifications
-                        Button(action: {
-                            isBellTapped.toggle()
-                            if isBellTapped {
-                                requestNotificationPermission()
-                            }
-                            
-                        }) {
+                        NavigationLink(destination: NotificationView(), isActive: $showNotificationView) {
                             ZStack {
                                 Circle()
                                     .fill(isBellTapped ? Color("MainColor") : Color("GreenLight"))
@@ -86,6 +80,9 @@ struct ListsView: View {
                                     .frame(width: 18, height: 22)
                                     .foregroundColor(isBellTapped ? .white : Color("MainColor"))
                             }
+                        }
+                        .onTapGesture {
+                            showNotificationView = true
                         }
                         .padding(.trailing)
                     }
@@ -138,21 +135,7 @@ struct ListsView: View {
         }
         .navigationBarBackButtonHidden(true)
     }
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
-            if let error = error {
-                print("Error requesting notification permission: \(error)")
-                return
-            }
-
-            if granted {
-                print("Notification permission granted.")
-            } else {
-                print("Notification permission denied.")
-            }
-        }
-    }
-
+    
     var emptyStateView: some View {
         VStack {
             Image("arrow")
