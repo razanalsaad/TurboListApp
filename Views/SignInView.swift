@@ -5,27 +5,28 @@ import Combine
 class UserSession: ObservableObject {
     @Published var userID: String? // Store user ID here
 }
+
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isGuest: Bool = false
     @State private var isSignedIn: Bool = false
     @EnvironmentObject var userSession: UserSession
+    @AppStorage("isUserSignedIn") private var isUserSignedIn: Bool = false // Store signed-in state
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color("backgroundAppColor")
-                          .ignoresSafeArea()
-
-                      Image("Background")
-                          .resizable()
-                          .ignoresSafeArea()
-                      
-                      
-                      Image("Back1")
-                          .ignoresSafeArea()
-                          .offset(y: -140)
+                    .ignoresSafeArea()
                 
-
+                Image("Background")
+                    .resizable()
+                    .ignoresSafeArea()
+                
+                Image("Back1")
+                    .ignoresSafeArea()
+                    .offset(y: -140)
+                
                 VStack {
                     Text("Sort Fast, Shop Faster.")
                         .font(.system(size: 28, weight: .bold, design: .default))
@@ -33,7 +34,7 @@ struct SignInView: View {
                         .padding(.bottom, 20)
                         .accessibilityLabel("Sort Fast, Shop Faster.")
                         .accessibilityHint("Welcome message")
-
+                    
                     Spacer()
                     
                     SignInWithAppleButton(
@@ -55,7 +56,7 @@ struct SignInView: View {
                     .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
                     .accessibilityLabel("Sign in with Apple")
                     .accessibilityHint("Use your Apple ID to sign in")
-
+                    
                     Spacer().frame(height: 390)
                     
                     Text("or")
@@ -64,7 +65,7 @@ struct SignInView: View {
                         .offset(y: -370)
                         .accessibilityLabel("or")
                         .accessibilityHint("Alternative sign-in method")
-
+                    
                     // "Continue as Guest" Navigation Link
                     NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isGuest) {
                         Button(action: {
@@ -86,33 +87,35 @@ struct SignInView: View {
                     EmptyView()
                         .accessibilityHidden(true)
                 }
-
             }
         }
     }
     
     func handleAuthorization(_ authorization: ASAuthorization) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-            
-            print("User ID: \(userIdentifier)")
-            if let name = fullName {
-                print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
-                // Save the user ID to the shared session
-                           userSession.userID = userIdentifier
-                           
+            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+                let userIdentifier = appleIDCredential.user
+                let fullName = appleIDCredential.fullName
+                let email = appleIDCredential.email
+                
+                print("User ID: \(userIdentifier)")
+                if let name = fullName {
+                    print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
+                    // Save the user ID to the shared session
+                               userSession.userID = userIdentifier
+                               
+                }
+                if let email = email {
+                    print("User Email: \(email)")
+                }
+                
+                isSignedIn = true
             }
-            if let email = email {
-                print("User Email: \(email)")
-            }
-            
-            isSignedIn = true
         }
-    }
+    
 }
+
 
 #Preview {
     SignInView()
 }
+ 

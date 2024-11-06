@@ -21,9 +21,11 @@ extension View {
 
 @main
 struct TurboListApp: App {
-    @AppStorage("isOnboardingComplete") private var isOnboardingComplete = false // تخزين حالة الأونبوردنق
-    @State private var isSplashScreenActive = true // حالة التحكم بظهور شاشة السبلاش
-    @StateObject var userSession = UserSession() // Create UserSession as a StateObject
+    @AppStorage("isOnboardingComplete") private var isOnboardingComplete = false
+    @AppStorage("isUserSignedIn") private var isUserSignedIn = false // Check if the user is signed in
+    @State private var isSplashScreenActive = true
+    @StateObject var userSession = UserSession()
+    
     var body: some Scene {
         WindowGroup {
             if isSplashScreenActive {
@@ -31,24 +33,27 @@ struct TurboListApp: App {
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             withAnimation {
-                                isSplashScreenActive = false // إنهاء عرض شاشة السبلاش بعد 3 ثوانٍ
+                                isSplashScreenActive = false
                             }
                         }
                     }
-                    .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة السبلاش
+                    .applyDynamicType()
             } else {
                 if isOnboardingComplete {
-                    SignInView() // الانتقال إلى شاشة تسجيل الدخول إذا كان الأونبوردنق مكتملًا
-                        .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة تسجيل الدخول
-                        .environmentObject(userSession) // Inject userSession into the environment
+                    if isUserSignedIn {
+                        MainTabView() // Go directly to MainTabView if the user is signed in
+                            .applyDynamicType()
+                            .environmentObject(userSession)
+                    } else {
+                        SignInView()
+                            .applyDynamicType()
+                            .environmentObject(userSession)
+                    }
                 } else {
-                    OnboardingView(isOnboardingComplete: $isOnboardingComplete) // عرض شاشة الأونبوردنق
-                        .applyDynamicType() // تطبيق حجم النص الديناميكي على شاشة الأونبوردنق
+                    OnboardingView(isOnboardingComplete: $isOnboardingComplete)
+                        .applyDynamicType()
                 }
             }
         }
     }
 }
-
-
-
