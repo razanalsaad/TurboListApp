@@ -1,7 +1,6 @@
 import SwiftUI
 import CloudKit
 import Combine
-import PhotosUI
 import AuthenticationServices
 
 class CloudKitUserBootcampViewModel: ObservableObject {
@@ -97,8 +96,6 @@ struct AccountView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isDarkMode: Bool = false
     @StateObject private var vm = CloudKitUserBootcampViewModel()
-    @State private var selectedImage: UIImage?
-    @State private var isPickerPresented = false
     
     var body: some View {
         NavigationStack {
@@ -118,12 +115,9 @@ struct AccountView: View {
                                     Circle()
                                         .stroke(Color("GreenLight"), lineWidth: 8)
                                         .frame(width: 120, height: 120)
-                                        .onTapGesture {
-                                            isPickerPresented = true
-                                        }
                                     
-                                    if let selectedImage = selectedImage {
-                                        Image(uiImage: selectedImage)
+                                    if let profileImage = vm.profileImage {
+                                        Image(uiImage: profileImage)
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 100, height: 100)
@@ -135,9 +129,6 @@ struct AccountView: View {
                                             .frame(width: 60, height: 60)
                                             .foregroundColor(Color("buttonColor"))
                                     }
-                                }
-                                .sheet(isPresented: $isPickerPresented) {
-                                    ImagePicker(selectedImage: $selectedImage)
                                 }
         
                                 TextField("Username", text: $vm.userName)
@@ -159,12 +150,6 @@ struct AccountView: View {
                                     openAppSettings()
                                 }
                                 Divider()
-//                                
-//                                SettingRow(icon: "bell", title: NSLocalizedString("Notification", comment: ""), iconColor: Color("MainColor"), textColor: Color("GreenDark")) {
-//                                    openAppSettings()
-//                                }
-//
-//                                Divider()
                                 
                                 SettingRow(icon: colorScheme == .dark ? "sun.max" : "moon",
                                            title: colorScheme == .dark ? NSLocalizedString("Light Mode", comment: "") : NSLocalizedString("Dark Mode", comment: ""),
@@ -304,43 +289,6 @@ struct SettingRow: View {
     }
 }
 
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImage: UIImage?
-
-    func makeUIViewController(context: Context) -> PHPickerViewController {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        let parent: ImagePicker
-
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-
-        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            picker.dismiss(animated: true)
-            
-            if let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    DispatchQueue.main.async {
-                        self.parent.selectedImage = image as? UIImage
-                    }
-                }
-            }
-        }
-    }
-}
 #Preview {
     AccountView()
 }
