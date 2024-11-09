@@ -2,19 +2,21 @@ import SwiftUI
 
 struct MainTabView: View {
     @State private var selectedTab: Int = 0
-    @StateObject var userSession = UserSession() // Create UserSession as a StateObject
+    @StateObject private var viewModel = CreateListViewModel(userSession: UserSession.shared) // استخدام الكائن المشترك
+
+    //@EnvironmentObject var userSession: UserSession
     var body: some View {
         NavigationStack {
             ZStack {
                 if selectedTab == 0 {
                     ListsView()
-                        .environmentObject(userSession) // Pass UserSession to ListsView
+                        .environmentObject(UserSession.shared)
                 } else if selectedTab == 1 {
-                    FavouriteView()
-                        .environmentObject(userSession) // Pass UserSession to FavouriteView
+                    FavouriteView(userSession: UserSession.shared)
+                        .environmentObject(UserSession.shared) // Pass UserSession to FavouriteView
                 } else {
-                    AccountView()
-                        .environmentObject(userSession) // Pass UserSession to AccountView
+                    AccountView(userSession: UserSession.shared)
+                        .environmentObject(UserSession.shared) // Pass UserSession to AccountView
                 }
                 
                 VStack {

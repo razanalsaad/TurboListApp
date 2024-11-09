@@ -1,12 +1,13 @@
 import SwiftUI
 import Combine
 import UserNotifications
+import CloudKit
 
 struct CreateListView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.layoutDirection) var layoutDirection
     @StateObject private var viewModel: CreateListViewModel
-    
+    @EnvironmentObject var userSession: UserSession
     @State private var newListName: String = ""
     @State private var isCreatingNewList = false
 
@@ -25,6 +26,7 @@ struct CreateListView: View {
                     .ignoresSafeArea()
                 
                 VStack {
+                    // Your existing UI code...
                     HStack {
                         Button(action: { dismiss() }) {
                             ZStack {
@@ -47,13 +49,45 @@ struct CreateListView: View {
                         
                         Spacer()
 
-                        NavigationLink(destination: ListView(categories: viewModel.categorizedProducts), isActive: $viewModel.showResults) {
-                            Button(action: {
-                                viewModel.saveListToCloudKit(userSession: viewModel.userSession)  // Save the list to CloudKit
-                                viewModel.classifyProducts()
-                                viewModel.showResults = true
-                            
-                                //dismiss()  // Optionally dismiss the view after saving
+                        NavigationLink(
+                            destination: ListView(
+                                categories: viewModel.categorizedProducts,
+                                listID: viewModel.currentListID, // Pass the actual list ID
+                                listName: viewModel.listName,    // Pass the actual list name
+                                createListViewModel: viewModel   // Pass viewModel as createListViewModel
+                            ),
+                            isActive: $viewModel.showResults
+                        ) {
+                            Button(action:{
+                                viewModel.saveListToCloudKit(userSession: viewModel.userSession,  listName: viewModel.listName) { listID in
+                                    guard let listID = listID else { return }
+                             
+                                    // Create a reference for the saved list
+                                    let listReference = CKRecord.Reference(recordID: listID, action: .deleteSelf)
+
+                                    // Parse items from the user input
+                                    viewModel.classifyProducts() // Assuming this processes the input into categorizedProducts
+
+                                    // Save each item using the list reference
+                                    for category in viewModel.categorizedProducts {
+                                        for item in category.items {
+                                            viewModel.saveItem(
+                                                name: item.name,
+                                                quantity: Int64(item.quantity),
+                                                listId: listReference,
+                                                category: category.name
+                                            ) { success in
+                                                if success {
+                                                    print("Item '\(item.name)' saved successfully in CreateListViewModel.")
+                                                } else {
+                                                    print("Failed to save item '\(item.name)'.")
+                                                }
+                                            }
+                                        }
+                                    }
+                               
+                                    viewModel.showResults = true
+                                }
                             }) {
                                 ZStack {
                                     Circle()
@@ -95,10 +129,6 @@ struct CreateListView: View {
                                     .padding(.trailing, -5)
                             }
                         }
-                        .onTapGesture {
-                            requestNotificationPermission()
-                            
-                        }
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -125,19 +155,8 @@ struct CreateListView: View {
                 viewModel.showResults = false // Ensure it goes back to CreateListView if needed
             }
         }
-    }
-    
-    // Function to request notification permission
-    private func requestNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
-            if let error = error {
-                print("Error requesting notification permission: \(error.localizedDescription)")
-            } else if granted {
-                print("Notification permission granted.")
-            } else {
-                print("Notification permission denied.")
-            }
-        }
+
+
     }
     
 }
@@ -148,7 +167,7 @@ extension Notification.Name {
 
 struct CreateListView_Previews: PreviewProvider {
     static var previews: some View {
-        let userSession = UserSession() // Use your mock session
-        CreateListView(userSession: userSession)
+        CreateListView(userSession: UserSession.shared) // Use the singleton instance
+            .environmentObject(UserSession.shared) // Inject UserSession into the environment if needed
     }
 }

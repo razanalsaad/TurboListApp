@@ -1,18 +1,15 @@
 import SwiftUI
 import CloudKit
-
+import CloudKit
 struct ListView: View {
     @Environment(\.layoutDirection) var layoutDirection
-    @State private var navigateToMainTab = false
-
-    @ObservedObject private var viewModel: ListViewModel
-       @State private var updatedItems: [GroceryCategory]
-       
-       init(categories: [GroceryCategory]) {
-           self.viewModel = ListViewModel(categories: categories)
-           self._updatedItems = State(initialValue: categories)
-       }
-       
+      @State private var navigateToMainTab = false
+      @ObservedObject private var viewModel: ListViewModel
+      @State private var showShareSheet = false
+    @EnvironmentObject var userSession: UserSession
+      init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
+          self.viewModel = ListViewModel(categories: categories, listID: listID, listName: listName, createListViewModel: createListViewModel)
+      }
 
     
     var body: some View {
@@ -40,29 +37,49 @@ struct ListView: View {
                         .multilineTextAlignment(.center)
                     Spacer()
                     Menu {
+//                        Button(action: {
+//                            // Get all items as a flat list
+//                                    let allItems = updatedItems.flatMap { $0.items }
+//
+//                                    // Post a notification to navigate back to CreateListView
+//                            // Post the notification
+//                                NotificationCenter.default.post(
+//                                    name: .navigateToCreateListView,
+//                                    object: allItems, // Pass items back for editing
+//                                    userInfo: ["listName": "Your List Name"] // Replace with the actual list name as needed
+//                                )
+//                        })
+//                        {
+//                        Label("Edit", systemImage: "pencil")
+//                        }
+//                        Button(action: {
+//                        if let currentListID = viewModel.currentListID {
+//                            let listReference = CKRecord.Reference(recordID: currentListID, action: .none)
+//
+//                            let sharedListId = UUID()
+//                            let ownerReference = CKRecord.Reference(recordID: CKRecord.ID(recordName: userSession.userID!), action: .none)  // Assuming userSession.userID is not nil
+//
+//                            viewModel.saveSharedListToCloudKit(sharedListId: sharedListId, ownerId: ownerReference, listId: listReference) { sharedListSuccess in
+//                                if sharedListSuccess {
+//                                    print("Shared list saved successfully.")
+//                                } else {
+//                                    print("Failed to save shared list.")
+//                                }
+//                            }
+//                        } else {
+//                            print("Error: currentListID is nil.")
+//                        }
+//                            viewModel.shareList()
+//                            }) {
+//                                Label("Share", systemImage: "square.and.arrow.up")
+//                        }
                         Button(action: {
-                            // Get all items as a flat list
-                                    let allItems = updatedItems.flatMap { $0.items }
-                                    
-                                    // Post a notification to navigate back to CreateListView
-                            // Post the notification
-                                NotificationCenter.default.post(
-                                    name: .navigateToCreateListView,
-                                    object: allItems, // Pass items back for editing
-                                    userInfo: ["listName": "Your List Name"] // Replace with the actual list name as needed
-                                )
-                        })
-                        {
-                        Label("Edit", systemImage: "pencil")
-                        }
-                        Button(action: {
-                            viewModel.shareList() }) {
-                            Label("Share", systemImage: "square.and.arrow.up")
-                        }
-                        Button(action: { viewModel.saveToFavorites() }) {
+                            viewModel.saveToFavorites()
+                        }) {
                             Label("Favorite", systemImage: "heart")
                         }
-                        Button(action: { viewModel.deleteListAndMoveToMain() }) {
+                        Button(action: {
+                            viewModel.deleteListAndMoveToMain() }) {
                             Label("Delete", systemImage: "trash")
                         }
                     } label: {
@@ -183,6 +200,14 @@ struct ListView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.saveAllItems()
+        }
+        .sheet(isPresented: $viewModel.isSharingAvailable) {
+                  if let share = viewModel.share {
+                      CloudSharingController(share: share, container: CKContainer.default())
+                  }
+              }
         .background(
                   NavigationLink(destination: MainTabView(), isActive: $navigateToMainTab) {
                       MainTabView()
@@ -192,7 +217,6 @@ struct ListView: View {
               )
     }
 }
-
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         // Create mock data for testing
@@ -207,12 +231,17 @@ struct ListView_Previews: PreviewProvider {
             ])
         ]
         
-        // Pass the categories into ListView
-        ListView(categories: groceryItems)
+        // Provide mock listID and listName
+        let mockListID = CKRecord.ID(recordName: "mockRecordID")
+        let mockListName = "Sample List"
+        
+        // Use the singleton instance of UserSession
+        let createListViewModel = CreateListViewModel(userSession: UserSession.shared)
+        
+        // Pass the categories, mock listID, listName, and createListViewModel into ListView
+        ListView(categories: groceryItems, listID: mockListID, listName: mockListName, createListViewModel: createListViewModel)
+            .environmentObject(UserSession.shared) // Inject the singleton UserSession instance into the environment
             .environment(\.layoutDirection, .rightToLeft) // Optional RTL layout
             .previewLayout(.sizeThatFits)
     }
 }
-
-
-

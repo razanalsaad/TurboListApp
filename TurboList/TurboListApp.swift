@@ -24,7 +24,8 @@ struct TurboListApp: App {
     @AppStorage("isOnboardingComplete") private var isOnboardingComplete = false
     @AppStorage("isUserSignedIn") private var isUserSignedIn = false // Check if the user is signed in
     @State private var isSplashScreenActive = true
-    @StateObject var userSession = UserSession()
+//    @StateObject var userSession = UserSession()
+    @StateObject private var viewModel = CreateListViewModel(userSession: UserSession.shared) // Use the singleton instance
     
     var body: some Scene {
         WindowGroup {
@@ -43,11 +44,10 @@ struct TurboListApp: App {
                     if isUserSignedIn {
                         MainTabView() // Go directly to MainTabView if the user is signed in
                             .applyDynamicType()
-                            .environmentObject(userSession)
+                            .environmentObject(UserSession.shared) // Inject userSession into the environment
                     } else {
-                        SignInView()
-                            .applyDynamicType()
-                            .environmentObject(userSession)
+                        SignInView(userSession: viewModel.userSession) // الانتقال إلى شاشة تسجيل الدخول إذا كان الأونبوردنق مكتملًا                            .applyDynamicType()
+                            .environmentObject(UserSession.shared) // Inject userSession into the environment
                     }
                 } else {
                     OnboardingView(isOnboardingComplete: $isOnboardingComplete)

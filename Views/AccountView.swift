@@ -2,9 +2,8 @@ import SwiftUI
 import CloudKit
 import Combine
 import AuthenticationServices
-
 class CloudKitUserBootcampViewModel: ObservableObject {
-    @EnvironmentObject var userSession: UserSession
+     var userSession: UserSession
     @Published var permissionStatus: Bool = false
     @Published var isSignedInToiCloud: Bool = false
     @Published var error: String = ""
@@ -14,12 +13,21 @@ class CloudKitUserBootcampViewModel: ObservableObject {
     
     let container = CKContainer.default()
     var cancellables = Set<AnyCancellable>()
+//    
+//    init() {
+//        getiCloudStatus()
+//        requestPermission()
+//        getCurrentUserName()
+//    }
+//    
     
-    init() {
-        getiCloudStatus()
-        requestPermission()
-        getCurrentUserName()
-    }
+    init(userSession: UserSession) {
+               self.userSession = userSession
+               getiCloudStatus()
+               requestPermission()
+               getCurrentUserName()
+               fetchUserProfileImage()
+           }
     
     private func getiCloudStatus() {
         CloudKitUtility.getiCloudStatus()
@@ -51,38 +59,47 @@ class CloudKitUserBootcampViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { _ in } receiveValue: { [weak self] returnedName in
                 self?.userName = returnedName
+                print("name.. \(returnedName)")
             }
             .store(in: &cancellables)
     }
     
     func fetchUserProfileImage() {
-        container.fetchUserRecordID { [weak self] recordID, error in
-            guard let recordID = recordID, error == nil else {
-                print("Error fetching user record ID: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            
-            let predicate = NSPredicate(format: "user_id == %@", recordID)
-            let query = CKQuery(recordType: "User", predicate: predicate)
-            let queryOperation = CKQueryOperation(query: query)
-            
-            queryOperation.recordFetchedBlock = { record in
-                DispatchQueue.main.async {
-                    if let imageAsset = record["profileImage"] as? CKAsset, let fileURL = imageAsset.fileURL {
-                        if let data = try? Data(contentsOf: fileURL), let image = UIImage(data: data) {
-                            self?.profileImage = image
-                        } else {
-                            print("Failed to load image data")
-                        }
-                    } else {
-                        print("No profile image found")
-                    }
-                }
-            }
-            
-            self?.container.publicCloudDatabase.add(queryOperation)
-        }
-    }
+               guard let userID = userSession.userID else {
+                   print("User ID is not available.")
+                   return
+               }
+               
+               // Use the userID from userSession to create a predicate
+               let predicate = NSPredicate(format: "user_id == %@", userID)
+               let query = CKQuery(recordType: "User", predicate: predicate)
+               let queryOperation = CKQueryOperation(query: query)
+               
+               queryOperation.recordFetchedBlock = { [weak self] record in
+                   DispatchQueue.main.async {
+                       if let imageAsset = record["profileImage"] as? CKAsset, let fileURL = imageAsset.fileURL {
+                           if let data = try? Data(contentsOf: fileURL), let image = UIImage(data: data) {
+                               self?.profileImage = image
+                           } else {
+                               print("Failed to load image data")
+                           }
+                       } else {
+                           print("No profile image found")
+                       }
+                   }
+               }
+               
+               queryOperation.queryCompletionBlock = { [weak self] _, error in
+                   if let error = error {
+                       print("Error fetching profile image: \(error.localizedDescription)")
+                       DispatchQueue.main.async {
+                           self?.error = error.localizedDescription
+                       }
+                   }
+               }
+               
+               container.publicCloudDatabase.add(queryOperation)
+           }
     
     func logoutUser() {
         print("Logging out...")
@@ -94,9 +111,14 @@ class CloudKitUserBootcampViewModel: ObservableObject {
 
 struct AccountView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var isDarkMode: Bool = false
-    @StateObject private var vm = CloudKitUserBootcampViewModel()
-    
+        @State private var isDarkMode: Bool = false
+        @StateObject private var vm: CloudKitUserBootcampViewModel
+        @State private var selectedImage: UIImage?
+        @State private var isPickerPresented = false
+        @EnvironmentObject var userSession: UserSession
+        init(userSession: UserSession) {
+               _vm = StateObject(wrappedValue: CloudKitUserBootcampViewModel(userSession: userSession))
+           }
     var body: some View {
         NavigationStack {
             Group {
@@ -111,7 +133,7 @@ struct AccountView: View {
                         
                         VStack {
                             VStack(spacing: 8) {
-                                ZStack {
+                                ZStack{
                                     Circle()
                                         .stroke(Color("GreenLight"), lineWidth: 8)
                                         .frame(width: 120, height: 120)
@@ -137,9 +159,9 @@ struct AccountView: View {
                                     .foregroundColor(Color("GreenDark"))
                                     .multilineTextAlignment(.center)
                                 
-                                Text("@\(vm.userName)")
-                                    .foregroundColor(Color.gray)
-                                    .font(.subheadline)
+//                                Text("@\(vm.userName)")
+//                                    .foregroundColor(Color.gray)
+//                                    .font(.subheadline)
                             }
                             .padding(.top, 40)
                             
@@ -289,6 +311,9 @@ struct SettingRow: View {
     }
 }
 
-#Preview {
-    AccountView()
+struct AccountView_Previews: PreviewProvider {
+    static var previews: some View {
+        AccountView(userSession: UserSession.shared) // Use the singleton instance
+            .environmentObject(UserSession.shared) // Inject UserSession into the environment
+    }
 }

@@ -3,16 +3,36 @@ import AuthenticationServices
 import Combine
 
 class UserSession: ObservableObject {
-    @Published var userID: String? // Store user ID here
+    static let shared = UserSession() // Singleton instance
+    @Published var userID: String?
+  
+    private init() {} // Prevents other instances from being created
+       // Function to simulate fetching the user ID
+    func getUserID(completion: @escaping (Bool) -> Void) {
+         // Simulate fetching the user ID
+         DispatchQueue.global().asyncAfter(deadline: .now() + 1) { // Simulate async delay
+             let fetchedUserID = "000875.e0e241ae7b184e2cac2264ffd0d82314.0723"
+             DispatchQueue.main.async {
+                 self.userID = fetchedUserID
+                 print("User ID set in getUserID function: \(fetchedUserID)")
+                 completion(self.userID != nil)
+             }
+         }
+     }
 }
-
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isGuest: Bool = false
     @State private var isSignedIn: Bool = false
     @EnvironmentObject var userSession: UserSession
     @AppStorage("isUserSignedIn") private var isUserSignedIn: Bool = false // Store signed-in state
-
+        @StateObject private var viewModel: CreateListViewModel
+        @StateObject private var vm: CloudKitUserBootcampViewModel
+        // Initializer that accepts a UserSession
+        init(userSession: UserSession) {
+            _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
+            _vm = StateObject(wrappedValue: CloudKitUserBootcampViewModel(userSession: userSession))
+        }
     var body: some View {
         NavigationStack {
             ZStack {
@@ -45,6 +65,18 @@ struct SignInView: View {
                             switch result {
                             case .success(let authorization):
                                 handleAuthorization(authorization)
+                                viewModel.saveUserRecord(userSession: userSession, username: vm.userName) { success in
+                                    if success {
+                                        print("User record saved successfully.")
+                                    } else {
+                                        print("Failed to save user record.")
+                                    }
+                                    
+                                }
+                           
+
+                                
+                               
                             case .failure(let error):
                                 print("Sign in with Apple failed: \(error.localizedDescription)")
                             }
@@ -94,9 +126,13 @@ struct SignInView: View {
     func handleAuthorization(_ authorization: ASAuthorization) {
             if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
                 let userIdentifier = appleIDCredential.user
+                
                 let fullName = appleIDCredential.fullName
                 let email = appleIDCredential.email
                 
+       
+                userSession.userID = userIdentifier  // Set userID in UserSession
+
                 print("User ID: \(userIdentifier)")
                 if let name = fullName {
                     print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
@@ -112,10 +148,16 @@ struct SignInView: View {
             }
         }
     
+    
+}
+struct SignInView_Previews: PreviewProvider {
+    static var previews: some View {
+        SignInView(userSession: UserSession.shared) // Use the singleton instance
+            .environmentObject(UserSession.shared) // Inject into the environment if needed
+    }
 }
 
-
-#Preview {
-    SignInView()
-}
- 
+//#Preview {
+//    SignInView()
+//}
+// 

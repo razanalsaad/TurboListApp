@@ -1,10 +1,3 @@
-//
-//  CloudKitManager.swift
-//  TurboList
-//
-//  Created by Faizah Almalki on 02/05/1446 AH.
-//
-
 import Foundation
 
 

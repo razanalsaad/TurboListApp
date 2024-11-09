@@ -13,6 +13,8 @@
 		5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */; };
 		5A06E20A2CD8B94C0061D8C2 /* on2_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */; };
 		5A479FFD2CDAEEFB00E4F2A1 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */; };
+		5A47A0042CDFF11700E4F2A1 /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A47A0032CDFF11700E4F2A1 /* CloudKitHelper.swift */; };
+		5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */; };
 		5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */; };
 		5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */; };
 		5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A564C2CC5A42100DD1C5F /* SignInView.swift */; };
@@ -50,6 +52,8 @@
 		5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on2_dark.gif; path = ../../../Downloads/on2_dark.gif; sourceTree = "<group>"; };
 		5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA10.mlmodel; sourceTree = "<group>"; };
 		5A479FFE2CDAF92000E4F2A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A47A0032CDFF11700E4F2A1 /* CloudKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
+		5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSharingController.swift; sourceTree = "<group>"; };
 		5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		5A8A564A2CC5A3A300DD1C5F /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		5A8A564C2CC5A42100DD1C5F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				5A8A56572CC5A53C00DD1C5F /* ListView.swift */,
 				5A8A56732CC7015500DD1C5F /* CardView.swift */,
 				5AA31AE82CC877190092869F /* CustomTextField.swift */,
+				5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 				5AE597E52CD95AB000EF059B /* List.swift */,
 				5AE597E72CD95AD300EF059B /* SharedList.swift */,
 				5AE597E92CD95AF700EF059B /* User.swift */,
+				5A47A0032CDFF11700E4F2A1 /* CloudKitHelper.swift */,
 			);
 			path = Cloudkit;
 			sourceTree = "<group>";
@@ -280,6 +286,7 @@
 			files = (
 				5A06E2002CD8B4C10061D8C2 /* CreateListViewModel.swift in Sources */,
 				5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */,
+				5A47A0042CDFF11700E4F2A1 /* CloudKitHelper.swift in Sources */,
 				5A06E1FD2CD8B47B0061D8C2 /* GroceryModels.swift in Sources */,
 				5AE597EA2CD95AF700EF059B /* User.swift in Sources */,
 				5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */,
@@ -293,6 +300,7 @@
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
 				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
+				5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */,
 				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
 				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,

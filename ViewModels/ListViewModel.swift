@@ -6,17 +6,31 @@
 //
 
 import Foundation
-
 import SwiftUI
 import CloudKit
+
+
 class ListViewModel: ObservableObject {
     @Published var categories: [GroceryCategory]
-      
-      init(categories: [GroceryCategory]) {
-          self.categories = categories
-      }
-    
-    
+    @Published var share: CKShare?
+    @Published var isSharingAvailable: Bool = false
+    @Published var items: [Item] = []
+    @Published var itemCount: Int = 0 // To store the item count for the list
+
+    private var createListViewModel: CreateListViewModel
+
+    // Properties for managing sharing
+    private var listID: CKRecord.ID?
+    private var listName: String?
+
+    init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
+        self.categories = categories
+        self.listID = listID
+        self.listName = listName
+        self.createListViewModel = createListViewModel
+    }
+
+    // Manage item quantities
     func increaseQuantity(for categoryIndex: Int, itemIndex: Int) {
         categories[categoryIndex].items[itemIndex].quantity += 1
     }
@@ -26,21 +40,85 @@ class ListViewModel: ObservableObject {
             categories[categoryIndex].items[itemIndex].quantity -= 1
         }
     }
+    
     func toggleItemSelection(for categoryIndex: Int, itemIndex: Int) {
         categories[categoryIndex].items[itemIndex].isSelected.toggle()
         reorderCategories()
     }
-    func shareList() {
-        let listURL = URL(string: "https://yourapp.com/sharelist/1234") // Replace with actual URL generation logic
-        let activityVC = UIActivityViewController(activityItems: [listURL!], applicationActivities: nil)
-        UIApplication.shared.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
+
+    // Save all items using the `saveItem` function in `CreateListViewModel`
+    func saveAllItems() {
+        guard let listID = self.createListViewModel.currentListID else {
+            print("No list ID available to associate items.")
+            return
+        }
+
+        let listReference = CKRecord.Reference(recordID: listID, action: .deleteSelf)
+
+        for category in categories {
+            for item in category.items {
+                createListViewModel.saveItem(
+                    name: item.name,
+                    quantity: Int64(item.quantity),
+                    listId: listReference,
+                    category: category.name
+                ) { success in
+                    if success {
+                        print("Item '\(item.name)' saved successfully in ListViewModel.")
+                    } else {
+                        print("Failed to save item '\(item.name)' in ListViewModel.")
+                    }
+                }
+            }
+        }
     }
+
+//    // Use `createShare` from `CreateListViewModel`
+//    func shareList() {
+//        createListViewModel.createShare()
+//    }
+
+    // Count the items using `countItems` in `CreateListViewModel`
+    func countItems() {
+        guard let listID = self.createListViewModel.currentListID else {
+            print("No list ID available for counting items.")
+            return
+        }
+
+        let listReference = CKRecord.Reference(recordID: listID, action: .none)
+        createListViewModel.countItems(for: listReference) { itemCount in
+            self.itemCount = itemCount
+            print("Updated item count: \(self.itemCount)")
+        }
+    }
+
+    // Delete the list and navigate to the main view
+    func deleteListAndMoveToMain() {
+        guard let listID = listID else {
+            print("List ID is not available.")
+            return
+        }
+
+        // Delete the list record from CloudKit
+        CKContainer.default().publicCloudDatabase.delete(withRecordID: listID) { [weak self] recordID, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Failed to delete list: \(error.localizedDescription)")
+                } else {
+                    print("List deleted successfully")
+                    UIApplication.shared.windows.first?.rootViewController = UIHostingController(rootView: MainTabView())
+                }
+            }
+        }
+    }
+
+    // Save list to favorites
     func saveToFavorites() {
-        let recordID = CKRecord.ID(recordName: "YourRecordID")
+        guard let listID = listID else { return }
+        let recordID = CKRecord.ID(recordName: listID.recordName)
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { record, error in
             if let record = record {
-                record["isFavorite"] = true as CKRecordValue // Mark as favorite
-                
+                record["isFavorite"] = true as CKRecordValue
                 CKContainer.default().publicCloudDatabase.save(record) { savedRecord, error in
                     if let error = error {
                         print("Error saving to favorites: \(error)")
@@ -48,64 +126,24 @@ class ListViewModel: ObservableObject {
                         print("List saved to favorites")
                     }
                 }
+            } else if let error = error {
+                print("Failed to fetch list for saving to favorites: \(error)")
             }
         }
     }
 
-    func deleteListAndMoveToMain() {
-        let recordID = CKRecord.ID(recordName: "YourRecordID")
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { recordID, error in
-            if let error = error {
-                print("Failed to delete: \(error)")
-            } else {
-                // Navigate to MainTabView
-                DispatchQueue.main.async {
-                    // Assuming you have a navigation structure to go back to MainTabView
-                    // Example:
-                    UIApplication.shared.windows.first?.rootViewController = UIHostingController(rootView: MainTabView())
-                }
-            }
-        }
-    }
-
+    // Reorder categories
     private func reorderCategories() {
-         let completedCategories = categories.filter { category in
-             category.items.allSatisfy { $0.isSelected }
-         }
-         let incompleteCategories = categories.filter { category in
-             !category.items.allSatisfy { $0.isSelected }
-         }
-         categories = incompleteCategories + completedCategories
-     }
-    func editList(newListName: String, newItems: [GroceryItem]) {
-        let recordID = CKRecord.ID(recordName: "YourRecordID")
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { record, error in
-            if let record = record {
-                record["list_name"] = newListName as CKRecordValue
-                // Update other fields if necessary
-                
-                CKContainer.default().publicCloudDatabase.save(record) { savedRecord, error in
-                    if let error = error {
-                        print("Failed to update: \(error)")
-                    } else {
-                        DispatchQueue.main.async {
-                            // Send a notification to CreateListView with the previous list data
-                            NotificationCenter.default.post(
-                                name: .navigateToCreateListView,
-                                object: newItems, // Pass the items array
-                                userInfo: ["listName": newListName] // Pass the list name
-                            )
-                            print("List updated successfully")
-                        }
-                    }
-                }
-            }
+        let completedCategories = categories.filter { category in
+            category.items.allSatisfy { $0.isSelected }
         }
+        let incompleteCategories = categories.filter { category in
+            !category.items.allSatisfy { $0.isSelected }
+        }
+        categories = incompleteCategories + completedCategories
     }
 
-
-
-     
+    // Utility function to format category names for display
     func formattedCategoryName(_ name: String) -> String {
         let languageCode = Locale.current.languageCode
         
@@ -152,19 +190,20 @@ class ListViewModel: ObservableObject {
             return name
         }
     }
-
 }
+
+
 
 //
 //extension ListViewModel {
 //    private var database: CKDatabase {
 //        return CKContainer.default().privateCloudDatabase
 //    }
-//    
+//
 //    // Fetch all lists from CloudKit
 //    func fetchListsFromCloudKit() {
 //        let query = CKQuery(recordType: "List", predicate: NSPredicate(value: true))
-//        
+//
 //        database.perform(query, inZoneWith: nil) { records, error in
 //            DispatchQueue.main.async {
 //                if let records = records {
@@ -180,7 +219,7 @@ class ListViewModel: ObservableObject {
 //            }
 //        }
 //    }
-//    
+//
 //    // Fetch items for a specific list
 //    func fetchItemsForList(listId: CKRecord.ID) -> [GroceryItem] {
 //        // Add logic to fetch items based on the listId from CloudKit
@@ -189,11 +228,11 @@ class ListViewModel: ObservableObject {
 //            GroceryItem(name: "Placeholder Item", quantity: 1)  // Example item
 //        ]
 //    }
-//    
+//
 //    // Save a new list to CloudKit
 //    func saveListToCloudKit(_ list: List) {
 //        let record = list.toRecord()
-//        
+//
 //        database.save(record) { savedRecord, error in
 //            DispatchQueue.main.async {
 //                if let savedRecord = savedRecord {
@@ -207,17 +246,17 @@ class ListViewModel: ObservableObject {
 //            }
 //        }
 //    }
-//    
+//
 //    // Update an existing list in CloudKit
 //    func updateListInCloudKit(_ list: List) {
 //        guard let recordID = list.recordID else { return }
-//        
+//
 //        database.fetch(withRecordID: recordID) { fetchedRecord, error in
 //            if let fetchedRecord = fetchedRecord {
 //                fetchedRecord["list_name"] = list.listName as CKRecordValue
 //                fetchedRecord["isShared"] = list.isShared as CKRecordValue
 //                fetchedRecord["updated_at"] = Date() as CKRecordValue
-//                
+//
 //                self.database.save(fetchedRecord) { updatedRecord, error in
 //                    DispatchQueue.main.async {
 //                        if let updatedRecord = updatedRecord {
@@ -234,11 +273,11 @@ class ListViewModel: ObservableObject {
 //            }
 //        }
 //    }
-//    
+//
 //    // Delete a list from CloudKit
 //    func deleteListFromCloudKit(_ list: List) {
 //        guard let recordID = list.recordID else { return }
-//        
+//
 //        database.delete(withRecordID: recordID) { deletedRecordID, error in
 //            DispatchQueue.main.async {
 //                if let deletedRecordID = deletedRecordID {
