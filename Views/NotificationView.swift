@@ -3,6 +3,8 @@ import SwiftUI
 struct NotificationView: View {
     @State private var isBellTapped = false
     @Environment(\.dismiss) var dismiss
+    @Environment(\.layoutDirection) var layoutDirection
+
 
     var body: some View {
         NavigationStack {
@@ -23,7 +25,7 @@ struct NotificationView: View {
                                 Circle()
                                     .fill(Color("GreenLight"))
                                     .frame(width: 40, height: 40)
-                                Image(systemName: "chevron.left")
+                                Image(systemName: layoutDirection == .rightToLeft ? "chevron.right" : "chevron.left")
                                     .resizable()
                                     .frame(width: 7, height: 12)
                                     .foregroundColor(Color("MainColor"))

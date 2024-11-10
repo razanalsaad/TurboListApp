@@ -26,7 +26,6 @@ struct CreateListView: View {
                     .ignoresSafeArea()
                 
                 VStack {
-                    // Your existing UI code...
                     HStack {
                         Button(action: { dismiss() }) {
                             ZStack {

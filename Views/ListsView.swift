@@ -132,21 +132,48 @@ struct ListsView: View {
         ScrollView {
             VStack(spacing: 10) {
                 ForEach(viewModel.lists, id: \.listId) { list in
-                    // Safely unwrap each List object and provide the required data to GroceryListView
-                    GroceryListView(
-                        // Provide the list name instead of hard-coded "Collaborative list" or "My weekly list"
-                        listName: list.listName,
-                        isHeartSelected: bindingForHeartSelected(at: viewModel.lists.firstIndex(where: { $0.listId == list.listId }) ?? 0),
-                        onCardTapped: {
-                            selectedList = list
-                            isNavigatingToList = true
+                    Button(action: {
+                        selectedList = list
+                        isNavigatingToList = true
+                        viewModel.fetchItems(for: list.recordID!) { success in
+                            if success {
+                                print("Items fetched for list: \(list.listName)")
+                            }
                         }
-                    )
-                    .padding(.horizontal)
+                    }) {
+                        GroceryListView(
+                            listName: list.listName,
+                            isHeartSelected: bindingForHeartSelected(at: viewModel.lists.firstIndex(where: { $0.listId == list.listId }) ?? 0),
+                            onCardTapped: {
+                                selectedList = list
+                                isNavigatingToList = true
+                                viewModel.fetchItems(for: list.recordID!) { success in
+                                    if success {
+                                        print("Items fetched for list: \(list.listName)")
+                                    }
+                                }
+                            }
+                        )
+                        .padding(.horizontal)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
         }
+        .background(
+            NavigationLink(
+                destination: ListView(
+                    categories: viewModel.categorizedProducts,  // Pass fetched categories here
+                    listID: selectedList?.recordID,
+                    listName: selectedList?.listName,
+                    createListViewModel: viewModel
+                ),
+                isActive: $isNavigatingToList
+            ) { EmptyView() }
+        )
     }
+
+
 
     private func bindingForHeartSelected(at index: Int) -> Binding<Bool> {
         Binding<Bool>(
