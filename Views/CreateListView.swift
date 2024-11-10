@@ -129,6 +129,10 @@ struct CreateListView: View {
                                     .padding(.trailing, -5)
                             }
                         }
+                        .onTapGesture {
+                            requestNotificationPermission()
+                            
+                        }
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -158,7 +162,17 @@ struct CreateListView: View {
 
 
     }
-    
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification permission: \(error.localizedDescription)")
+            } else if granted {
+                print("Notification permission granted.")
+            } else {
+                print("Notification permission denied.")
+            }
+        }
+    }
 }
 
 extension Notification.Name {
