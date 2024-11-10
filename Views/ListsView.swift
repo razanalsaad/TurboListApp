@@ -10,7 +10,8 @@ struct ListsView: View {
     @State private var selectedList: List?
     @State private var isNavigatingToList = false
 
-   
+    @State private var showNotificationView = false
+
     // Initialize `isHeartSelected` to match `sharedLists` count
        @State private var isHeartSelected: [Bool] = []
 
@@ -219,21 +220,20 @@ struct ListsView: View {
     }
     
     var bellButton: some View {
-        Button(action: {
-            isBellTapped.toggle()
-            if isBellTapped {
-                requestNotificationPermission()
-            }
-        }) {
+        NavigationLink(destination: NotificationView(), isActive: $showNotificationView) {
             ZStack {
                 Circle()
                     .fill(isBellTapped ? Color("MainColor") : Color("GreenLight"))
                     .frame(width: 40, height: 40)
+
                 Image(systemName: "bell")
                     .resizable()
                     .frame(width: 18, height: 22)
                     .foregroundColor(isBellTapped ? .white : Color("MainColor"))
             }
+        }
+        .onTapGesture {
+            showNotificationView = true
         }
         .padding(.trailing)
     }

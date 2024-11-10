@@ -3,18 +3,20 @@ import SwiftUI
 struct FavouriteView: View {
     @State private var isBellTapped = false
     @StateObject private var vm: CloudKitUserBootcampViewModel
-      @EnvironmentObject var userSession: UserSession
-      
-      init(userSession: UserSession) {
-          _vm = StateObject(wrappedValue: CloudKitUserBootcampViewModel(userSession: userSession))
-      }
+    @EnvironmentObject var userSession: UserSession
+    @State private var showNotificationView = false // حالة التنقل
 
+    init(userSession: UserSession) {
+        _vm = StateObject(wrappedValue: CloudKitUserBootcampViewModel(userSession: userSession))
+    }
+    
     var body: some View {
+        NavigationStack {
 
         ZStack {
             Color("backgroundAppColor")
                 .ignoresSafeArea()
-
+            
             Image("Background")
                 .resizable()
                 .ignoresSafeArea()
@@ -26,7 +28,7 @@ struct FavouriteView: View {
                         Circle()
                             .stroke(Color("buttonColor"), lineWidth: 2)
                             .frame(width: 50, height: 50)
-
+                        
                         // Display the user's profile image or a placeholder icon if not available
                         if let profileImage = vm.profileImage {
                             Image(uiImage: profileImage)
@@ -49,7 +51,7 @@ struct FavouriteView: View {
                         }
                     }
                     .padding(.leading)
-
+                    
                     VStack(alignment: .leading) {
                         Text("Welcome")
                             .font(.subheadline)
@@ -62,9 +64,7 @@ struct FavouriteView: View {
                     }
                     Spacer()
                     
-                    Button(action: {
-                        isBellTapped.toggle()
-                    }) {
+                    NavigationLink(destination: NotificationView(), isActive: $showNotificationView) {
                         ZStack {
                             Circle()
                                 .fill(isBellTapped ? Color("MainColor") : Color("GreenLight"))
@@ -76,6 +76,10 @@ struct FavouriteView: View {
                                 .foregroundColor(isBellTapped ? .white : Color("MainColor"))
                         }
                     }
+                    .onTapGesture {
+                        showNotificationView = true // تفعيل التنقل
+                    
+                    }
                     .padding(.trailing)
                 }
                 .padding(.top)
@@ -86,6 +90,7 @@ struct FavouriteView: View {
         }
         
     }
+}
 }
 //
 //#Preview {

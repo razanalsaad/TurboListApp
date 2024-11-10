@@ -48,7 +48,7 @@ class CloudKitManager {
         publicDB.perform(query, inZoneWith: nil) { results, error in
             if let error = error {
                 completion(.failure(error))
-            } else {
+            } else { 
                 completion(.success(results ?? []))
             }
         }

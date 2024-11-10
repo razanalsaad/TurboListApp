@@ -6,6 +6,7 @@ struct ListView: View {
       @State private var navigateToMainTab = false
       @ObservedObject private var viewModel: ListViewModel
       @State private var showShareSheet = false
+    
     @EnvironmentObject var userSession: UserSession
       init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
           self.viewModel = ListViewModel(categories: categories, listID: listID, listName: listName, createListViewModel: createListViewModel)
