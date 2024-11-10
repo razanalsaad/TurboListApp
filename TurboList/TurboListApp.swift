@@ -42,12 +42,13 @@ struct TurboListApp: App {
             } else {
                 if isOnboardingComplete {
                     if isUserSignedIn {
-                        MainTabView() // Go directly to MainTabView if the user is signed in
+                        MainTabView()
                             .applyDynamicType()
-                            .environmentObject(UserSession.shared) // Inject userSession into the environment
+                            .environmentObject(UserSession.shared)
                     } else {
-                        SignInView(userSession: viewModel.userSession) // الانتقال إلى شاشة تسجيل الدخول إذا كان الأونبوردنق مكتملًا                            .applyDynamicType()
-                            .environmentObject(UserSession.shared) // Inject userSession into the environment
+                        SignInView(userSession: viewModel.userSession)
+                            .applyDynamicType()
+                            .environmentObject(UserSession.shared)
                     }
                 } else {
                     OnboardingView(isOnboardingComplete: $isOnboardingComplete)

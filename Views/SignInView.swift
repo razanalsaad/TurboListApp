@@ -4,22 +4,45 @@ import Combine
 
 class UserSession: ObservableObject {
     static let shared = UserSession() // Singleton instance
-    @Published var userID: String?
-  
-    private init() {} // Prevents other instances from being created
-       // Function to simulate fetching the user ID
+    @Published var userID: String? {
+        didSet {
+            isUserSignedIn = userID != nil
+        }
+    }
+    @AppStorage("isUserSignedIn") private var isUserSignedIn: Bool = false
+    @AppStorage("userID") private var storedUserID: String? // Store userID
+
+    private init() {
+        // عند بدء التشغيل، تعيين userID بالقيمة المخزنة إذا كانت موجودة
+        self.userID = storedUserID
+    }
+
+    // عند ضبط userID، احفظه أيضًا في AppStorage
+    func setUserID(_ id: String?) {
+        self.userID = id
+        self.storedUserID = id
+    }
+
+    // جلب userID من قاعدة البيانات فقط إذا لم يكن مخزناً
     func getUserID(completion: @escaping (Bool) -> Void) {
-         // Simulate fetching the user ID
-         DispatchQueue.global().asyncAfter(deadline: .now() + 1) { // Simulate async delay
-             let fetchedUserID = "000875.e0e241ae7b184e2cac2264ffd0d82314.0723"
-             DispatchQueue.main.async {
-                 self.userID = fetchedUserID
-                 print("User ID set in getUserID function: \(fetchedUserID)")
-                 completion(self.userID != nil)
-             }
-         }
-     }
+        if let userID = userID {
+            print("User ID already available: \(userID)")
+            completion(true)
+            return
+        }
+
+        // في حالة عدم وجود userID، جلبه
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
+            let fetchedUserID = "000875.e0e241ae7b184e2cac2264ffd0d82314.0723"
+            DispatchQueue.main.async {
+                self.setUserID(fetchedUserID)
+                print("User ID set in getUserID function: \(fetchedUserID)")
+                completion(self.userID != nil)
+            }
+        }
+    }
 }
+
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isGuest: Bool = false
@@ -124,29 +147,15 @@ struct SignInView: View {
     }
     
     func handleAuthorization(_ authorization: ASAuthorization) {
-            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                let userIdentifier = appleIDCredential.user
-                
-                let fullName = appleIDCredential.fullName
-                let email = appleIDCredential.email
-                
-       
-                userSession.userID = userIdentifier  // Set userID in UserSession
-
-                print("User ID: \(userIdentifier)")
-                if let name = fullName {
-                    print("User Name: \(name.givenName ?? "") \(name.familyName ?? "")")
-                    // Save the user ID to the shared session
-                               userSession.userID = userIdentifier
-                               
-                }
-                if let email = email {
-                    print("User Email: \(email)")
-                }
-                
-                isSignedIn = true
-            }
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userIdentifier = appleIDCredential.user
+            userSession.setUserID(userIdentifier) // Set userID permanently
+            print("User ID: \(userIdentifier)")
+            isUserSignedIn = true  // Set to true after successful login
+            isSignedIn = true
         }
+    }
+
     
     
 }
