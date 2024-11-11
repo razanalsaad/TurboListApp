@@ -29,6 +29,7 @@
 		5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */; };
 		5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56732CC7015500DD1C5F /* CardView.swift */; };
 		5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA31AE82CC877190092869F /* CustomTextField.swift */; };
+		5ABD73CE2CE2C0B600F017BA /* MyFA12.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */; };
 		5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE021DC2CD84539005EE49F /* NotificationView.swift */; };
 		5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */; };
 		5AE597E22CD95A6500EF059B /* CloudKitUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */; };
@@ -67,6 +68,7 @@
 		5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		5A8A56732CC7015500DD1C5F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		5AA31AE82CC877190092869F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA12.mlmodel; sourceTree = "<group>"; };
 		5AE021DC2CD84539005EE49F /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUtility.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */,
+				5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */,
 				EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */,
 				5AE597DE2CD959EF00EF059B /* Cloudkit */,
 				5A06E1F12CD8B0A20061D8C2 /* Models */,
@@ -302,6 +305,7 @@
 				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
 				5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */,
 				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
+				5ABD73CE2CE2C0B600F017BA /* MyFA12.mlmodel in Sources */,
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
 				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,

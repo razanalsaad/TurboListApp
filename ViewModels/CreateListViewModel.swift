@@ -38,9 +38,9 @@ class CreateListViewModel: ObservableObject {
 
 
 
-    private var model: MyFA10? = {
+    private var model: MyFA12? = {
         do {
-            return try MyFA10(configuration: MLModelConfiguration())
+            return try MyFA12(configuration: MLModelConfiguration())
         } catch {
             print("Failed to load model: \(error)")
             return nil
@@ -97,10 +97,27 @@ class CreateListViewModel: ObservableObject {
     }
     
     private func extractQuantity(from text: String) -> (Int, String) {
+        // تحويل الأرقام العربية إلى أرقام لاتينية
         var normalizedText = normalizeNumbers(in: text)
+
+        // قائمة الأرقام بالكلمات باللغتين العربية والإنجليزية
+        let numberWords: [String: Int] = [
+            "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+            "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+            "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
+            "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
+            "nineteen": 19, "twenty": 20, "thirty": 30, "forty": 40, "fifty": 50,
+            "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90, "hundred": 100,
+            
+            "واحد": 1, "اثنين": 2, "ثلاثة": 3, "اربعة": 4, "خمسة": 5,
+            "ستة": 6, "سبعة": 7, "ثمانية": 8, "تسعة": 9, "عشرة": 10,
+            "احد عشر": 11, "اثنا عشر": 12, "ثلاثة عشر": 13, "اربعة عشر": 14,
+            "خمسة عشر": 15, "ستة عشر": 16, "سبعة عشر": 17, "ثمانية عشر": 18,
+            "تسعة عشر": 19, "عشرون": 20, "ثلاثون": 30, "اربعون": 40, "خمسون": 50,
+            "ستون": 60, "سبعون": 70, "ثمانون": 80, "تسعون": 90, "مائة": 100
+        ]
         
-        let numberWords = ["one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9]
-        
+        // التحقق من وجود كلمة رقمية في النص واستبدالها
         for (word, number) in numberWords {
             if normalizedText.contains(word) {
                 normalizedText = normalizedText.replacingOccurrences(of: word, with: "").trimmingCharacters(in: .whitespacesAndNewlines)
@@ -108,14 +125,24 @@ class CreateListViewModel: ObservableObject {
             }
         }
         
+        // تحويل الأرقام العربية إلى لاتينية
+        let arabicToLatinNumbers: [Character: Character] = [
+            "٠": "0", "١": "1", "٢": "2", "٣": "3", "٤": "4",
+            "٥": "5", "٦": "6", "٧": "7", "٨": "8", "٩": "9"
+        ]
+        normalizedText = String(normalizedText.map { arabicToLatinNumbers[$0] ?? $0 })
+        
+        // استخراج الأرقام الرقمية
         let numericParts = normalizedText.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         if let quantity = Int(numericParts), quantity > 0 {
             normalizedText = normalizedText.replacingOccurrences(of: numericParts, with: "").trimmingCharacters(in: .whitespacesAndNewlines)
             return (quantity, normalizedText)
         }
         
+        // القيمة الافتراضية للكمية هي 1
         return (1, normalizedText)
     }
+
 
     private func normalizeNumbers(in text: String) -> String { text }
     private func correctSpelling(for text: String) -> String { text }

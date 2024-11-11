@@ -148,43 +148,43 @@ class ListViewModel: ObservableObject {
         let languageCode = Locale.current.languageCode
         
         switch name {
-        case "meat, poultry":
+        case "Meat, Poultry":
             return languageCode == "ar" ? "لحوم ودواجن 🥩" : "Meat & Poultry 🥩"
-        case "seafood":
+        case "Seafood":
             return languageCode == "ar" ? "مأكولات بحرية 🦐" : "Seafood 🦐"
-        case "dairy":
+        case "Dairy":
             return languageCode == "ar" ? "منتجات الألبان 🧀" : "Dairy 🧀"
-        case "fruits & vegetables":
+        case "Fruits & Vegetables":
             return languageCode == "ar" ? "فواكه وخضروات 🍇" : "Fruits & Vegetables 🍇"
-        case "frozen foods":
+        case "Frozen Foods":
             return languageCode == "ar" ? "أطعمة مجمدة ❄️" : "Frozen Foods ❄️"
         case "bakery":
             return languageCode == "ar" ? "مخبوزات 🍞" : "Bakery 🍞"
-        case "rice, grains & pasta":
+        case "Rice, Grains & Pasta":
             return languageCode == "ar" ? "أرز وحبوب ومعكرونة 🌾" : "Rice, Grains & Pasta 🌾"
-        case "cooking and baking supplies":
+        case "Cooking and Baking Supplies":
             return languageCode == "ar" ? "مستلزمات الطهي والخبز 🍲" : "Cooking and Baking Supplies 🍲"
-        case "deli":
+        case "Deli":
             return languageCode == "ar" ? "مأكولات معدة 🥓" : "Deli 🥓"
-        case "spices & seasonings":
+        case "Spices & Seasonings":
             return languageCode == "ar" ? "التوابل والمنكهات 🧂" : "Spices & Seasonings 🧂"
-        case "condiment & sauces":
+        case "Sondiment & Sauces":
             return languageCode == "ar" ? "صلصات وتوابل 🍝" : "Condiment & Sauces 🍝"
-        case "canned food":
+        case "Canned Food":
             return languageCode == "ar" ? "أطعمة معلبة 🥫" : "Canned Food 🥫"
-        case "snacks, sweets & candy":
+        case "Snacks, Sweets & Candy":
             return languageCode == "ar" ? "وجبات خفيفة وحلويات 🍭" : "Snacks, Sweets & Candy 🍭"
-        case "personal care products":
+        case "Personal Care Products":
             return languageCode == "ar" ? "منتجات العناية الشخصية 🧴" : "Personal Care Products 🧴"
-        case "household supplies":
+        case "Household Supplies":
             return languageCode == "ar" ? "مستلزمات منزلية 🧹" : "Household Supplies 🧹"
-        case "beverages & water":
+        case "Beverages & Water":
             return languageCode == "ar" ? "مشروبات ومياه 💧" : "Beverages & Water 💧"
-        case "coffee & tea":
+        case "coffee tea":
             return languageCode == "ar" ? "قهوة وشاي ☕️" : "Coffee and Tea ☕️"
-        case "breakfast foods":
+        case "Breakfast Foods":
             return languageCode == "ar" ? "أطعمة الإفطار 🥞" : "Breakfast Foods 🥞"
-        case "baby products":
+        case "Baby Products":
             return languageCode == "ar" ? "منتجات الأطفال 🍼" : "Baby Products 🍼"
         default:
             return name
