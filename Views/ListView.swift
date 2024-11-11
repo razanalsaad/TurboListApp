@@ -1,17 +1,17 @@
 import SwiftUI
 import CloudKit
-import CloudKit
+
 struct ListView: View {
     @Environment(\.layoutDirection) var layoutDirection
-      @State private var navigateToMainTab = false
-      @ObservedObject private var viewModel: ListViewModel
-      @State private var showShareSheet = false
+    @State private var navigateToMainTab = false
+    @ObservedObject private var viewModel: ListViewModel
+    @State private var showShareSheet = false
+    @State private var showAlert = false
     
     @EnvironmentObject var userSession: UserSession
-      init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
-          self.viewModel = ListViewModel(categories: categories, listID: listID, listName: listName, createListViewModel: createListViewModel)
-      }
-
+    init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
+        self.viewModel = ListViewModel(categories: categories, listID: listID, listName: listName, createListViewModel: createListViewModel)
+    }
     
     var body: some View {
         ZStack {
@@ -20,8 +20,9 @@ struct ListView: View {
             
             VStack {
                 HStack {
-                    Button(action: {                        navigateToMainTab = true // Trigger navigation
-}) {
+                    Button(action: {
+                        showAlert = true // Trigger the alert
+                    }) {
                         ZStack {
                             Circle()
                                 .fill(Color("GreenLight"))
@@ -38,49 +39,14 @@ struct ListView: View {
                         .multilineTextAlignment(.center)
                     Spacer()
                     Menu {
-//                        Button(action: {
-//                            // Get all items as a flat list
-//                                    let allItems = updatedItems.flatMap { $0.items }
-//
-//                                    // Post a notification to navigate back to CreateListView
-//                            // Post the notification
-//                                NotificationCenter.default.post(
-//                                    name: .navigateToCreateListView,
-//                                    object: allItems, // Pass items back for editing
-//                                    userInfo: ["listName": "Your List Name"] // Replace with the actual list name as needed
-//                                )
-//                        })
-//                        {
-//                        Label("Edit", systemImage: "pencil")
-//                        }
-//                        Button(action: {
-//                        if let currentListID = viewModel.currentListID {
-//                            let listReference = CKRecord.Reference(recordID: currentListID, action: .none)
-//
-//                            let sharedListId = UUID()
-//                            let ownerReference = CKRecord.Reference(recordID: CKRecord.ID(recordName: userSession.userID!), action: .none)  // Assuming userSession.userID is not nil
-//
-//                            viewModel.saveSharedListToCloudKit(sharedListId: sharedListId, ownerId: ownerReference, listId: listReference) { sharedListSuccess in
-//                                if sharedListSuccess {
-//                                    print("Shared list saved successfully.")
-//                                } else {
-//                                    print("Failed to save shared list.")
-//                                }
-//                            }
-//                        } else {
-//                            print("Error: currentListID is nil.")
-//                        }
-//                            viewModel.shareList()
-//                            }) {
-//                                Label("Share", systemImage: "square.and.arrow.up")
-//                        }
                         Button(action: {
                             viewModel.saveToFavorites()
                         }) {
                             Label("Favorite", systemImage: "heart")
                         }
                         Button(action: {
-                            viewModel.deleteListAndMoveToMain() }) {
+                            viewModel.deleteListAndMoveToMain()
+                        }) {
                             Label("Delete", systemImage: "trash")
                         }
                     } label: {
@@ -106,8 +72,8 @@ struct ListView: View {
                         .padding(.leading)
                     Spacer()
                 }
-                .padding(.top , 15)
-
+                .padding(.top, 15)
+                
                 ScrollView {
                     ForEach(viewModel.categories.indices, id: \.self) { categoryIndex in
                         let category = viewModel.categories[categoryIndex]
@@ -121,8 +87,7 @@ struct ListView: View {
                                 Spacer()
                             }
                             .padding(layoutDirection == .leftToRight ? .leading : .trailing)
-
-                            // Now loop over the items inside this category
+                            
                             VStack(spacing: 0) {
                                 ForEach(category.items.indices, id: \.self) { itemIndex in
                                     let item = category.items[itemIndex]
@@ -205,19 +170,28 @@ struct ListView: View {
             viewModel.saveAllItems()
         }
         .sheet(isPresented: $viewModel.isSharingAvailable) {
-                  if let share = viewModel.share {
-                      CloudSharingController(share: share, container: CKContainer.default())
-                  }
-              }
+            if let share = viewModel.share {
+                CloudSharingController(share: share, container: CKContainer.default())
+            }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Return to lists?"),
+                message: Text("Are you sure you want to return to the lists page? You haven't confirmed all items yet."),
+                primaryButton: .destructive(Text("Return"), action: {
+                    navigateToMainTab = true
+                }),
+                secondaryButton: .cancel(Text("Stay"))
+            )
+        }
         .background(
-                  NavigationLink(destination: MainTabView(), isActive: $navigateToMainTab) {
-                      MainTabView()
-
-
-                  }
-              )
+            NavigationLink(destination: MainTabView(), isActive: $navigateToMainTab) {
+                MainTabView()
+            }
+        )
     }
 }
+
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         // Create mock data for testing

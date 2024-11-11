@@ -19,7 +19,7 @@ struct SplashScreenView: View {
             // App Icon with a meaningful accessibility label
             Image("App_Icon")
                 .resizable()
-                .frame(width: 151, height: 164)
+                .frame(width: 206, height: 290)
                 .accessibilityLabel("TurboList App Icon")
                 .accessibilityHint("Welcome to TurboList")
         }

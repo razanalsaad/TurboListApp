@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "Group 37016.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -11,7 +12,6 @@
           "value" : "light"
         }
       ],
-      "filename" : "logoLigth.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -22,7 +22,6 @@
           "value" : "dark"
         }
       ],
-      "filename" : "Logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

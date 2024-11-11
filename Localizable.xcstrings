@@ -58,6 +58,16 @@
         }
       }
     },
+    "Are you sure you want to return to the lists page? You haven't confirmed all items yet." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل أنت متأكد من رغبتك في العودة إلى صفحة القوائم؟ لم تقم بتأكيد جميع العناصر بعد"
+          }
+        }
+      }
+    },
     "Collaborative" : {
       "localizations" : {
         "ar" : {
@@ -446,6 +456,19 @@
         }
       }
     },
+    "Return" : {
+
+    },
+    "Return to lists?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "العودة للقوائم؟"
+          }
+        }
+      }
+    },
     "Search lists" : {
       "localizations" : {
         "ar" : {
@@ -526,6 +549,9 @@
           }
         }
       }
+    },
+    "Stay" : {
+
     },
     "TurboList App Icon" : {
       "localizations" : {
