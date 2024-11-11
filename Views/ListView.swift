@@ -21,8 +21,12 @@ struct ListView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        showAlert = true // Trigger the alert
-                    }) {
+                        if viewModel.isListComplete {
+                              navigateToMainTab = true // إذا كانت القائمة مكتملة، يتم الرجوع مباشرةً
+                          } else {
+                              showAlert = true // إذا كانت القائمة غير مكتملة، يتم إظهار رسالة التأكيد
+                          }
+                      })  {
                         ZStack {
                             Circle()
                                 .fill(Color("GreenLight"))
@@ -39,6 +43,44 @@ struct ListView: View {
                         .multilineTextAlignment(.center)
                     Spacer()
                     Menu {
+                        
+                        //                        Button(action: {
+                        //                            // Get all items as a flat list
+                        //                                    let allItems = updatedItems.flatMap { $0.items }
+                        //
+                        //                                    // Post a notification to navigate back to CreateListView
+                        //                            // Post the notification
+                        //                                NotificationCenter.default.post(
+                        //                                    name: .navigateToCreateListView,
+                        //                                    object: allItems, // Pass items back for editing
+                        //                                    userInfo: ["listName": "Your List Name"] // Replace with the actual list name as needed
+                        //                                )
+                        //                        })
+                        //                        {
+                        //                        Label("Edit", systemImage: "pencil")
+                        //                        }
+                        //                        Button(action: {
+                        //                        if let currentListID = viewModel.currentListID {
+                        //                            let listReference = CKRecord.Reference(recordID: currentListID, action: .none)
+                        //
+                        //                            let sharedListId = UUID()
+                        //                            let ownerReference = CKRecord.Reference(recordID: CKRecord.ID(recordName: userSession.userID!), action: .none)  // Assuming userSession.userID is not nil
+                        //
+                        //                            viewModel.saveSharedListToCloudKit(sharedListId: sharedListId, ownerId: ownerReference, listId: listReference) { sharedListSuccess in
+                        //                                if sharedListSuccess {
+                        //                                    print("Shared list saved successfully.")
+                        //                                } else {
+                        //                                    print("Failed to save shared list.")
+                        //                                }
+                        //                            }
+                        //                        } else {
+                        //                            print("Error: currentListID is nil.")
+                        //                        }
+                        //                            viewModel.shareList()
+                        //                            }) {
+                        //                                Label("Share", systemImage: "square.and.arrow.up")
+                        //                        }
+
                         Button(action: {
                             viewModel.saveToFavorites()
                         }) {

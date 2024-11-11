@@ -457,7 +457,14 @@
       }
     },
     "Return" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "العودة"
+          }
+        }
+      }
     },
     "Return to lists?" : {
       "localizations" : {
@@ -551,7 +558,14 @@
       }
     },
     "Stay" : {
-
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البقاء"
+          }
+        }
+      }
     },
     "TurboList App Icon" : {
       "localizations" : {

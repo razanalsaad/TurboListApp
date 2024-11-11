@@ -190,6 +190,12 @@ class ListViewModel: ObservableObject {
             return name
         }
     }
+    
+    var isListComplete: Bool {
+        categories.allSatisfy { category in
+            category.items.allSatisfy { $0.isSelected }
+        }
+    }
 }
 
 
