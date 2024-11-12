@@ -17,29 +17,31 @@ class UserSession: ObservableObject {
         self.userID = storedUserID
     }
 
-    // عند ضبط userID، احفظه أيضًا في AppStorage
     func setUserID(_ id: String?) {
         self.userID = id
         self.storedUserID = id
     }
 
-    // جلب userID من قاعدة البيانات فقط إذا لم يكن مخزناً
     func getUserID(completion: @escaping (Bool) -> Void) {
         if let userID = userID {
-            print("User ID already available: \(userID)")
             completion(true)
             return
         }
 
-        // في حالة عدم وجود userID، جلبه
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             let fetchedUserID = "000875.e0e241ae7b184e2cac2264ffd0d82314.0723"
             DispatchQueue.main.async {
                 self.setUserID(fetchedUserID)
-                print("User ID set in getUserID function: \(fetchedUserID)")
                 completion(self.userID != nil)
             }
         }
+    }
+
+    // Logout function to clear user session
+    func logout() {
+        userID = nil
+        storedUserID = nil
+        isUserSignedIn = false
     }
 }
 

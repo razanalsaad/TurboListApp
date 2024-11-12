@@ -22,12 +22,17 @@ class CloudKitUserBootcampViewModel: ObservableObject {
 //    
     
     init(userSession: UserSession) {
-               self.userSession = userSession
-               getiCloudStatus()
-               requestPermission()
-               getCurrentUserName()
-               fetchUserProfileImage()
-           }
+        self.userSession = userSession
+        getiCloudStatus()
+        requestPermission()
+        
+        // تحقق مما إذا كان المستخدم مسجل الدخول قبل استدعاء getCurrentUserName()
+        if userSession.userID != nil {
+            getCurrentUserName()
+            fetchUserProfileImage()
+        }
+    }
+
     
     private func getiCloudStatus() {
         CloudKitUtility.getiCloudStatus()
@@ -103,10 +108,13 @@ class CloudKitUserBootcampViewModel: ObservableObject {
     
     func logoutUser() {
         print("Logging out...")
-        userName = ""
+        userName = "" // مسح اسم المستخدم
         profileImage = nil
         isLoggedIn = false
+        userSession.logout() // مسح بيانات جلسة المستخدم
     }
+
+
 }
 
 struct AccountView: View {
@@ -183,8 +191,10 @@ struct AccountView: View {
                                 
                                 SettingRow(icon: "rectangle.portrait.and.arrow.right", title: NSLocalizedString("Log out", comment: ""), iconColor: Color("red22"), textColor: Color("red22")) {
                                     vm.logoutUser()
+                                    vm.isLoggedIn = false // تعيين isLoggedIn إلى false لنقل المستخدم إلى loggedOutView
                                 }
-                            }
+
+                            }.padding(.top,30)
                             
                             Spacer()
                         }

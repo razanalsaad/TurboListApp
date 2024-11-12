@@ -1,28 +1,23 @@
 import SwiftUI
 import Combine
 import CloudKit
+
 struct ListsView: View {
-//    @StateObject private var vm = CloudKitUserBootcampViewModel()
     @StateObject private var vm: CloudKitUserBootcampViewModel
     @StateObject private var viewModel: CreateListViewModel
     @State private var searchText = ""
     @State private var isBellTapped = false
     @State private var selectedList: List?
     @State private var isNavigatingToList = false
-
     @State private var showNotificationView = false
-
-    // Initialize `isHeartSelected` to match `sharedLists` count
-       @State private var isHeartSelected: [Bool] = []
+    @State private var isHeartSelected: [Bool] = []
 
     @Environment(\.layoutDirection) var layoutDirection
     @EnvironmentObject var userSession: UserSession
 
     init() {
-        // Use the shared instance of UserSession since it's a singleton
-               let userSession = UserSession.shared
+        let userSession = UserSession.shared
         _vm = StateObject(wrappedValue: CloudKitUserBootcampViewModel(userSession: userSession))
-
         _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
     }
     
@@ -57,7 +52,6 @@ struct ListsView: View {
             viewModel.fetchLists { success in
                 if success {
                     print("Lists fetched successfully. Total lists: \(viewModel.lists.count)")
-                    // Initialize heart selection array to match the fetched lists
                     isHeartSelected = Array(repeating: false, count: viewModel.lists.count)
                 } else {
                     print("Failed to fetch lists.")
@@ -110,28 +104,28 @@ struct ListsView: View {
     }
 
     var emptyStateView: some View {
-            VStack {
-                Image("arrow")
-                    .resizable()
-                    .frame(width: 250, height: 170)
-                    .foregroundColor(.green)
-                    .rotationEffect(layoutDirection == .rightToLeft ? .degrees(-7) : .degrees(7))
-                    .scaleEffect(x: layoutDirection == .rightToLeft ? -1 : 1, y: 1)
-                    .padding(layoutDirection == .rightToLeft ? .trailing : .leading, -10)
-                    .offset(x: layoutDirection == .rightToLeft ? 10 : -10, y: -20)
+        VStack {
+            Image("arrow")
+                .resizable()
+                .frame(width: 250, height: 170)
+                .foregroundColor(.green)
+                .rotationEffect(layoutDirection == .rightToLeft ? .degrees(-7) : .degrees(7))
+                .scaleEffect(x: layoutDirection == .rightToLeft ? -1 : 1, y: 1)
+                .padding(layoutDirection == .rightToLeft ? .trailing : .leading, -10)
+                .offset(x: layoutDirection == .rightToLeft ? 10 : -10, y: -20)
 
-
-                Text("Create first list")
-                    .foregroundColor(Color("buttonColor"))
-                    .fontWeight(.medium)
-                    .padding(.leading)
-                    .offset(y: 2)
-            }
+            Text("Create first list")
+                .foregroundColor(Color("buttonColor"))
+                .fontWeight(.medium)
+                .padding(.leading)
+                .offset(y: 2)
         }
+    }
+    
     var listView: some View {
         ScrollView {
             VStack(spacing: 10) {
-                ForEach(viewModel.lists, id: \.listId) { list in
+                ForEach(filteredLists, id: \.listId) { list in
                     Button(action: {
                         selectedList = list
                         isNavigatingToList = true
@@ -163,7 +157,7 @@ struct ListsView: View {
         .background(
             NavigationLink(
                 destination: ListView(
-                    categories: viewModel.categorizedProducts,  // Pass fetched categories here
+                    categories: viewModel.categorizedProducts,
                     listID: selectedList?.recordID,
                     listName: selectedList?.listName,
                     createListViewModel: viewModel
@@ -173,7 +167,13 @@ struct ListsView: View {
         )
     }
 
-
+    private var filteredLists: [List] {
+        if searchText.isEmpty {
+            return viewModel.lists
+        } else {
+            return viewModel.lists.filter { $0.listName.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
 
     private func bindingForHeartSelected(at index: Int) -> Binding<Bool> {
         Binding<Bool>(
@@ -189,14 +189,12 @@ struct ListsView: View {
         )
     }
 
-
     private func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
                 print("Error requesting notification permission: \(error)")
                 return
             }
-
             if granted {
                 print("Notification permission granted.")
             } else {
@@ -265,16 +263,16 @@ struct ListsView: View {
         .padding(.trailing)
     }
 }
+
 extension Array {
     subscript(safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }
 
-
 struct ListsView_Previews: PreviewProvider {
     static var previews: some View {
         ListsView()
-            .environmentObject(UserSession.shared) // Use the singleton instance directly
+            .environmentObject(UserSession.shared)
     }
 }
