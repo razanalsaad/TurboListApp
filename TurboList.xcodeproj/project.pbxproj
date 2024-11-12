@@ -42,6 +42,7 @@
 		A55C1BCE2CC104A200F3F9C0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */; };
 		EE23B3BA2CD86E7D003C870E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */; };
 		EE2992D92CD29A8700BBC843 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		EEB404332CE3729500F61876 /* FetchedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB404322CE3729500F61876 /* FetchedListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		A55C1BCD2CC104A200F3F9C0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EE2992D62CD288A400BBC843 /* TurboList.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TurboList.entitlements; sourceTree = "<group>"; };
+		EEB404322CE3729500F61876 /* FetchedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				5A8A56732CC7015500DD1C5F /* CardView.swift */,
 				5AA31AE82CC877190092869F /* CustomTextField.swift */,
 				5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */,
+				EEB404322CE3729500F61876 /* FetchedListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */,
 				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
+				EEB404332CE3729500F61876 /* FetchedListView.swift in Sources */,
 				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
 				5A8A564D2CC5A42100DD1C5F /* SignInView.swift in Sources */,

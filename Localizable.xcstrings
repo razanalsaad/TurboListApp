@@ -8,6 +8,7 @@
 
     },
     "Access the app without signing in" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -49,6 +50,7 @@
       }
     },
     "Alternative sign-in method" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -90,6 +92,7 @@
       }
     },
     "Continue as Guest" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -291,9 +294,6 @@
         }
       }
     },
-    "In 10 seconds" : {
-
-    },
     "Items 🛒" : {
       "localizations" : {
         "ar" : {
@@ -441,6 +441,7 @@
       }
     },
     "or" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

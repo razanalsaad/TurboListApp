@@ -116,26 +116,26 @@ struct SignInView: View {
                     
                     Spacer().frame(height: 390)
                     
-                    Text("or")
-                        .font(.system(size: 16, weight: .bold, design: .default))
-                        .foregroundColor(Color("GreenDark"))
-                        .offset(y: -370)
-                        .accessibilityLabel("or")
-                        .accessibilityHint("Alternative sign-in method")
+//                    Text("or")
+//                        .font(.system(size: 16, weight: .bold, design: .default))
+//                        .foregroundColor(Color("GreenDark"))
+//                        .offset(y: -370)
+//                        .accessibilityLabel("or")
+//                        .accessibilityHint("Alternative sign-in method")
                     
-                    // "Continue as Guest" Navigation Link
-                    NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isGuest) {
-                        Button(action: {
-                            isGuest = true
-                        }) {
-                            Text("Continue as Guest")
-                                .font(.system(size: 13, weight: .bold))
-                                .foregroundColor(Color("buttonColor"))
-                        }
-                        .accessibilityLabel("Continue as Guest")
-                        .accessibilityHint("Access the app without signing in")
-                    }
-                    .padding(.top, -370)
+//                    // "Continue as Guest" Navigation Link
+//                    NavigationLink(destination: MainTabView().navigationBarBackButtonHidden(true), isActive: $isGuest) {
+//                        Button(action: {
+//                            isGuest = true
+//                        }) {
+//                            Text("Continue as Guest")
+//                                .font(.system(size: 13, weight: .bold))
+//                                .foregroundColor(Color("buttonColor"))
+//                        }
+//                        .accessibilityLabel("Continue as Guest")
+//                        .accessibilityHint("Access the app without signing in")
+//                    }
+                    .padding(.bottom, 30)// edit 
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
                 .padding(.top, 270)

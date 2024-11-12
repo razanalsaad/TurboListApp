@@ -12,6 +12,7 @@ struct List {
     var createdAt: Date
     var updatedAt: Date
     var totalItems: Int64
+    var isFavorite: Bool = false  // Default value for isFavorite
 
     // Convert the model to a CKRecord for saving to CloudKit
     func toRecord() -> CKRecord {
@@ -47,10 +48,11 @@ struct List {
         self.createdAt = record["created_at"] as? Date ?? Date()
         self.updatedAt = record["updated_at"] as? Date ?? Date()
         self.totalItems = record["list_total_item"] as? Int64 ?? 0
+        self.isFavorite = record["isFavorite"] as? Bool ?? false
     }
 
     // Convenience initializer for creating a new List
-    init(listId: UUID = UUID(), listName: String, isShared: Bool = false, ownedId: CKRecord.Reference, createdAt: Date = Date(), updatedAt: Date = Date(), totalItems: Int64 = 0) {
+    init(listId: UUID = UUID(), listName: String, isShared: Bool = false, ownedId: CKRecord.Reference, createdAt: Date = Date(), updatedAt: Date = Date(), totalItems: Int64 = 0, isFavorite: Bool = false) {
         self.listId = listId
         self.listName = listName
         self.isShared = isShared
@@ -58,5 +60,6 @@ struct List {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.totalItems = totalItems
+        self.isFavorite = isFavorite
     }
 }

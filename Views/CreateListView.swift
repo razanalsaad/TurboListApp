@@ -111,7 +111,7 @@ struct CreateListView: View {
                             Button("Every Two Weeks", action: { scheduleReminder(interval: .biweekly) })
                             Button("Every Three Weeks", action: { scheduleReminder(interval: .threeWeeks) })
                             Button("Every Month", action: { scheduleReminder(interval: .monthly) })
-                            Button("In 10 seconds", action: { scheduleReminder(interval: .seconds(10)) })
+//                            Button("In 10 seconds", action: { scheduleReminder(interval: .seconds(10)) })
                         } label: {
                             ZStack {
                                 Circle()

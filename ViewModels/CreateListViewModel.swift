@@ -227,9 +227,29 @@ extension CreateListViewModel {
 
 
     // Fetch items for a specific list and store them in the `items` array
+//    func fetchItems(for listID: CKRecord.ID, completion: @escaping (Bool) -> Void) {
+//        let listReference = CKRecord.Reference(recordID: listID, action: .none)
+//        let predicate = NSPredicate(format: "list_id == %@", listReference)
+//        let query = CKQuery(recordType: "Item", predicate: predicate)
+//
+//        database.perform(query, inZoneWith: nil) { [weak self] records, error in
+//            DispatchQueue.main.async {
+//                if let error = error {
+//                    print("Error fetching items: \(error.localizedDescription)")
+//                    completion(false)
+//                } else if let records = records {
+//                    // Map the fetched records to `Item` instances
+//                    self?.items = records.map { Item(record: $0) }  // Assuming `Item` has an initializer for `CKRecord`
+//                    print("Successfully fetched \(records.count) items for list ID \(listID).")
+//                    completion(true)
+//                }
+//            }
+//        }
+//    }
+    
     func fetchItems(for listID: CKRecord.ID, completion: @escaping (Bool) -> Void) {
         let listReference = CKRecord.Reference(recordID: listID, action: .none)
-        let predicate = NSPredicate(format: "list_id == %@", listReference)
+        let predicate = NSPredicate(format: "listId == %@", listReference)
         let query = CKQuery(recordType: "Item", predicate: predicate)
 
         database.perform(query, inZoneWith: nil) { [weak self] records, error in
@@ -238,10 +258,15 @@ extension CreateListViewModel {
                     print("Error fetching items: \(error.localizedDescription)")
                     completion(false)
                 } else if let records = records {
+                    print("Records fetched: \(records)")
                     // Map the fetched records to `Item` instances
-                    self?.items = records.map { Item(record: $0) }  // Assuming `Item` has an initializer for `CKRecord`
+                    self?.items = records.map { Item(record: $0) }
                     print("Successfully fetched \(records.count) items for list ID \(listID).")
+                    print("Mapped items: \(self?.items ?? [])")
                     completion(true)
+                } else {
+                    print("No records found and no error received.")
+                    completion(false)
                 }
             }
         }
