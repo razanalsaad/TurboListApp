@@ -10,8 +10,8 @@ struct CreateListView: View {
     @EnvironmentObject var userSession: UserSession
     @State private var newListName: String = ""
     @State private var isCreatingNewList = false
+    @State private var isNotificationPermissionGranted = false  // متغير لتخزين حالة إذن الإشعارات
 
-    // Initializer that accepts a UserSession
     init(userSession: UserSession) {
         _viewModel = StateObject(wrappedValue: CreateListViewModel(userSession: userSession))
     }
@@ -51,23 +51,19 @@ struct CreateListView: View {
                         NavigationLink(
                             destination: ListView(
                                 categories: viewModel.categorizedProducts,
-                                listID: viewModel.currentListID, // Pass the actual list ID
-                                listName: viewModel.listName,    // Pass the actual list name
-                                createListViewModel: viewModel   // Pass viewModel as createListViewModel
+                                listID: viewModel.currentListID,
+                                listName: viewModel.listName,
+                                createListViewModel: viewModel
                             ),
                             isActive: $viewModel.showResults
                         ) {
                             Button(action:{
-                                viewModel.saveListToCloudKit(userSession: viewModel.userSession,  listName: viewModel.listName) { listID in
+                                viewModel.saveListToCloudKit(userSession: viewModel.userSession, listName: viewModel.listName) { listID in
                                     guard let listID = listID else { return }
                              
-                                    // Create a reference for the saved list
                                     let listReference = CKRecord.Reference(recordID: listID, action: .deleteSelf)
+                                    viewModel.classifyProducts()
 
-                                    // Parse items from the user input
-                                    viewModel.classifyProducts() // Assuming this processes the input into categorizedProducts
-
-                                    // Save each item using the list reference
                                     for category in viewModel.categorizedProducts {
                                         for item in category.items {
                                             viewModel.saveItem(
@@ -84,7 +80,6 @@ struct CreateListView: View {
                                             }
                                         }
                                     }
-                               
                                     viewModel.showResults = true
                                 }
                             }) {
@@ -112,10 +107,11 @@ struct CreateListView: View {
                         Spacer()
                         
                         Menu {
-                            Button("Every Week", action: { print("Selected: Every Week") })
-                            Button("Every Two Weeks", action: { print("Selected: Every Two Weeks") })
-                            Button("Every Three Weeks", action: { print("Selected: Every Three Weeks") })
-                            Button("Every Month", action: { print("Selected: Every Month") })
+                            Button("Every Week", action: { scheduleReminder(interval: .weekly) })
+                            Button("Every Two Weeks", action: { scheduleReminder(interval: .biweekly) })
+                            Button("Every Three Weeks", action: { scheduleReminder(interval: .threeWeeks) })
+                            Button("Every Month", action: { scheduleReminder(interval: .monthly) })
+                            Button("In 10 seconds", action: { scheduleReminder(interval: .seconds(10)) })
                         } label: {
                             ZStack {
                                 Circle()
@@ -127,10 +123,6 @@ struct CreateListView: View {
                                     .foregroundColor(viewModel.isBellTapped ? .white : Color("MainColor"))
                                     .padding(.trailing, -5)
                             }
-                        }
-                        .onTapGesture {
-                            requestNotificationPermission()
-                            
                         }
                     }
                     .padding(.horizontal)
@@ -150,28 +142,102 @@ struct CreateListView: View {
         .navigationBarBackButtonHidden(true)
         .onReceive(NotificationCenter.default.publisher(for: .navigateToCreateListView)) { notification in
             if let items = notification.object as? [GroceryItem], let listName = notification.userInfo?["listName"] as? String {
-                // Update the view model with previous data
                 viewModel.listName = listName
                 viewModel.userInput = items.map { "\($0.quantity) x \($0.name)" }.joined(separator: ", ")
-                
-                // Trigger navigation to show the view with the updated data
-                viewModel.showResults = false // Ensure it goes back to CreateListView if needed
+                viewModel.showResults = false
             }
         }
-
-
     }
-    private func requestNotificationPermission() {
+    
+    private func requestNotificationPermission(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
                 print("Error requesting notification permission: \(error.localizedDescription)")
-            } else if granted {
-                print("Notification permission granted.")
+                completion(false)
             } else {
-                print("Notification permission denied.")
+                print("Notification permission granted: \(granted)")
+                completion(granted)
             }
         }
     }
+
+    private func scheduleReminder(interval: ReminderInterval) {
+        // طلب الإذن إذا لم يكن قد تم منحه سابقًا
+        if !isNotificationPermissionGranted {
+            requestNotificationPermission { granted in
+                if granted {
+                    self.isNotificationPermissionGranted = true
+                    self.createReminder(interval: interval)
+                }
+            }
+        } else {
+            createReminder(interval: interval)
+        }
+    }
+    private func createReminder(interval: ReminderInterval) {
+        print("Scheduling reminder...")
+
+        let content = UNMutableNotificationContent()
+        
+        // تحديد اللغة المفضلة للجهاز
+        let languageCode = Bundle.main.preferredLocalizations.first ?? "en"
+        
+        // ضبط نص التذكير حسب اللغة
+        if languageCode == "ar" {
+            content.title = "شَطبة"
+            content.body = "حان وقت التسوق! تحقق من قائمتك اليوم"
+        } else {
+            content.title = "شَطبة"
+            content.body = "Shopping time! Check on your list today"
+        }
+        
+        content.sound = UNNotificationSound.default
+
+        let trigger: UNNotificationTrigger
+        switch interval {
+        case .weekly:
+            var dateComponents = DateComponents()
+            dateComponents.weekday = Calendar.current.component(.weekday, from: Date())
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            
+        case .biweekly:
+            var dateComponents = DateComponents()
+            dateComponents.weekday = Calendar.current.component(.weekday, from: Date())
+            dateComponents.weekOfYear = (Calendar.current.component(.weekOfYear, from: Date()) + 2) % 52
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            
+        case .threeWeeks:
+            var dateComponents = DateComponents()
+            dateComponents.weekOfYear = (Calendar.current.component(.weekOfYear, from: Date()) + 3) % 52
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            
+        case .monthly:
+            var dateComponents = DateComponents()
+            dateComponents.day = Calendar.current.component(.day, from: Date())
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            
+        case .seconds(let intervalSeconds):
+            print("Scheduling reminder in \(intervalSeconds) seconds")
+            trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalSeconds, repeats: false)
+        }
+
+        let request = UNNotificationRequest(identifier: "testNotification", content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule reminder: \(error.localizedDescription)")
+            } else {
+                print("Reminder scheduled successfully.")
+            }
+        }
+    }
+
+}
+
+// Enum to define reminder intervals
+enum ReminderInterval {
+    case weekly, biweekly, threeWeeks, monthly
+    case seconds(TimeInterval)
 }
 
 extension Notification.Name {
@@ -180,7 +246,7 @@ extension Notification.Name {
 
 struct CreateListView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateListView(userSession: UserSession.shared) // Use the singleton instance
-            .environmentObject(UserSession.shared) // Inject UserSession into the environment if needed
+        CreateListView(userSession: UserSession.shared)
+            .environmentObject(UserSession.shared)
     }
 }
