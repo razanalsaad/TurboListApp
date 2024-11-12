@@ -7,10 +7,16 @@ struct ListView: View {
     @ObservedObject private var viewModel: ListViewModel
     @State private var showShareSheet = false
     @State private var showAlert = false
-    
+    @ObservedObject var createListViewModel: CreateListViewModel  // Observe the viewModel directly
+    var listName: String  // Add this to store listName directly in ListView
+
     @EnvironmentObject var userSession: UserSession
+ 
+
     init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
         self.viewModel = ListViewModel(categories: categories, listID: listID, listName: listName, createListViewModel: createListViewModel)
+        self.listName = listName ?? "Unnamed List"  // Assign listName to the property in ListView
+        self.createListViewModel = createListViewModel  // Initialize createListViewModel
     }
     
     var body: some View {
@@ -38,7 +44,7 @@ struct ListView: View {
                         }
                     }
                     Spacer()
-                    Text("My grocery list")
+                    Text(listName)
                         .font(.system(size: 22, weight: .bold))
                         .multilineTextAlignment(.center)
                     Spacer()

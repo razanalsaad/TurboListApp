@@ -385,6 +385,7 @@
       }
     },
     "My grocery list" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {

@@ -26,7 +26,7 @@ class ListViewModel: ObservableObject {
     init(categories: [GroceryCategory], listID: CKRecord.ID?, listName: String?, createListViewModel: CreateListViewModel) {
         self.categories = categories
         self.listID = listID
-        self.listName = listName
+        self.listName = listName ?? "Unnamed List"  // set a default value if listName is nil
         self.createListViewModel = createListViewModel
     }
 
