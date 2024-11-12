@@ -12,7 +12,6 @@
 		5A06E2002CD8B4C10061D8C2 /* CreateListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */; };
 		5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */; };
 		5A06E20A2CD8B94C0061D8C2 /* on2_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */; };
-		5A479FFD2CDAEEFB00E4F2A1 /* MyFA10.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */; };
 		5A47A0042CDFF11700E4F2A1 /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A47A0032CDFF11700E4F2A1 /* CloudKitHelper.swift */; };
 		5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */; };
 		5A8A56492CC5A26C00DD1C5F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56482CC5A26C00DD1C5F /* OnboardingView.swift */; };
@@ -29,7 +28,7 @@
 		5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */; };
 		5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A56732CC7015500DD1C5F /* CardView.swift */; };
 		5AA31AE92CC877190092869F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA31AE82CC877190092869F /* CustomTextField.swift */; };
-		5ABD73CE2CE2C0B600F017BA /* MyFA12.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */; };
+		5ABD73D02CE2D65C00F017BA /* MyFA13.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5ABD73CF2CE2D65C00F017BA /* MyFA13.mlmodel */; };
 		5AE021DD2CD84539005EE49F /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE021DC2CD84539005EE49F /* NotificationView.swift */; };
 		5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */; };
 		5AE597E22CD95A6500EF059B /* CloudKitUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */; };
@@ -51,7 +50,6 @@
 		5A06E1FF2CD8B4C10061D8C2 /* CreateListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateListViewModel.swift; sourceTree = "<group>"; };
 		5A06E2012CD8B4D40061D8C2 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		5A06E2092CD8B94C0061D8C2 /* on2_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = on2_dark.gif; path = ../../../Downloads/on2_dark.gif; sourceTree = "<group>"; };
-		5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA10.mlmodel; sourceTree = "<group>"; };
 		5A479FFE2CDAF92000E4F2A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A47A0032CDFF11700E4F2A1 /* CloudKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
 		5A47A0052CDFF3ED00E4F2A1 /* CloudSharingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudSharingController.swift; sourceTree = "<group>"; };
@@ -68,7 +66,7 @@
 		5A8A56712CC6F1C200DD1C5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		5A8A56732CC7015500DD1C5F /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		5AA31AE82CC877190092869F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA12.mlmodel; sourceTree = "<group>"; };
+		5ABD73CF2CE2D65C00F017BA /* MyFA13.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MyFA13.mlmodel; sourceTree = "<group>"; };
 		5AE021DC2CD84539005EE49F /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		5AE597DF2CD95A3800EF059B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		5AE597E12CD95A6500EF059B /* CloudKitUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUtility.swift; sourceTree = "<group>"; };
@@ -164,8 +162,7 @@
 		A55C1BBA2CC104A100F3F9C0 = {
 			isa = PBXGroup;
 			children = (
-				5A479FFC2CDAEEFB00E4F2A1 /* MyFA10.mlmodel */,
-				5ABD73CD2CE2C0B600F017BA /* MyFA12.mlmodel */,
+				5ABD73CF2CE2D65C00F017BA /* MyFA13.mlmodel */,
 				EE23B3B92CD86E7D003C870E /* Localizable.xcstrings */,
 				5AE597DE2CD959EF00EF059B /* Cloudkit */,
 				5A06E1F12CD8B0A20061D8C2 /* Models */,
@@ -298,14 +295,12 @@
 				5AE597E42CD95A8F00EF059B /* Item.swift in Sources */,
 				A55C1BC72CC104A100F3F9C0 /* TurboListApp.swift in Sources */,
 				5A8A56562CC5A4EB00DD1C5F /* CreateListView.swift in Sources */,
-				5A479FFD2CDAEEFB00E4F2A1 /* MyFA10.mlmodel in Sources */,
 				EE2992D92CD29A8700BBC843 /* (null) in Sources */,
 				5A8A56722CC6F1C200DD1C5F /* MainTabView.swift in Sources */,
 				5A8A564B2CC5A3A300DD1C5F /* SplashScreenView.swift in Sources */,
 				5A8A56702CC6F17E00DD1C5F /* ListsView.swift in Sources */,
 				5A47A0062CDFF3ED00E4F2A1 /* CloudSharingController.swift in Sources */,
 				5A8A56542CC5A49E00DD1C5F /* AccountView.swift in Sources */,
-				5ABD73CE2CE2C0B600F017BA /* MyFA12.mlmodel in Sources */,
 				5A8A56522CC5A46D00DD1C5F /* FavouriteView.swift in Sources */,
 				5AE597E02CD95A3800EF059B /* CloudKitManager.swift in Sources */,
 				5A8A56742CC7015500DD1C5F /* CardView.swift in Sources */,
@@ -315,6 +310,7 @@
 				5AE597E62CD95AB000EF059B /* List.swift in Sources */,
 				5AE597E82CD95AD300EF059B /* SharedList.swift in Sources */,
 				5A06E2022CD8B4D40061D8C2 /* ListViewModel.swift in Sources */,
+				5ABD73D02CE2D65C00F017BA /* MyFA13.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

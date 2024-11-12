@@ -38,9 +38,9 @@ class CreateListViewModel: ObservableObject {
 
 
 
-    private var model: MyFA12? = {
+    private var model: MyFA13? = {
         do {
-            return try MyFA12(configuration: MLModelConfiguration())
+            return try MyFA13(configuration: MLModelConfiguration())
         } catch {
             print("Failed to load model: \(error)")
             return nil
